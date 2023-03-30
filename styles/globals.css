@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	* {
+		@apply outline-none selection:bg-blue-500 selection:text-white;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	body {
+		@apply overflow-overlay;
+	}
+
+	*::-webkit-scrollbar {
+		@apply w-2 h-2;
+	}
+
+	*::-webkit-scrollbar-thumb {
+		@apply bg-slate-300/75 rounded-full;
+	}
+
+	*::-webkit-scrollbar-thumb:hover {
+		@apply bg-slate-300;
+	}
+}
+
+@layer components {
+	.input {
+		@apply font-medium caret-blue-500 placeholder:text-blue-900/40 text-blue;
+	}
+
+	.scroll-sm::-webkit-scrollbar {
+		@apply w-1.5 h-1.5;
+	}
+}
+
+.rc-md-editor {
+	@apply !border-0 rounded-2xl overflow-hidden !bg-white/95 backdrop-blur shadow-xl shadow-blue-900/10 !text-base p-2 focus-within:ring-2 focus-within:ring-offset-1 focus-within:ring-blue-500/75;
+}
+
+.rc-md-editor.full {
+	@apply !ring-transparent md:!p-4 !p-2;
+}
+
+.rc-md-editor .rc-md-navigation {
+	@apply !py-2.5 !px-5 !border-0 !bg-blue-100/75 rounded-xl;
+}
+
+.rc-md-editor .rc-md-navigation .button-wrap .button {
+	@apply !text-blue hover:!text-blue-800 !mx-1;
+}
+
+.rc-md-editor .drop-wrap {
+	@apply !bg-white !border-0 shadow-2xl shadow-blue-900/20 rounded-2xl !py-2 !px-2 !font-medium;
+}
+
+.rc-md-editor .rc-md-navigation li,
+.rc-md-editor .rc-md-navigation ul {
+	@apply !m-auto;
+}
+
+.rc-md-editor .header-list,
+.rc-md-editor .tab-map-list {
+	@apply !space-y-2;
+}
+
+.rc-md-editor .header-list .list-item,
+.rc-md-editor .tab-map-list .list-item {
+	@apply !w-36 !py-2 rounded-xl hover:!bg-blue-50/75 !text-base !text-blue;
+}
+
+.rc-md-editor .tab-map-list .list-item.active {
+	@apply !font-medium !bg-blue-50;
+}
+
+.rc-md-editor .editor-container .sec-md .input {
+	@apply placeholder:text-blue-900/50 !bg-transparent;
+}
+
+.rc-md-editor .rc-md-navigation h1,
+.rc-md-editor .rc-md-navigation h2,
+.rc-md-editor .rc-md-navigation h3,
+.rc-md-editor .rc-md-navigation h4,
+.rc-md-editor .rc-md-navigation h5,
+.rc-md-editor .rc-md-navigation h6 {
+	@apply !text-base;
+}
+
+.rc-md-editor .editor-container {
+	@apply mt-3 pb-12;
+}
+
+.rc-md-editor .editor-container > .section {
+	@apply !border-0;
+}
+
+.rc-md-editor .editor-container > .section > .section-container {
+	@apply !px-2 !py-3 !pt-0;
+}
+
+.rc-md-editor .table-list.wrap {
+	@apply !m-0.5;
+}
+
+.rc-md-editor .table-list.wrap .list-item {
+	@apply !bg-blue-50 !rounded-md;
+}
+
+.rc-md-editor .table-list.wrap .list-item.active {
+	@apply !bg-blue-100;
+}
+
+.rc-md-editor
+	.editor-container
+	> .section
+	> .section-container::-webkit-scrollbar {
+	@apply !w-1.5 !h-1.5;
+}
+
+.toc {
+	@apply py-3 sm:px-6 px-4 rounded-2xl bg-blue-50/75 mb-12 pt-12 before:content-["Mục_lục"] relative before:absolute before:text-xl before:font-bold before:top-3 before:left-6;
+}
+
+.toc .toc-level {
+	@apply list-none;
+}
+
+.toc .toc-level-2 {
+	@apply pl-8;
+}
+
+.toc .toc-level-3 {
+	@apply pl-9;
+}
+
+.toc .toc-item {
+	@apply py-0.5;
+}
+
+.toc .toc-link {
+	@apply transition hover:text-blue-600 flex;
+}
+
+.\!prose-blue code:not([class^='language-']) {
+	@apply bg-blue-50 !font-medium before:!content-none after:!content-none px-2 rounded-lg py-1 break-words;
+}
+
+.container-ad423f4a2f1d760bbc03d49faa685abf__img {
+	@apply rounded-lg;
+}
+
+.container-ad423f4a2f1d760bbc03d49faa685abf__title {
+	@apply !text-[0.9375rem] !font-medium
+}
