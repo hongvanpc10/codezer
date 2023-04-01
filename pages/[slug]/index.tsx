@@ -1,4 +1,3 @@
-import { useQueries } from '@tanstack/react-query'
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import { ArticleJsonLd, NextSeo } from 'next-seo'
 import Link from 'next/link'
@@ -6,10 +5,14 @@ import { useRouter } from 'next/router'
 import { blogsService } from '~/apiServices'
 import { Blog } from '~/apiServices/blogsService'
 import { NativeAds } from '~/components/advertisments'
-import { Aside, Header, Viewer } from '~/components/blogDetail'
+import {
+	Aside,
+	BlogsWithSameAuthor,
+	Header,
+	Viewer,
+} from '~/components/blogDetail'
 import Loader from '~/components/loader'
 import ScrollToTopButton from '~/components/scrollToTopButton'
-import queryKeys from '~/config/queryKeys'
 import routes from '~/config/routes'
 import markdownToHTML from '~/utils/markdownToHTML'
 
@@ -51,26 +54,6 @@ const BlogDetail = ({
 	data,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
 	const router = useRouter()
-
-	const [{ data: blogsWithSameAuthor }, { data: popularBlogs }] = useQueries({
-		queries: [
-			{
-				queryKey: queryKeys.blogsWithSameAuthor(
-					data?.slug,
-					data?.author.slug
-				),
-				queryFn: () =>
-					blogsService.getBlogsByUser(data.author._id, { limit: 4 }),
-				enabled: !!data,
-			},
-			{
-				queryKey: queryKeys.popularBlogs,
-				queryFn: () =>
-					blogsService.getBlogs({ sort: 'views', limit: 4 }),
-				enabled: !!data,
-			},
-		],
-	})
 
 	if (router.isFallback) return <Loader.Inline />
 
@@ -135,7 +118,9 @@ const BlogDetail = ({
 
 					<Viewer content={data.content} />
 
-					<div className='flex items-center flex-wrap mt-16'>
+					<hr className='border-blue-900/10 mt-12 mb-4' />
+
+					<div className='flex items-center flex-wrap mb-12'>
 						{data.categories.map((category, index) => (
 							<Link
 								key={index}
@@ -147,27 +132,21 @@ const BlogDetail = ({
 						))}
 					</div>
 
-					<hr className='border-blue-900/10 mt-4 mb-12' />
+					<BlogsWithSameAuthor data={data} />
 
-					{blogsWithSameAuthor && (
-						<section className='prose prose-blue prose-a:!text-blue'>
-							<h3>Bài viết khác của {data.author.fullName}</h3>
+					<div className='mt-8'>
+						<NativeAds />
+					</div>
 
-							<ul>
-								{blogsWithSameAuthor.blogs.map(
-									(blog, index) => (
-										<li key={index}>
-											<Link href={routes.blog(blog.slug)}>
-												{blog.title}
-											</Link>
-										</li>
-									)
-								)}
-							</ul>
-						</section>
-					)}
+					<hr className='border-blue-900/10 my-12' />
 
-					<NativeAds />
+					<section className=''>
+						<h2 className='font-semibold text-2xl'>Bình luận</h2>
+
+						<div>
+							
+						</div>
+					</section>
 				</div>
 
 				<div className='xl:col-3 lg:col-2 col-12'></div>

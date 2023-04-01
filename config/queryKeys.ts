@@ -1,7 +1,6 @@
 const queryKeys = {
 	newBlogs: ['blogs', 'new'],
 	blogsGroupByCategories: ['blogs', 'group-by-categories'],
-	popularBlogs: ['blogs', 'popular'],
 	topUsers: ['users', 'top'],
 	refreshToken: ['refresh-token'],
 	categories: ['categories'],
