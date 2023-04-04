@@ -118,7 +118,7 @@ const BlogDetail = ({
 
 					<Viewer content={data.content} />
 
-					<hr className='border-blue-900/10 mt-12 mb-4' />
+					<hr className='border-blue-900/10 mt-20 mb-4' />
 
 					<div className='flex items-center flex-wrap mb-12'>
 						{data.categories.map((category, index) => (
