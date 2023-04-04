@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@charkour/react-reactions": "^0.11.0",
     "@headlessui/react": "^1.7.7",
     "@hongvanpc10/rehype-embed": "^1.0.21",
     "@jsdevtools/rehype-toc": "^3.0.2",

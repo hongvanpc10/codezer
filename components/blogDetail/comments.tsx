@@ -14,7 +14,7 @@ export default function Comments() {
 
 	return (
 		<section className=''>
-			<h2 className='font-bold text-2xl'>Bình luận</h2>
+			<h2 id='comments' className='font-bold text-2xl'>Bình luận</h2>
 
 			<div className='mt-10'>
 				{user && (

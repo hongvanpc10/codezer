@@ -51,6 +51,11 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
+"@charkour/react-reactions@^0.11.0":
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/@charkour/react-reactions/-/react-reactions-0.11.0.tgz#cde3614de5a954ee733c0d8c855be473ad003e7c"
+  integrity sha512-a1AnfUzZ1jZZUvMI8w4D8EfwMohByKhW6RTnY4xQ1VFwNfYbcVbRT6MUO7Gkk9Q+LqyVsNNW9fU9rG58hOvGmg==
+
 "@emotion/babel-plugin@^11.10.6":
   version "11.10.6"
   resolved "https://registry.yarnpkg.com/@emotion/babel-plugin/-/babel-plugin-11.10.6.tgz#a68ee4b019d661d6f37dec4b8903255766925ead"

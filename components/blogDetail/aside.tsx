@@ -61,9 +61,9 @@ export default function Aside({ data }: { data: Blog }) {
 				</div>
 
 				<div className='flex items-center flex-col text-lg'>
-					<button className='mb-1'>
+					<Link href='#comments' className='mb-1 inline-flex'>
 						<MessageIcon className='h-6' />
-					</button>
+					</Link>
 					14
 				</div>
 			</div>
