@@ -8,6 +8,7 @@ import { NativeAds } from '~/components/advertisments'
 import {
 	Aside,
 	BlogsWithSameAuthor,
+	Comments,
 	Header,
 	Viewer,
 } from '~/components/blogDetail'
@@ -140,13 +141,7 @@ const BlogDetail = ({
 
 					<hr className='border-blue-900/10 my-12' />
 
-					<section className=''>
-						<h2 className='font-semibold text-2xl'>Bình luận</h2>
-
-						<div>
-							
-						</div>
-					</section>
+					<Comments />
 				</div>
 
 				<div className='xl:col-3 lg:col-2 col-12'></div>
