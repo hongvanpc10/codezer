@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
-import { Autoplay, Mousewheel, Pagination } from 'swiper'
+import { Autoplay, Pagination } from 'swiper'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -41,8 +41,7 @@ export default function PinnedBlogs() {
 					bulletActiveClass: '!bg-blue-500/75 !w-11',
 					horizontalClass: '!bottom-0 !text-left !w-auto ml-4',
 				}}
-				modules={[Pagination, Autoplay, Mousewheel]}
-				mousewheel
+				modules={[Pagination, Autoplay]}
 				autoplay
 				speed={500}
 				className='!pb-7'
