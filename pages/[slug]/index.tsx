@@ -135,10 +135,6 @@ const BlogDetail = ({
 
 					<BlogsWithSameAuthor data={data} />
 
-					<div className='mt-8'>
-						<NativeAds />
-					</div>
-
 					<hr className='border-blue-900/10 my-12' />
 
 					<Comments />
