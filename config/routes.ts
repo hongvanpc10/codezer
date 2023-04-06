@@ -12,6 +12,7 @@ const routes = {
 	editBlog: (slug: string) => '/' + slug + '/edit',
 	blogsByCategory: (slug: string) => '/blogs/' + slug,
 	pinnedBlogs: '/blogs/pinned',
+	community: '/community'
 }
 
 export default routes

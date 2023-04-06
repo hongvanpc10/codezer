@@ -4,14 +4,13 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { blogsService } from '~/apiServices'
 import { Blog } from '~/apiServices/blogsService'
-import { NativeAds } from '~/components/advertisments'
 import {
 	Aside,
 	BlogsWithSameAuthor,
-	Comments,
 	Header,
 	Viewer,
 } from '~/components/blogDetail'
+import Comments from '~/components/comments'
 import Loader from '~/components/loader'
 import ScrollToTopButton from '~/components/scrollToTopButton'
 import routes from '~/config/routes'

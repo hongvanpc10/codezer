@@ -9,6 +9,8 @@ import {
 	HomeIcon,
 	HomeSolidIcon,
 	Icon,
+	MessagesIcon,
+	MessagesSolidIcon,
 	SearchIcon,
 	SearchSolidIcon,
 } from './icons'
@@ -72,6 +74,12 @@ export default function Sidebar() {
 			icon: DocumentIcon,
 			activeIcon: DocumentSolidIcon,
 			title: 'Bài viết',
+		},
+		{
+			href: routes.community,
+			icon: MessagesIcon,
+			activeIcon: MessagesSolidIcon,
+			title: 'Cộng đồng',
 		},
 		{
 			href: routes.categories,

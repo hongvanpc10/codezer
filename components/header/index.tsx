@@ -10,6 +10,7 @@ import {
 	HomeIcon,
 	LogoutIcon,
 	MenuIcon,
+	MessagesIcon,
 	SearchIcon,
 } from '../icons'
 import Logo from '../logo'
@@ -32,6 +33,11 @@ export default function Header() {
 			label: 'Bài viết',
 			icon: DocumentIcon,
 			href: routes.blogs,
+		},
+		{
+			label: 'Cộng đồng',
+			icon: MessagesIcon,
+			href: routes.community,
 		},
 		{
 			label: 'Tìm kiếm',
