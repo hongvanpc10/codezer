@@ -1,10 +1,11 @@
+import { FacebookSelector } from '@charkour/react-reactions'
+import Link from 'next/link'
+import { useState } from 'react'
+import images from '~/assets/images'
 import { useAuth } from '~/hooks'
 import Avatar from '../avatar'
-import { useState } from 'react'
-import Editor from '../editor'
 import Button from '../button'
-import images from '~/assets/images'
-import Link from 'next/link'
+import Editor from '../editor'
 
 export default function Comments() {
 	const { auth } = useAuth()
@@ -14,7 +15,9 @@ export default function Comments() {
 
 	return (
 		<section className=''>
-			<h2 id='comments' className='font-bold text-2xl'>Bình luận</h2>
+			<h2 id='comments' className='font-bold text-2xl'>
+				Bình luận
+			</h2>
 
 			<div className='mt-10'>
 				{user && (
@@ -78,7 +81,13 @@ export default function Comments() {
 							</div>
 
 							<div className='flex text-sm pl-4 text-blue-900/75 mt-1 items-center space-x-2'>
-								<span>Thích</span>
+								<div className='relative group'>
+									<button>Thích</button>
+
+									<div className='absolute transition-all duration-300 opacity-0 group-hover:opacity-100 hidden group-hover:block left-2 group-hover:bottom-full z-10'>
+										<FacebookSelector iconSize={24} />
+									</div>
+								</div>
 
 								<div className='w-1 h-1 rounded-full bg-blue-500' />
 
