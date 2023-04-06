@@ -8,6 +8,7 @@ import 'prismjs/themes/prism-okaidia.min.css'
 import { ReactElement } from 'react'
 import colors from 'tailwindcss/colors'
 import { PopunderAds } from '~/components/advertisments'
+import Fly from '~/components/fly'
 import Private from '~/components/private'
 import Restricted from '~/components/restricted'
 import fonts from '~/config/fonts'
@@ -50,6 +51,8 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 					className={`${fonts.montserrat.variable} ${fonts.baloo2.variable} font-sans text-blue min-h-screen bg-slate-50/75`}
 				>
 					<DefaultSeo {...seoConfig} />
+
+					<Fly />
 
 					<Analytics />
 
