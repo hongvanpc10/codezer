@@ -21,11 +21,15 @@ export default function BlogsWithSameAuthor({ data }: Props) {
 			<h3>Bài viết khác của {data.author.fullName}</h3>
 
 			<ul>
-				{blogsWithSameAuthor.blogs.map((blog, index) => (
-					<li key={index}>
-						<Link href={routes.blog(blog.slug)}>{blog.title}</Link>
-					</li>
-				))}
+				{blogsWithSameAuthor.blogs
+					.filter(blog => blog._id !== data._id)
+					.map((blog, index) => (
+						<li key={index}>
+							<Link href={routes.blog(blog.slug)}>
+								{blog.title}
+							</Link>
+						</li>
+					))}
 			</ul>
 		</section>
 	) : null
