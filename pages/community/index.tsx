@@ -105,7 +105,7 @@ const Community: NextPageWithLayout = () => {
 								]}
 							/>
 
-							<span className='ml-2'>1K</span>
+							<span className='ml-2'>16</span>
 						</div>
 
 						<div>2 bình luận</div>
@@ -184,7 +184,7 @@ const Community: NextPageWithLayout = () => {
 								]}
 							/>
 
-							<span className='ml-2'>1.5K</span>
+							<span className='ml-2'>345</span>
 						</div>
 
 						<div>100 bình luận</div>
