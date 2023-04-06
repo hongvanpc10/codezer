@@ -67,7 +67,7 @@ const Community: NextPageWithLayout = () => {
 							<Link href={''}>
 								<h3 className='font-semibold leading-5 flex items-center'>
 									Codezer
-									<TickIcon className='h-[1.125rem] text-sky-500 ml-2' />
+									<TickIcon className='h-[1.125rem] text-sky-500 ml-1' />
 								</h3>
 								<span className='text-sm'>1 ngày trước</span>
 							</Link>
@@ -155,7 +155,7 @@ const Community: NextPageWithLayout = () => {
 							<Link href={''}>
 								<h3 className='font-semibold leading-5 flex items-center'>
 									Codezer
-									<TickIcon className='h-[1.125rem] text-sky-500 ml-2' />
+									<TickIcon className='h-[1.125rem] text-sky-500 ml-1' />
 								</h3>
 								<span className='text-sm'>1 ngày trước</span>
 							</Link>
