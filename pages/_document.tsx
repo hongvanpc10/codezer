@@ -3,7 +3,7 @@ import Script from 'next/script'
 
 export default function Document() {
 	return (
-		<Html lang='vi'>
+		<Html lang='vi' style={{ scrollBehavior: 'smooth' }}>
 			<Head>
 				<Script
 					strategy='beforeInteractive'
