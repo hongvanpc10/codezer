@@ -13,7 +13,11 @@ export default function Restricted({
 	const { isLogin } = useAuth()
 
 	useEffect(() => {
-		isLogin && isRestricted && router.push(routes.home)
+		if (isLogin && isRestricted) {
+			const url = router.query.url as string
+
+			router.push(url ? url : routes.home)
+		}
 	}, [isLogin, isRestricted, router])
 
 	return null
