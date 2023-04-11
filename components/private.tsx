@@ -19,7 +19,7 @@ export default function Private({
 	useEffect(() => {
 		!isLogin &&
 			(isPrivate || isAdminRequired) &&
-			router.push(routes.login + '?url=' + router.asPath)
+			router.push(routes.login + '?redirectFrom=' + router.asPath)
 		isAdminRequired && user?.role !== 'admin' && router.push(routes.home)
 	}, [isAdminRequired, isLogin, isPrivate, router, user?.role])
 
