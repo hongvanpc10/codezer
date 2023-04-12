@@ -118,7 +118,7 @@ export const getFollowingsBlogs = async (
 	accessToken: string,
 	params?: Params
 ) => {
-	const res = await request.get<ResDataWithPagination<Blog>>(
+	const res = await request.get<ResDataWithPagination<{ blogs: Blog[] }>>(
 		'/blogs/followings',
 		{
 			headers: { Authorization: accessToken },
