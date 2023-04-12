@@ -1,7 +1,10 @@
-import request, { ResData } from '~/utils/request'
-import { Params } from '.'
-import { User } from './usersService'
+import request, {
+	Params,
+	ResData,
+	ResDataWithPagination,
+} from '~/utils/request'
 import { Category } from './categoriesService'
+import { User } from './usersService'
 
 export interface BlogData {
 	title: string
@@ -22,19 +25,6 @@ export interface Blog extends BlogData {
 	_id: string
 	isPinned: boolean
 }
-
-export interface Pagination {
-	currentPage: number
-	itemsPerPage: number
-	totalPages: number
-}
-
-type ResDataWithPagination<Data = any[], Extended = {}> = ResData<
-	{
-		blogs: Data[]
-		pagination: Pagination
-	} & Extended
->
 
 export const create = async (data: BlogData, accessToken: string) => {
 	const res = await request.post<BlogData, ResData<Blog>>('/blogs', data, {
@@ -69,9 +59,12 @@ export const deleteBlog = async (id: string, accessToken: string) => {
 }
 
 export const getBlogs = async (params?: Params) => {
-	const res = await request.get<ResDataWithPagination<Blog>>('/blogs', {
-		params,
-	})
+	const res = await request.get<ResDataWithPagination<{ blogs: Blog[] }>>(
+		'/blogs',
+		{
+			params,
+		}
+	)
 
 	return res?.data
 }
@@ -90,7 +83,7 @@ export const getPinnedBlogs = async (params?: Params) => {
 
 export const getBlogsByCategory = async (slug: string, params?: Params) => {
 	const res = await request.get<
-		ResDataWithPagination<Blog, { category: Category }>
+		ResDataWithPagination<{ blogs: Blog[]; category: Category }>
 	>('/blogs/category/' + slug, {
 		params,
 	})
@@ -111,7 +104,7 @@ export const getBlogsGroupByCategories = async () => {
 }
 
 export const getBlogsByUser = async (id: string, params?: Params) => {
-	const res = await request.get<ResDataWithPagination<Blog>>(
+	const res = await request.get<ResDataWithPagination<{ blogs: Blog[] }>>(
 		'/blogs/user/' + id,
 		{
 			params,

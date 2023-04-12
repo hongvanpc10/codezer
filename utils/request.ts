@@ -10,6 +10,28 @@ export interface Error {
 	errorCode: string
 }
 
+export interface Pagination {
+	currentPage: number
+	itemsPerPage: number
+	totalPages: number
+}
+
+export interface Params {
+	limit?: number
+	page?: number
+	sort?: string
+	order?: number
+}
+
+export type DataWithPagination<Extended = {}> = {
+	pagination: Pagination
+	total: number
+} & Extended
+
+export type ResDataWithPagination<Extended = {}> = ResData<
+	DataWithPagination<Extended>
+>
+
 function errorHandler(error: any) {
 	if (axios.isAxiosError(error)) {
 		throw <Error>error.response?.data

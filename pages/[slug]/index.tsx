@@ -10,7 +10,7 @@ import {
 	Header,
 	Viewer,
 } from '~/components/blogDetail'
-import Comments from '~/components/comments'
+import Comments from '~/components/blogDetail/comments'
 import Loader from '~/components/loader'
 import ScrollToTopButton from '~/components/scrollToTopButton'
 import routes from '~/config/routes'
@@ -136,7 +136,7 @@ const BlogDetail = ({
 
 					<hr className='border-blue-900/10 my-12' />
 
-					<Comments />
+					<Comments blogId={data._id} />
 				</div>
 
 				<div className='xl:col-3 lg:col-2 col-12'></div>

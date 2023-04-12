@@ -1,5 +1,4 @@
-import request, { ResData } from '~/utils/request'
-import { Params } from '.'
+import request, { Params, ResData } from '~/utils/request'
 
 export interface User {
 	avatar: string

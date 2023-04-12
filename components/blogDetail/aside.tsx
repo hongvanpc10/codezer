@@ -64,7 +64,7 @@ export default function Aside({ data }: { data: Blog }) {
 					<Link href='#comments' className='mb-1 inline-flex'>
 						<MessageIcon className='h-6' />
 					</Link>
-					14
+					{0}
 				</div>
 			</div>
 		</div>

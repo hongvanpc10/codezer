@@ -7,7 +7,7 @@ import { BlogCardVertical } from '../blogCard'
 import Loader from '../loader'
 
 export default function Blogs({ id }: { id: string }) {
-	const { data, isFetchingNextPage, fetchNextPage, hasNextPage } =
+	const { data, isFetchingNextPage, fetchNextPage } =
 		useInfiniteQuery(
 			['blogs', 'user', id],
 			({ pageParam = { limit: 4 } }) =>

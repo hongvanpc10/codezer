@@ -21,6 +21,7 @@ const queryKeys = {
 		author,
 	],
 	user: (slug: string) => ['user', slug],
+	comments: (id: string) => ['comments', id],
 }
 
 export default queryKeys
