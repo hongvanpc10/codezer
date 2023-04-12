@@ -20,7 +20,7 @@ interface Props {
 
 export default function Dropdown({ children, items, top = '0.5rem' }: Props) {
 	return (
-		<Menu as='div' className='inline-flex relative z-20'>
+		<Menu as='div' className='inline-flex relative'>
 			<Menu.Button as='div' className='inline-flex'>
 				{children}
 			</Menu.Button>
@@ -36,7 +36,7 @@ export default function Dropdown({ children, items, top = '0.5rem' }: Props) {
 			>
 				<Menu.Items
 					style={{ top: `calc(100% + ${top})` }}
-					className='absolute bg-white/[.98] rounded-2xl shadow-2xl p-2 min-w-[14rem] right-0 space-y-0.5 shadow-blue-900/25 transition ring-1 ring-blue-50/50'
+					className='absolute bg-white/[.98] rounded-2xl shadow-2xl p-2 min-w-[14rem] right-0 space-y-0.5 shadow-blue-900/25 transition z-20 ring-1 ring-blue-50/50'
 				>
 					{items
 						.filter(item =>

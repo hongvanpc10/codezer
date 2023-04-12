@@ -6,6 +6,8 @@ import routes from '~/config/routes'
 import markdownToHTML from '~/utils/markdownToHTML'
 import timeFromNow from '~/utils/timeFromNow'
 import Avatar from './avatar'
+import { MoreIcon } from './icons'
+import Dropdown from './dropdown'
 
 interface Props {
 	data: CommentType
@@ -29,13 +31,13 @@ export default function Comment({ data }: Props) {
 	}, [data.content, showMore])
 
 	return htmlContent ? (
-		<li className='flex items-start'>
+		<div className='items-start flex'>
 			<Link href={routes.profile(data.author.slug)} className='mt-2'>
 				<Avatar alt='' src={data.author.avatar} />
 			</Link>
 
-			<div className='ml-3'>
-				<div className='pt-2 w-fit min-w-[12rem] pb-3 pl-4 pr-6 rounded-3xl bg-slate-100'>
+			<div className='ml-3 group/more'>
+				<div className='pt-2 pb-3 pl-4 pr-6 rounded-3xl bg-slate-100'>
 					<Link
 						href={routes.profile(data.author.slug)}
 						className='inline-block'
@@ -66,24 +68,42 @@ export default function Comment({ data }: Props) {
 					</div>
 				</div>
 
-				<div className='flex text-sm pl-4 text-blue-900/75 mt-1 items-center space-x-2'>
-					<div className='relative group'>
-						<button>Thích</button>
+				<div className='flex items-center justify-between'>
+					<div className='flex text-sm pl-4 text-blue-900/75 mt-1 items-center space-x-2'>
+						<div className='relative group/reactions'>
+							<button>Thích</button>
 
-						<div className='absolute hidden group-hover:block transition-all duration-300 opacity-0 group-hover:opacity-100 left-2 bottom-1/2 group-hover:bottom-full z-10'>
-							<FacebookSelector iconSize={24} />
+							<div className='absolute hidden group-hover/reactions:block transition-all duration-300 opacity-0 group-hover/reactions:opacity-100 left-2 bottom-1/2 group-hover/reactions:bottom-full z-10'>
+								<FacebookSelector iconSize={24} />
+							</div>
 						</div>
+
+						<div className='w-1 h-1 rounded-full bg-blue-500' />
+
+						<span>Trả lời</span>
+
+						<div className='w-1 h-1 rounded-full bg-blue-500' />
+
+						<span>{timeFromNow(data.createdAt)}</span>
 					</div>
 
-					<div className='w-1 h-1 rounded-full bg-blue-500' />
-
-					<span>Trả lời</span>
-
-					<div className='w-1 h-1 rounded-full bg-blue-500' />
-
-					<span>{timeFromNow(data.createdAt)}</span>
+					<Dropdown
+						items={[
+							{
+								label: 'Chỉnh sửa',
+							},
+							{
+								label: 'Xóa',
+							},
+						]}
+						top='0rem'
+					>
+						<button className='flex items-center justify-center group-hover/more:opacity-100 opacity-0 transition px-2 py-1 ml-4'>
+							<MoreIcon className='h-5 text-blue-900/80' />
+						</button>
+					</Dropdown>
 				</div>
 			</div>
-		</li>
+		</div>
 	) : null
 }
