@@ -31,31 +31,28 @@ export default function Comments({ blogId }: Props) {
 
 	const [onComment, setOnComment] = useState(false)
 
-	const { data, isFetchingNextPage, fetchNextPage, hasNextPage } =
-		useInfiniteQuery(
-			queryKeys.comments(blogId),
-			({ pageParam = { limit: 10 } }) =>
-				commentsService.get(blogId, pageParam),
-			{
-				getNextPageParam(lastPage) {
-					if (
-						(lastPage?.pagination.currentPage as number) <
-						(lastPage?.pagination.totalPages as number)
-					)
-						return {
-							limit: 10,
-							page:
-								(lastPage?.pagination.currentPage as number) +
-								1,
-						}
-				},
-			}
-		)
+	const { data, isFetchingNextPage, fetchNextPage } = useInfiniteQuery(
+		queryKeys.comments(blogId),
+		({ pageParam = { limit: 10 } }) =>
+			commentsService.get(blogId, pageParam),
+		{
+			getNextPageParam(lastPage) {
+				if (
+					(lastPage?.pagination.currentPage as number) <
+					(lastPage?.pagination.totalPages as number)
+				)
+					return {
+						limit: 10,
+						page: (lastPage?.pagination.currentPage as number) + 1,
+					}
+			},
+		}
+	)
 
 	const { inView, ref } = useInView()
 
 	useEffect(() => {
-		if (inView && !isFetchingNextPage ) {
+		if (inView && !isFetchingNextPage) {
 			fetchNextPage()
 		}
 	}, [fetchNextPage, inView, isFetchingNextPage])
