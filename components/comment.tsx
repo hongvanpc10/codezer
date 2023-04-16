@@ -144,7 +144,7 @@ export default function Comment({ data }: Props) {
 							<span>{timeFromNow(data.createdAt)}</span>
 						</div>
 
-						{(user?.role === 'admin' || data._id === user?._id) && (
+						{(user?.role === 'admin' || data.author._id === user?._id) && (
 							<Dropdown
 								items={[
 									{
