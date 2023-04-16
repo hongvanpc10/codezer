@@ -1,10 +1,11 @@
-import { useQuery } from '@tanstack/react-query'
+import { InfiniteData, useQuery, useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
 import { blogsService } from '~/apiServices'
 import { Blog } from '~/apiServices/blogsService'
 import queryKeys from '~/config/queryKeys'
 import routes from '~/config/routes'
 import { useAuth } from '~/hooks'
+import { DataWithPagination } from '~/utils/request'
 import {
 	ArchiveIcon,
 	ArchiveSolidIcon,
@@ -16,6 +17,13 @@ import {
 export default function Aside({ data }: { data: Blog }) {
 	const { auth } = useAuth()
 	const user = auth?.data
+
+	const queryClient = useQueryClient()
+
+	const commentsQuery = queryClient.getQueryData<
+		InfiniteData<DataWithPagination<{allCount:string}>>
+		>(queryKeys.comments(data._id))
+	
 
 	const { data: supportData } = useQuery(queryKeys.blog(data.slug), () =>
 		blogsService.getDetail(data.slug)
@@ -64,7 +72,7 @@ export default function Aside({ data }: { data: Blog }) {
 					<Link href='#comments' className='mb-1 inline-flex'>
 						<MessageIcon className='h-6' />
 					</Link>
-					{0}
+					{commentsQuery?.pages[0].allCount || 0}
 				</div>
 			</div>
 		</div>

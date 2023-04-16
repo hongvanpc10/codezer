@@ -40,7 +40,7 @@ export const create = async (
 
 export const get = async (blogId: string, params?: Params) => {
 	const res = await request.get<
-		ResDataWithPagination<{ comments: Comment[] }>
+		ResDataWithPagination<{ comments: Comment[]; allCount: number }>
 	>('/comments/' + blogId, { params })
 
 	return res?.data
