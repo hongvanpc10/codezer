@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import routes from '~/config/routes'
-import { useAuth } from '~/hooks'
+import { useAuth, useRedirectToLogin } from '~/hooks'
 
 export default function Private({
 	isPrivate,
@@ -14,14 +14,16 @@ export default function Private({
 
 	const { isLogin, auth } = useAuth()
 
+	const redirectToLogin = useRedirectToLogin()
+
 	const user = auth?.data
 
 	useEffect(() => {
 		!isLogin &&
 			(isPrivate || isAdminRequired) &&
-			router.push(routes.login + '?redirectFrom=' + router.asPath)
+			redirectToLogin()
 		isAdminRequired && user?.role !== 'admin' && router.push(routes.home)
-	}, [isAdminRequired, isLogin, isPrivate, router, user?.role])
+	}, [isAdminRequired, isLogin, isPrivate, redirectToLogin, router, user?.role])
 
 	return null
 }

@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import Link from 'next/link'
 import { authService } from '~/apiServices'
 import routes from '~/config/routes'
-import { useAuth } from '~/hooks'
+import { useAuth, useRedirectToLogin } from '~/hooks'
 import Avatar from '../avatar'
 import Button from '../button'
 import Dropdown, { Item } from '../dropdown'
@@ -49,6 +49,8 @@ function NotificationsButton({ href }: { href?: string }) {
 export default function Actions() {
 	const { auth, logout } = useAuth()
 	const user = auth?.data
+
+	const redirectToLogin = useRedirectToLogin()
 
 	const { mutate: logoutMutate } = useMutation(authService.logout)
 
@@ -114,7 +116,9 @@ export default function Actions() {
 				) : (
 					<>
 						<div className='show-on-lg'>
-							<Button href={routes.login}>Đăng nhập</Button>
+							<Button onClick={() => redirectToLogin()}>
+								Đăng nhập
+							</Button>
 						</div>
 						<div className='hide-on-lg'>
 							<ActionsButton

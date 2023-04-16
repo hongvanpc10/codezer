@@ -10,7 +10,7 @@ import {
 } from '~/apiServices/commentsService'
 import { User } from '~/apiServices/usersService'
 import routes from '~/config/routes'
-import { useAuth } from '~/hooks'
+import { useAuth, useRedirectToLogin } from '~/hooks'
 import markdownToHTML from '~/utils/markdownToHTML'
 import timeFromNow from '~/utils/timeFromNow'
 import Avatar from './avatar'
@@ -28,6 +28,11 @@ export default function Comment({ data }: Props) {
 	const [htmlContent, setHtmlContent] = useState('')
 
 	const [showMore, setShowMore] = useState(false)
+
+	const { auth } = useAuth()
+	const user = auth?.data
+
+	const redirectToLogin = useRedirectToLogin()
 
 	const [onReply, setOnReply] = useState(false)
 	const [showReply, setShowReply] = useState(1)
@@ -87,7 +92,7 @@ export default function Comment({ data }: Props) {
 							<FacebookCounter
 								counters={[
 									{ by: 'Codezer', emoji: 'like' },
-									{ by: 'Codezer', emoji: 'love' },
+									{ by: 'Codezer', emoji: 'haha' },
 								]}
 							/>
 						</div>
@@ -110,7 +115,13 @@ export default function Comment({ data }: Props) {
 
 							<div className='w-1 h-1 rounded-full bg-blue-500' />
 
-							<button onClick={() => setOnReply(true)}>
+							<button
+								onClick={() => {
+									if (!user) return redirectToLogin()
+
+									setOnReply(true)
+								}}
+							>
 								Trả lời
 							</button>
 
@@ -133,21 +144,23 @@ export default function Comment({ data }: Props) {
 							<span>{timeFromNow(data.createdAt)}</span>
 						</div>
 
-						<Dropdown
-							items={[
-								{
-									label: 'Chỉnh sửa',
-								},
-								{
-									label: 'Xóa',
-								},
-							]}
-							top='0rem'
-						>
-							<button className='flex items-center justify-center group-hover/more:opacity-100 opacity-0 transition px-2 py-1 ml-4'>
-								<MoreIcon className='h-5 text-blue-900/80' />
-							</button>
-						</Dropdown>
+						{(user?.role === 'admin' || data._id === user?._id) && (
+							<Dropdown
+								items={[
+									{
+										label: 'Chỉnh sửa',
+									},
+									{
+										label: 'Xóa',
+									},
+								]}
+								top='0rem'
+							>
+								<button className='flex items-center justify-center group-hover/more:opacity-100 opacity-0 transition px-2 py-1 ml-4'>
+									<MoreIcon className='h-5 text-blue-900/80' />
+								</button>
+							</Dropdown>
+						)}
 					</div>
 				</div>
 			</div>
