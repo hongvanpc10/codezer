@@ -90,10 +90,7 @@ export default function Comment({ data }: Props) {
 
 						<div className='last:[&_div_div]:hidden flex justify-end -mr-3 -mb-0.5'>
 							<FacebookCounter
-								counters={[
-									{ by: 'Codezer', emoji: 'like' },
-									{ by: 'Codezer', emoji: 'haha' },
-								]}
+								counters={data.reactions}
 							/>
 						</div>
 					</div>

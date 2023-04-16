@@ -17,7 +17,7 @@ export interface Comment {
 	createdAt: string
 	tag?: User
 	content: string
-	reactions: CounterObject
+	reactions: CounterObject[]
 	children: Comment[]
 	parent: string
 }
@@ -59,5 +59,35 @@ export const reply = async (
 		}
 	)
 
+	return res?.data
+}
+
+export const addReaction = async (
+	commentId: string,
+	reaction: CounterObject,
+	accessToken: string
+) => {
+	const res = await request.patch(
+		`/comments/${commentId}/add-reaction`,
+		reaction,
+		{
+			headers: { Authorization: accessToken },
+		}
+	)
+	return res?.data
+}
+
+export const removeReaction = async (
+	commentId: string,
+	reaction: CounterObject,
+	accessToken: string
+) => {
+	const res = await request.patch(
+		`/comments/${commentId}/remove-reaction`,
+		reaction,
+		{
+			headers: { Authorization: accessToken },
+		}
+	)
 	return res?.data
 }
