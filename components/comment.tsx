@@ -89,9 +89,7 @@ export default function Comment({ data }: Props) {
 						)}
 
 						<div className='last:[&_div_div]:hidden flex justify-end -mr-3 -mb-0.5'>
-							<FacebookCounter
-								counters={data.reactions}
-							/>
+							<FacebookCounter counters={data.reactions} />
 						</div>
 					</div>
 
@@ -141,7 +139,8 @@ export default function Comment({ data }: Props) {
 							<span>{timeFromNow(data.createdAt)}</span>
 						</div>
 
-						{(user?.role === 'admin' || data.author._id === user?._id) && (
+						{(user?.role === 'admin' ||
+							data.author._id === user?._id) && (
 							<Dropdown
 								items={[
 									{
