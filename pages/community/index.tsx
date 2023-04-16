@@ -14,6 +14,7 @@ import {
 import Image from '~/components/image'
 import { useAuth } from '~/hooks'
 import { NextPageWithLayout } from '../_app'
+import { NextSeo } from 'next-seo'
 
 const Community: NextPageWithLayout = () => {
 	const { auth } = useAuth()
@@ -21,6 +22,8 @@ const Community: NextPageWithLayout = () => {
 
 	return user ? (
 		<div className='row -mt-8'>
+			<NextSeo title='Cộng đồng' />
+
 			<div className='xl:col-3 lg:col-2 col-12'></div>
 
 			<section className='xl:col-6 lg:col-8 col-12 space-y-6'>
