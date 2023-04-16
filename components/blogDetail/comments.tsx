@@ -31,31 +31,34 @@ export default function Comments({ blogId }: Props) {
 
 	const [onComment, setOnComment] = useState(false)
 
-	const { data, isFetchingNextPage, fetchNextPage,hasNextPage } = useInfiniteQuery(
-		queryKeys.comments(blogId),
-		({ pageParam = { limit: 10 } }) =>
-			commentsService.get(blogId, pageParam),
-		{
-			getNextPageParam(lastPage) {
-				if (
-					(lastPage?.pagination.currentPage as number) <
-					(lastPage?.pagination.totalPages as number)
-				)
-					return {
-						limit: 10,
-						page: (lastPage?.pagination.currentPage as number) + 1,
-					}
-			},
-		}
-	)
+	const { data, isFetchingNextPage, fetchNextPage, hasNextPage } =
+		useInfiniteQuery(
+			queryKeys.comments(blogId),
+			({ pageParam = { limit: 10 } }) =>
+				commentsService.get(blogId, pageParam),
+			{
+				getNextPageParam(lastPage) {
+					if (
+						(lastPage?.pagination.currentPage as number) <
+						(lastPage?.pagination.totalPages as number)
+					)
+						return {
+							limit: 10,
+							page:
+								(lastPage?.pagination.currentPage as number) +
+								1,
+						}
+				},
+			}
+		)
 
 	const { inView, ref } = useInView()
 
 	useEffect(() => {
-		if (inView && !isFetchingNextPage && hasNextPage) {
+		if (inView && !isFetchingNextPage ) {
 			fetchNextPage()
 		}
-	}, [fetchNextPage, hasNextPage, inView, isFetchingNextPage])
+	}, [fetchNextPage, inView, isFetchingNextPage])
 
 	return (
 		<section className=''>
@@ -90,7 +93,7 @@ export default function Comments({ blogId }: Props) {
 					/>
 				)}
 
-				<div className='mt-16 space-y-5'>
+				<div className='mt-16 space-y-6'>
 					{data &&
 					data.pages[0] &&
 					data.pages[0].comments.length > 0 ? (
@@ -106,7 +109,7 @@ export default function Comments({ blogId }: Props) {
 
 					{isFetchingNextPage && <Loader.Inline />}
 
-					<div className='mt-64' ref={ref}></div>
+					<div ref={ref}></div>
 				</div>
 			</div>
 		</section>

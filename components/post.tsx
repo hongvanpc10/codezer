@@ -6,11 +6,11 @@ import markdownToHTML from '~/utils/markdownToHTML'
 import timeFromNow from '~/utils/timeFromNow'
 import Avatar from './avatar'
 import {
-    CameraOutlineIcon,
-    LikeIcon,
-    SendIcon,
-    SmsOutlineIcon,
-    TickIcon,
+	CameraOutlineIcon,
+	LikeIcon,
+	SendIcon,
+	SmsOutlineIcon,
+	TickIcon,
 } from './icons'
 import Image from './image'
 
@@ -49,7 +49,7 @@ export default function Post({
 		<div className='bg-white/90 rounded-3xl px-3 pt-6 pb-4 shadow-lg shadow-blue-900/5'>
 			<div className='flex items-center px-2'>
 				<Link href={''}>
-					<Avatar src={author.avatar} alt='' ringWidth={0} size={9} />
+					<Avatar src={author.avatar} alt='' noRing size={9} />
 				</Link>
 
 				<div className='ml-3'>
@@ -94,7 +94,7 @@ export default function Post({
 			</div>
 
 			<div className='flex items-center pt-3'>
-				<Avatar alt='' src={user.avatar} ringWidth={0} />
+				<Avatar alt='' src={user.avatar} noRing />
 				<form className='flex relative flex-1 items-center'>
 					<input
 						placeholder='Viết bình luận của bạn...'

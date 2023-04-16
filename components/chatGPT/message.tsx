@@ -28,12 +28,12 @@ export default function Message({ role, content, avatar }: Props) {
 			<p className='py-3 px-5 mr-2 mt-2 rounded-2xl rounded-tr-md bg-blue-500 text-white'>
 				{content}
 			</p>
-			<Avatar ringWidth={0} alt='' src={avatar} />
+			<Avatar noRing alt='' src={avatar} />
 		</div>
 	) : role === 'assistant' && html ? (
 		<div className='flex items-start justify-start'>
 			<Avatar
-				ringWidth={0}
+				noRing
 				alt=''
 				src={images.chatGPTLogo}
 				className='bg-blue-500'
@@ -49,7 +49,7 @@ export default function Message({ role, content, avatar }: Props) {
 	) : (
 		<div className='flex items-start justify-start'>
 			<Avatar
-				ringWidth={0}
+				noRing
 				alt=''
 				src={images.chatGPTLogo}
 				className='bg-blue-500'

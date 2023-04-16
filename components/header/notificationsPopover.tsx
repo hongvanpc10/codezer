@@ -27,7 +27,7 @@ export default function NotificationsPopover({ user }: { user: User }) {
 
 			<ul className='space-y-2'>
 				<li className='flex relative cursor-pointer items-start after:content-[""] after:inline-block after:w-2 after:h-2 after:rounded-full after:absolute after:top-3 after:right-3 after:bg-blue-500 bg-blue-50/40 px-4 py-2.5 rounded-2xl'>
-					<Avatar alt='' src={images.logo} ringWidth={0} />
+					<Avatar alt='' src={images.logo} noRing />
 
 					<div className='pl-3'>
 						<h3>
@@ -43,7 +43,7 @@ export default function NotificationsPopover({ user }: { user: User }) {
 				</li>
 
 				<li className='flex relative cursor-pointer items-start after:content-[""] after:inline-block after:w-2 after:h-2 after:rounded-full after:absolute after:top-3 after:right-3 after:bg-blue-500 bg-blue-50/40 px-4 py-2.5 rounded-2xl'>
-					<Avatar alt='' src={images.logo} ringWidth={0} />
+					<Avatar alt='' src={images.logo} noRing />
 
 					<div className='pl-3'>
 						<h3 className='font-medium'>

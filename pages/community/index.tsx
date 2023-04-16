@@ -28,7 +28,7 @@ const Community: NextPageWithLayout = () => {
 					<div className='flex items-center'>
 						<Avatar
 							size={9}
-							ringWidth={0}
+							noRing
 							alt=''
 							src={user.avatar}
 						/>
@@ -58,7 +58,7 @@ const Community: NextPageWithLayout = () => {
 							<Avatar
 								src={images.logo}
 								alt=''
-								ringWidth={0}
+								noRing
 								size={9}
 							/>
 						</Link>
@@ -132,7 +132,7 @@ const Community: NextPageWithLayout = () => {
 					</div>
 
 					<div className='flex items-center pt-3'>
-						<Avatar alt='' src={user.avatar} ringWidth={0} />
+						<Avatar alt='' src={user.avatar} noRing />
 						<form className='flex relative flex-1 items-center'>
 							<input
 								placeholder='Viết bình luận của bạn...'

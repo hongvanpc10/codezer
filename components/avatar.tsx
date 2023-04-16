@@ -11,6 +11,7 @@ interface Props {
 	ringWidth?: number
 	className?: string
 	sizes?: [number, number, number]
+	noRing?: boolean
 }
 
 export default function Avatar({
@@ -22,6 +23,7 @@ export default function Avatar({
 	ringWidth = 2,
 	sizes = [20, 10, 5],
 	className,
+	noRing = false,
 }: Props) {
 	return (
 		<div className='relative inline-flex justify-center items-center'>
@@ -31,7 +33,7 @@ export default function Avatar({
 				width={size}
 				height={size}
 				rounded='full'
-				className={`ring-${ringWidth} ${
+				className={`${!noRing && `ring-${ringWidth}`} ${
 					isAdmin ? 'ring-amber-500' : 'ring-blue-500'
 				} ring-offset-2 cursor-pointer ${className}`}
 				sizes={sizes}
