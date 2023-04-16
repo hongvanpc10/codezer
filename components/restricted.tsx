@@ -14,7 +14,7 @@ export default function Restricted({
 
 	useEffect(() => {
 		if (isLogin && isRestricted) {
-			const url = router.query.redirectFrom as string
+			const url = router.query['redirect-from'] as string
 
 			router.push(url ? url : routes.home)
 		}

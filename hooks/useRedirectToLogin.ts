@@ -5,6 +5,6 @@ export default function useRedirectToLogin() {
 	const router = useRouter()
 
 	return () => {
-		router.push(routes.login + '?redirectFrom=' + router.asPath)
+		router.push(routes.login + '?redirect-from=' + router.asPath)
 	}
 }
