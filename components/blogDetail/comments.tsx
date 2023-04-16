@@ -20,6 +20,7 @@ import { FormGroupTextarea } from '../form'
 import Modal from '../modal'
 import { DataWithPagination } from '~/utils/request'
 import Loader from '../loader'
+import socket from '~/config/socket'
 
 interface Props {
 	blogId: string
@@ -30,6 +31,32 @@ export default function Comments({ blogId }: Props) {
 	const user = auth?.data
 
 	const [onComment, setOnComment] = useState(false)
+
+	const queryClient = useQueryClient()
+
+	useEffect(() => {
+		socket.emit('join-room', blogId)
+
+		return () => {
+			socket.emit('leave-room', blogId)
+		}
+	}, [blogId])
+
+	useEffect(() => {
+		socket.on('create-comment', data => {
+			queryClient.setQueryData<
+				InfiniteData<DataWithPagination<{ comments: CommentType[] }>>
+			>(queryKeys.comments(blogId), oldData => {
+				const newData = oldData
+				newData?.pages[0].comments.unshift(data)
+				return newData
+			})
+		})
+
+		return () => {
+			socket.off('create-comment')
+		}
+	}, [blogId, queryClient])
 
 	const { data, isFetchingNextPage, fetchNextPage, isLoading } =
 		useInfiniteQuery(
@@ -94,9 +121,7 @@ export default function Comments({ blogId }: Props) {
 				)}
 
 				<div className='mt-16 space-y-6'>
-					{data &&
-					data.pages[0] &&
-					data.pages[0].comments.length > 0 ? (
+					{data?.pages[0] && data.pages[0].comments.length > 0 ? (
 						data.pages
 							.map(page => page?.comments as CommentType[])
 							.flat()
@@ -125,8 +150,6 @@ function CreateComment({ setOnComment, blogId }: CreateCommentProps) {
 	const { auth } = useAuth()
 	const accessToken = auth?.accessToken as string
 
-	const queryClient = useQueryClient()
-
 	const {
 		register,
 		handleSubmit,
@@ -137,19 +160,7 @@ function CreateComment({ setOnComment, blogId }: CreateCommentProps) {
 		(data: CommentData) =>
 			commentsService.create(blogId, data, accessToken),
 		{
-			onSuccess(data) {
-				data &&
-					queryClient.setQueryData<
-						InfiniteData<
-							DataWithPagination<{ comments: CommentType[] }>
-						>
-					>(queryKeys.comments(blogId), oldData => {
-						if (oldData) {
-							const newData = oldData
-							newData.pages[0].comments.unshift(data)
-							return newData
-						}
-					})
+			onSuccess() {
 				setOnComment(false)
 			},
 		}

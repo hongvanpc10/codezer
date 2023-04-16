@@ -5,7 +5,7 @@ import { NextPage } from 'next'
 import { DefaultSeo } from 'next-seo'
 import type { AppProps } from 'next/app'
 import 'prismjs/themes/prism-okaidia.min.css'
-import { ReactElement } from 'react'
+import { ReactElement, useEffect } from 'react'
 import colors from 'tailwindcss/colors'
 import Fly from '~/components/fly'
 import Private from '~/components/private'
@@ -13,6 +13,7 @@ import Restricted from '~/components/restricted'
 import fonts from '~/config/fonts'
 import queryClient from '~/config/queryClient'
 import seoConfig from '~/config/seoConfig'
+import socket from '~/config/socket'
 import { LayoutProps, MainLayout } from '~/layouts'
 import '~/styles/globals.css'
 
@@ -39,6 +40,10 @@ console.log(
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
 	const Layout = Component.Layout || MainLayout
 
+	useEffect(() => {
+		socket.connect()
+	}, [])
+
 	return (
 		<QueryClientProvider client={queryClient}>
 			<GoogleOAuthProvider
@@ -53,7 +58,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
 					<Fly />
 
-					<Analytics />
+					{process.env.NODE_ENV === 'production' && <Analytics />}
 
 					<Private
 						isPrivate={Component.isPrivate}
