@@ -93,8 +93,8 @@ export default function Comment({ data }: Props) {
 						</div>
 					</div>
 
-					<div className='flex items-center justify-between'>
-						<div className='flex text-sm pl-4 text-blue-900/75 mt-1 items-center space-x-2'>
+					<div className='flex items-center justify-between mt-1'>
+						<div className='flex text-sm pl-4 text-blue-900/75 mr-4 items-center space-x-2'>
 							<div className='relative group/reactions'>
 								<button className=''>Thích</button>
 
@@ -152,7 +152,7 @@ export default function Comment({ data }: Props) {
 								]}
 								top='0rem'
 							>
-								<button className='flex items-center justify-center group-hover/more:opacity-100 opacity-0 transition px-2 py-1 ml-4'>
+								<button className='flex items-center justify-center group-hover/more:opacity-100 opacity-0 transition px-2 py-1'>
 									<MoreIcon className='h-5 text-blue-900/80' />
 								</button>
 							</Dropdown>
