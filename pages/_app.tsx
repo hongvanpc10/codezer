@@ -42,6 +42,10 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
 	useEffect(() => {
 		socket.connect()
+
+		return () => {
+			socket.disconnect()
+		}
 	}, [])
 
 	return (

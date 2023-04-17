@@ -1,6 +1,5 @@
-import { InfiniteData, useQuery, useQueryClient } from '@tanstack/react-query'
+import { InfiniteData, useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
-import { blogsService } from '~/apiServices'
 import { Blog } from '~/apiServices/blogsService'
 import queryKeys from '~/config/queryKeys'
 import routes from '~/config/routes'
@@ -21,13 +20,8 @@ export default function Aside({ data }: { data: Blog }) {
 	const queryClient = useQueryClient()
 
 	const commentsQuery = queryClient.getQueryData<
-		InfiniteData<DataWithPagination<{allCount:string}>>
-		>(queryKeys.comments(data._id))
-	
-
-	const { data: supportData } = useQuery(queryKeys.blog(data.slug), () =>
-		blogsService.getDetail(data.slug)
-	)
+		InfiniteData<DataWithPagination<{ allCount: number }>>
+	>(queryKeys.comments(data._id))
 
 	return (
 		<div className='xl:w-8/12 mx-auto'>
@@ -44,17 +38,14 @@ export default function Aside({ data }: { data: Blog }) {
 			<div className='flex items-center justify-around'>
 				<div className='flex items-center flex-col text-lg'>
 					<button className='mb-1'>
-						{(supportData
-							? supportData.likes
-							: data.likes
-						).includes(user?._id as string) ? (
+						{data.likes.includes(user?._id as string) ? (
 							<HeartSolidIcon className='h-6 text-rose-500' />
 						) : (
 							<HeartIcon className='h-6' />
 						)}
 					</button>
 
-					{(supportData ? supportData.likes : data.likes).length}
+					{data.likes.length}
 				</div>
 
 				<div className='flex items-center flex-col text-lg'>

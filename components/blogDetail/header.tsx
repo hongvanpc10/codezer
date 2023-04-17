@@ -26,10 +26,6 @@ export default function Header({ data }: { data: Blog }) {
 
 	const router = useRouter()
 
-	const { data: supportData } = useQuery(queryKeys.blog(data.slug), () =>
-		blogsService.getDetail(data.slug)
-	)
-
 	const queryClient = useQueryClient()
 
 	const { mutate: deleteBlog, isLoading: isDeleting } = useMutation(
@@ -38,10 +34,10 @@ export default function Header({ data }: { data: Blog }) {
 		{
 			onSuccess() {
 				router.push(routes.home)
-				queryClient.refetchQueries(queryKeys.newBlogs)
-				queryClient.refetchQueries(queryKeys.blogsGroupByCategories)
-				queryClient.refetchQueries(queryKeys.pinnedBlogs(5))
-				queryClient.refetchQueries(queryKeys.pinnedBlogs())
+				queryClient.invalidateQueries(queryKeys.newBlogs)
+				queryClient.invalidateQueries(queryKeys.blogsGroupByCategories)
+				queryClient.invalidateQueries(queryKeys.pinnedBlogs(5))
+				queryClient.invalidateQueries(queryKeys.pinnedBlogs())
 			},
 		}
 	)
@@ -105,15 +101,10 @@ export default function Header({ data }: { data: Blog }) {
 			onClick: () => setIsDelete(true),
 		},
 		{
-			label: (supportData ? supportData.isPinned : data.isPinned)
-				? 'Huỷ ghim bài viết'
-				: 'Ghim bài viết',
+			label: data.isPinned ? 'Huỷ ghim bài viết' : 'Ghim bài viết',
 			show: user?.role === 'admin',
 			divider: true,
-			onClick: () =>
-				(supportData ? supportData.isPinned : data.isPinned)
-					? unpinBlog()
-					: pinBlog(),
+			onClick: () => (data.isPinned ? unpinBlog() : pinBlog()),
 		},
 		{
 			label: 'Lưu bài viết',

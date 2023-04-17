@@ -13,14 +13,14 @@ import {
 } from '~/apiServices/commentsService'
 import Comment from '~/components/comment'
 import queryKeys from '~/config/queryKeys'
+import socket from '~/config/socket'
 import { useAuth, useInView } from '~/hooks'
+import { DataWithPagination } from '~/utils/request'
 import Avatar from '../avatar'
 import Button from '../button'
 import { FormGroupTextarea } from '../form'
-import Modal from '../modal'
-import { DataWithPagination } from '~/utils/request'
 import Loader from '../loader'
-import socket from '~/config/socket'
+import Modal from '../modal'
 
 interface Props {
 	blogId: string
@@ -43,18 +43,35 @@ export default function Comments({ blogId }: Props) {
 	}, [blogId])
 
 	useEffect(() => {
-		socket.on('create-comment', data => {
+		function onCreateComment(data: CommentType) {
 			queryClient.setQueryData<
-				InfiniteData<DataWithPagination<{ comments: CommentType[] }>>
-			>(queryKeys.comments(blogId), oldData => {
-				const newData = oldData
-				newData?.pages[0].comments.unshift(data)
-				return newData
-			})
-		})
+				InfiniteData<
+					DataWithPagination<{
+						comments: CommentType[]
+						allCount: number
+					}>
+				>
+			>(
+				queryKeys.comments(blogId),
+				oldData =>
+					oldData && {
+						...oldData,
+						pages: [
+							{
+								...oldData.pages[0],
+								comments: [data, ...oldData.pages[0].comments],
+								allCount: oldData.pages[0].allCount + 1,
+							},
+							...oldData.pages.slice(1),
+						],
+					}
+			)
+		}
+
+		socket.on('create-comment', onCreateComment)
 
 		return () => {
-			socket.off('create-comment')
+			socket.off('create-comment', onCreateComment)
 		}
 	}, [blogId, queryClient])
 
@@ -78,6 +95,8 @@ export default function Comments({ blogId }: Props) {
 				},
 			}
 		)
+	
+	console.log(data);
 
 	const { inView, ref } = useInView()
 

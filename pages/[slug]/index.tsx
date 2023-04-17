@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query'
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import { ArticleJsonLd, NextSeo } from 'next-seo'
 import Link from 'next/link'
@@ -13,6 +14,7 @@ import {
 import Comments from '~/components/blogDetail/comments'
 import Loader from '~/components/loader'
 import ScrollToTopButton from '~/components/scrollToTopButton'
+import queryKeys from '~/config/queryKeys'
 import routes from '~/config/routes'
 import markdownToHTML from '~/utils/markdownToHTML'
 
@@ -50,14 +52,20 @@ export const getStaticProps: GetStaticProps<{ data: Blog }> = async context => {
 	}
 }
 
-const BlogDetail = ({
-	data,
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
+const BlogDetail = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 	const router = useRouter()
+
+	const { data } = useQuery(
+		queryKeys.blog(props.data?.slug),
+		() => blogsService.getDetail(props.data?.slug),
+		{
+			initialData: props.data,
+		}
+	)
 
 	if (router.isFallback) return <Loader.Inline />
 
-	return (
+	return data ? (
 		<div>
 			<ScrollToTopButton />
 
@@ -142,7 +150,7 @@ const BlogDetail = ({
 				<div className='xl:col-3 lg:col-2 col-12'></div>
 			</div>
 		</div>
-	)
+	) : null
 }
 
 export default BlogDetail
