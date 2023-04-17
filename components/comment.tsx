@@ -152,7 +152,7 @@ export default function Comment({ data }: Props) {
 								]}
 								top='0rem'
 							>
-								<button className='flex items-center ml-4 justify-center group-hover/more:opacity-100 opacity-0 transition px-2 py-1'>
+								<button className='flex items-center ml-4 justify-center group-hover/more:opacity-100 opacity-0 transition px-1'>
 									<MoreIcon className='h-5 text-blue-900/80' />
 								</button>
 							</Dropdown>
