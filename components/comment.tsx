@@ -93,7 +93,7 @@ export default function Comment({ data }: Props) {
 						</div>
 					</div>
 
-					<div className='flex items-center justify-between pl-4 pr-6'>
+					<div className='flex items-center justify-between mt-0.5 pl-4 pr-6'>
 						<div className='flex text-sm text-blue-900/75 items-center space-x-2'>
 							<div className='relative group/reactions'>
 								<button className=''>Thích</button>
