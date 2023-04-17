@@ -95,8 +95,6 @@ export default function Comments({ blogId }: Props) {
 				},
 			}
 		)
-	
-	console.log(data);
 
 	const { inView, ref } = useInView()
 
