@@ -40,13 +40,13 @@ console.log(
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
 	const Layout = Component.Layout || MainLayout
 
-	useEffect(() => {
-		socket.connect()
+	// useEffect(() => {
+	// 	socket.connect()
 
-		return () => {
-			socket.disconnect()
-		}
-	}, [])
+	// 	return () => {
+	// 		socket.disconnect()
+	// 	}
+	// }, [])
 
 	return (
 		<QueryClientProvider client={queryClient}>
