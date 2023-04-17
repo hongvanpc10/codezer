@@ -21,7 +21,7 @@ import markdownToHTML from '~/utils/markdownToHTML'
 export const getStaticPaths: GetStaticPaths = async () => {
 	const data = await blogsService.getBlogs({
 		sort: 'views',
-		limit: process.env.NODE_ENV === 'production' ? 20 : 1,
+		limit: 20,
 	})
 
 	return {
