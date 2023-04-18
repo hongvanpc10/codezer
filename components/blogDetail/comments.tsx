@@ -52,7 +52,7 @@ export default function Comments({ blogId }: Props) {
 							{
 								...oldData.pages[0],
 								comments: [data, ...oldData.pages[0].comments],
-								allCount: oldData.pages[0].allCount + 1,
+								allCount: (oldData.pages[0].allCount || 0) + 1,
 							},
 							...oldData.pages.slice(1),
 						],
@@ -94,7 +94,7 @@ export default function Comments({ blogId }: Props) {
 									  }
 									: comment
 							),
-							allCount: page.allCount + 1,
+							allCount: (page.allCount || 0) + 1,
 						})),
 					}
 			)
