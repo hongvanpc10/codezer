@@ -35,7 +35,7 @@ export default function Comment({ data }: Props) {
 	const redirectToLogin = useRedirectToLogin()
 
 	const [onReply, setOnReply] = useState(false)
-	const [showReply, setShowReply] = useState(1)
+	const [showReply, setShowReply] = useState(2)
 
 	useEffect(() => {
 		const convert = async () => {
@@ -204,8 +204,18 @@ function ReplyCommentModal({
 	const { auth } = useAuth()
 	const accessToken = auth?.accessToken as string
 
-	const { mutate } = useMutation((data: CommentData) =>
-		commentsService.reply(commentId, { ...data, tag: tag._id }, accessToken)
+	const { mutate } = useMutation(
+		(data: CommentData) =>
+			commentsService.reply(
+				commentId,
+				{ ...data, tag: tag._id },
+				accessToken
+			),
+		{
+			onSuccess() {
+				setOnReply(false)
+			},
+		}
 	)
 
 	const onSubmit = handleSubmit(data => {

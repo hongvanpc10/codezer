@@ -20,6 +20,7 @@ export interface Comment {
 	reactions: CounterObject[]
 	children: Comment[]
 	parent: string
+	post: string
 }
 
 export const create = async (

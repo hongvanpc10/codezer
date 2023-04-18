@@ -3,6 +3,7 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import { ArticleJsonLd, NextSeo } from 'next-seo'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 import { blogsService } from '~/apiServices'
 import { Blog } from '~/apiServices/blogsService'
 import {
@@ -16,6 +17,7 @@ import Loader from '~/components/loader'
 import ScrollToTopButton from '~/components/scrollToTopButton'
 import queryKeys from '~/config/queryKeys'
 import routes from '~/config/routes'
+import socket from '~/config/socket'
 import markdownToHTML from '~/utils/markdownToHTML'
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -60,8 +62,17 @@ const BlogDetail = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 		() => blogsService.getDetail(props.data?.slug),
 		{
 			initialData: props.data,
+			enabled: !!props.data?.slug,
 		}
 	)
+
+	useEffect(() => {
+		socket.emit('join-room', data?._id)
+
+		return () => {
+			socket.emit('leave-room', data?._id)
+		}
+	}, [data?._id])
 
 	if (router.isFallback) return <Loader.Inline />
 

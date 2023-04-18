@@ -1,10 +1,10 @@
-import { InfiniteData, useQueryClient } from '@tanstack/react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import Link from 'next/link'
+import { commentsService } from '~/apiServices'
 import { Blog } from '~/apiServices/blogsService'
 import queryKeys from '~/config/queryKeys'
 import routes from '~/config/routes'
 import { useAuth } from '~/hooks'
-import { DataWithPagination } from '~/utils/request'
 import {
 	ArchiveIcon,
 	ArchiveSolidIcon,
@@ -17,11 +17,11 @@ export default function Aside({ data }: { data: Blog }) {
 	const { auth } = useAuth()
 	const user = auth?.data
 
-	const queryClient = useQueryClient()
-
-	const commentsQuery = queryClient.getQueryData<
-		InfiniteData<DataWithPagination<{ allCount: number }>>
-	>(queryKeys.comments(data._id))
+	const { data: commentsQuery } = useInfiniteQuery(
+		queryKeys.comments(data._id),
+		({ pageParam = { limit: 10 } }) =>
+			commentsService.get(data._id, pageParam)
+	)
 
 	return (
 		<div className='xl:w-8/12 mx-auto'>
@@ -63,7 +63,7 @@ export default function Aside({ data }: { data: Blog }) {
 					<Link href='#comments' className='mb-1 inline-flex'>
 						<MessageIcon className='h-6' />
 					</Link>
-					{commentsQuery?.pages[0].allCount || 0}
+					{commentsQuery?.pages[0]?.allCount || 0}
 				</div>
 			</div>
 		</div>

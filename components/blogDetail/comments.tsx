@@ -35,14 +35,6 @@ export default function Comments({ blogId }: Props) {
 	const queryClient = useQueryClient()
 
 	useEffect(() => {
-		socket.emit('join-room', blogId)
-
-		return () => {
-			socket.emit('leave-room', blogId)
-		}
-	}, [blogId])
-
-	useEffect(() => {
 		function onCreateComment(data: CommentType) {
 			queryClient.setQueryData<
 				InfiniteData<
@@ -68,10 +60,50 @@ export default function Comments({ blogId }: Props) {
 			)
 		}
 
-		socket.on('create-comment', onCreateComment)
+		socket.on('comment:create', onCreateComment)
 
 		return () => {
-			socket.off('create-comment', onCreateComment)
+			socket.off('comment:create', onCreateComment)
+		}
+	}, [blogId, queryClient])
+
+	useEffect(() => {
+		function onReplyComment(data: CommentType) {
+			queryClient.setQueryData<
+				InfiniteData<
+					DataWithPagination<{
+						comments: CommentType[]
+						allCount: number
+					}>
+				>
+			>(
+				queryKeys.comments(blogId),
+				oldData =>
+					oldData && {
+						...oldData,
+						pages: oldData.pages.map(page => ({
+							...page,
+							comments: page.comments.map(comment =>
+								data.parent === comment._id
+									? {
+											...comment,
+											children: [
+												...comment.children,
+												data,
+											],
+									  }
+									: comment
+							),
+							allCount: page.allCount + 1,
+						})),
+					}
+			)
+		}
+
+		socket.on('comment:reply', onReplyComment)
+
+		return () => {
+			socket.off('comment:reply', onReplyComment)
 		}
 	}, [blogId, queryClient])
 
