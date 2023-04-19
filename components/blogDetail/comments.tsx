@@ -1,13 +1,7 @@
-import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { commentsService } from '~/apiServices'
-import { CommentData } from '~/apiServices/commentsService'
-import { useAuth } from '~/hooks'
+import { useAuth, useRedirectToLogin } from '~/hooks'
 import Avatar from '../avatar'
-import Button from '../button'
 import Comments from '../comments'
-import { FormGroupTextarea } from '../form'
 
 interface Props {
 	blogId: string
@@ -19,6 +13,8 @@ export default function BlogsComments({ blogId }: Props) {
 
 	const [onComment, setOnComment] = useState(false)
 
+	const redirectToLogin = useRedirectToLogin()
+
 	return (
 		<section className=''>
 			<h2 id='comments' className='font-bold text-2xl'>
@@ -26,7 +22,7 @@ export default function BlogsComments({ blogId }: Props) {
 			</h2>
 
 			<div className='mt-10'>
-				{user && (
+				{user ? (
 					<div className='flex items-center'>
 						<Avatar alt='' size={9} src={user.avatar} />
 						<div className='flex-1 ml-3'>
@@ -37,6 +33,17 @@ export default function BlogsComments({ blogId }: Props) {
 							/>
 						</div>
 					</div>
+				) : (
+					<p className='text-lg px-6 -mt-4 text-blue-900 rounded-2xl py-4 bg-blue-50/75'>
+						Vui lòng{' '}
+						<button
+							onClick={redirectToLogin}
+							className='text-blue-500 font-medium underline'
+						>
+							đăng nhập
+						</button>{' '}
+						để bình luận bài viết.
+					</p>
 				)}
 
 				<div className='mt-16'>
@@ -48,63 +55,5 @@ export default function BlogsComments({ blogId }: Props) {
 				</div>
 			</div>
 		</section>
-	)
-}
-
-interface CreateCommentProps {
-	setOnComment: Function
-	blogId: string
-}
-
-function CreateComment({ setOnComment, blogId }: CreateCommentProps) {
-	const { auth } = useAuth()
-	const accessToken = auth?.accessToken as string
-
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<{ content: string }>()
-
-	const { mutate } = useMutation(
-		(data: CommentData) =>
-			commentsService.create(blogId, data, accessToken),
-		{
-			onSuccess() {
-				setOnComment(false)
-			},
-		}
-	)
-
-	const onSubmit = handleSubmit(data => {
-		mutate(data)
-	})
-
-	return (
-		<form onSubmit={onSubmit}>
-			<h2 className='text-xl mb-6 font-bold'>Viết bình luận</h2>
-
-			<FormGroupTextarea
-				{...register('content', {
-					required: 'Vui lòng nhập nội dung bình luận.',
-				})}
-				autoFocus
-				maxLength={1000}
-				label=''
-				placeholder='Viết bình luận của bạn tại đây...'
-				error={errors.content?.message}
-			/>
-
-			<div className='flex mt-6 items-center justify-end space-x-3'>
-				<Button
-					component='div'
-					color='slate'
-					onClick={() => setOnComment(false)}
-				>
-					Hủy
-				</Button>
-				<Button>Gửi</Button>
-			</div>
-		</form>
 	)
 }
