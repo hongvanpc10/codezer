@@ -92,3 +92,26 @@ export const removeReaction = async (
 	)
 	return res?.data
 }
+
+export const update = async (
+	id: string,
+	data: { content: string },
+	accessToken: string
+) => {
+	const res = await request.patch('/comments/' + id, data, {
+		headers: { Authorization: accessToken },
+	})
+
+	return res?.data
+}
+
+export const deleteComment = async (
+	id: string,
+	accessToken: string
+) => {
+	const res = await request.delete('/comments/' + id, {
+		headers: { Authorization: accessToken },
+	})
+
+	return res?.data
+}

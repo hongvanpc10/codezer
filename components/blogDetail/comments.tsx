@@ -1,140 +1,23 @@
-import {
-	InfiniteData,
-	useInfiniteQuery,
-	useMutation,
-	useQueryClient,
-} from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
+import { useMutation } from '@tanstack/react-query'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { commentsService } from '~/apiServices'
-import {
-	CommentData,
-	Comment as CommentType,
-} from '~/apiServices/commentsService'
-import Comment from '~/components/comment'
-import queryKeys from '~/config/queryKeys'
-import socket from '~/config/socket'
-import { useAuth, useInView } from '~/hooks'
-import { DataWithPagination } from '~/utils/request'
+import { CommentData } from '~/apiServices/commentsService'
+import { useAuth } from '~/hooks'
 import Avatar from '../avatar'
 import Button from '../button'
+import Comments from '../comments'
 import { FormGroupTextarea } from '../form'
-import Loader from '../loader'
-import Modal from '../modal'
 
 interface Props {
 	blogId: string
 }
 
-export default function Comments({ blogId }: Props) {
+export default function BlogsComments({ blogId }: Props) {
 	const { auth } = useAuth()
 	const user = auth?.data
 
 	const [onComment, setOnComment] = useState(false)
-
-	const queryClient = useQueryClient()
-
-	useEffect(() => {
-		function onCreateComment(data: CommentType) {
-			queryClient.setQueryData<
-				InfiniteData<
-					DataWithPagination<{
-						comments: CommentType[]
-						allCount: number
-					}>
-				>
-			>(
-				queryKeys.comments(blogId),
-				oldData =>
-					oldData && {
-						...oldData,
-						pages: [
-							{
-								...oldData.pages[0],
-								comments: [data, ...oldData.pages[0].comments],
-								allCount: (oldData.pages[0].allCount || 0) + 1,
-							},
-							...oldData.pages.slice(1),
-						],
-					}
-			)
-		}
-
-		socket.on('comment:create', onCreateComment)
-
-		return () => {
-			socket.off('comment:create', onCreateComment)
-		}
-	}, [blogId, queryClient])
-
-	useEffect(() => {
-		function onReplyComment(data: CommentType) {
-			queryClient.setQueryData<
-				InfiniteData<
-					DataWithPagination<{
-						comments: CommentType[]
-						allCount: number
-					}>
-				>
-			>(
-				queryKeys.comments(blogId),
-				oldData =>
-					oldData && {
-						...oldData,
-						pages: oldData.pages.map(page => ({
-							...page,
-							comments: page.comments.map(comment =>
-								data.parent === comment._id
-									? {
-											...comment,
-											children: [
-												...comment.children,
-												data,
-											],
-									  }
-									: comment
-							),
-							allCount: (page.allCount || 0) + 1,
-						})),
-					}
-			)
-		}
-
-		socket.on('comment:reply', onReplyComment)
-
-		return () => {
-			socket.off('comment:reply', onReplyComment)
-		}
-	}, [blogId, queryClient])
-
-	const { data, isFetchingNextPage, fetchNextPage, isLoading } =
-		useInfiniteQuery(
-			queryKeys.comments(blogId),
-			({ pageParam = { limit: 10 } }) =>
-				commentsService.get(blogId, pageParam),
-			{
-				getNextPageParam(lastPage) {
-					if (
-						(lastPage?.pagination.currentPage as number) <
-						(lastPage?.pagination.totalPages as number)
-					)
-						return {
-							limit: 10,
-							page:
-								(lastPage?.pagination.currentPage as number) +
-								1,
-						}
-				},
-			}
-		)
-
-	const { inView, ref } = useInView()
-
-	useEffect(() => {
-		if (inView && !isFetchingNextPage) {
-			fetchNextPage()
-		}
-	}, [fetchNextPage, inView, isFetchingNextPage])
 
 	return (
 		<section className=''>
@@ -156,34 +39,12 @@ export default function Comments({ blogId }: Props) {
 					</div>
 				)}
 
-				{onComment && (
-					<Modal
-						render={() => (
-							<CreateComment
-								blogId={blogId}
-								setOnComment={setOnComment}
-							/>
-						)}
-						onClose={() => setOnComment(false)}
-						maxWidth='3xl'
+				<div className='mt-16'>
+					<Comments
+						blogId={blogId}
+						onComment={onComment}
+						setOnComment={setOnComment}
 					/>
-				)}
-
-				<div className='mt-16 space-y-6'>
-					{data?.pages[0] && data.pages[0].comments.length > 0 ? (
-						data.pages
-							.map(page => page?.comments as CommentType[])
-							.flat()
-							.map((comment, index) => (
-								<Comment key={index} data={comment} />
-							))
-					) : (
-						<h3></h3>
-					)}
-
-					{(isFetchingNextPage || isLoading) && <Loader.Inline />}
-
-					<div ref={ref}></div>
 				</div>
 			</div>
 		</section>

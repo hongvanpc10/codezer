@@ -1,24 +1,19 @@
 import { FacebookCounter, FacebookSelector } from '@charkour/react-reactions'
-import { useMutation } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { commentsService } from '~/apiServices'
-import {
-	CommentData,
-	Comment as CommentType,
-} from '~/apiServices/commentsService'
-import { User } from '~/apiServices/usersService'
+import { Comment as CommentType } from '~/apiServices/commentsService'
 import routes from '~/config/routes'
 import { useAuth, useRedirectToLogin } from '~/hooks'
 import markdownToHTML from '~/utils/markdownToHTML'
 import timeFromNow from '~/utils/timeFromNow'
-import Avatar from './avatar'
-import Button from './button'
-import Dropdown from './dropdown'
-import { FormGroupTextarea } from './form'
-import { MoreIcon, ReturnIcon } from './icons'
-import Modal from './modal'
+import Avatar from '../avatar'
+import Dropdown from '../dropdown'
+import { MoreIcon, ReturnIcon } from '../icons'
+import Modal from '../modal'
+import ReplyComment from './replyComment'
+import UpdateComment from './updateComment'
+import { useMutation } from '@tanstack/react-query'
+import { commentsService } from '~/apiServices'
 
 interface Props {
 	data: CommentType
@@ -35,6 +30,8 @@ export default function Comment({ data }: Props) {
 	const redirectToLogin = useRedirectToLogin()
 
 	const [onReply, setOnReply] = useState(false)
+	const [onUpdate, setOnUpdate] = useState(false)
+
 	const [showReply, setShowReply] = useState(2)
 
 	useEffect(() => {
@@ -53,6 +50,10 @@ export default function Comment({ data }: Props) {
 		}
 		convert()
 	}, [data.content, data.tag, showMore])
+
+	const { mutate: deleteComment } = useMutation(() =>
+		commentsService.deleteComment(data._id, `${auth?.accessToken}`)
+	)
 
 	return htmlContent ? (
 		<div>
@@ -73,7 +74,10 @@ export default function Comment({ data }: Props) {
 						</Link>
 
 						<div
-							className='!prose !prose-blue prose-img:rounded-2xl prose-video:rounded-2xl prose-img:mx-auto prose-a:underline-offset-2 prose-p:break-words prose-headings:break-words prose-a:break-words prose-pre:!rounded-2xl prose-td:!p-3 even:prose-tr:bg-blue-50 prose-th:!p-3 prose-tr:rounded-xl prose-tr:border-none prose-thead:bg-blue-100/75 prose-thead:rounded-xl prose-thead:border-none prose-table:border-separate first:prose-th:rounded-l-xl last:prose-th:rounded-r-xl first:prose-td:rounded-l-xl last:prose-td:rounded-r-xl prose-table:border-spacing-px prose-figcaption:text-center prose-figcaption:italic prose-figcaption:!mt-3 prose-pre:scroll-sm prose-blockquote:!not-italic prose-blockquote:!font-normal prose-blockquote:bg-blue-50/50 [&>*]:prose-blockquote:before:hidden [&>*]:prose-blockquote:after:hidden prose-blockquote:py-1 first:[&>*]:prose-blockquote:!mt-2 last:[&>*]:prose-blockquote:!mb-2 prose-blockquote:pr-4 prose-blockquote:rounded-r-2xl prose-th:!align-middle first:prose-a:!no-underline first:prose-a:!font-medium first:prose-a:!mr-2 prose-p:!my-1'
+							className={`!prose !prose-blue prose-img:rounded-2xl prose-video:rounded-2xl prose-img:mx-auto prose-a:underline-offset-2 prose-p:break-words prose-headings:break-words prose-a:break-words prose-pre:!rounded-2xl prose-td:!p-3 even:prose-tr:bg-blue-50 prose-th:!p-3 prose-tr:rounded-xl prose-tr:border-none prose-thead:bg-blue-100/75 prose-thead:rounded-xl prose-thead:border-none prose-table:border-separate first:prose-th:rounded-l-xl last:prose-th:rounded-r-xl first:prose-td:rounded-l-xl last:prose-td:rounded-r-xl prose-table:border-spacing-px prose-figcaption:text-center prose-figcaption:italic prose-figcaption:!mt-3 prose-pre:scroll-sm prose-blockquote:!not-italic prose-blockquote:!font-normal prose-blockquote:bg-blue-50/50 [&>*]:prose-blockquote:before:hidden [&>*]:prose-blockquote:after:hidden prose-blockquote:py-1 first:[&>*]:prose-blockquote:!mt-2 last:[&>*]:prose-blockquote:!mb-2 prose-blockquote:pr-4 prose-blockquote:rounded-r-2xl prose-th:!align-middle ${
+								data.tag &&
+								'first:prose-a:!no-underline first:prose-a:!font-medium first:prose-a:!mr-2'
+							} prose-p:!my-1`}
 							dangerouslySetInnerHTML={{ __html: htmlContent }}
 						></div>
 
@@ -123,13 +127,26 @@ export default function Comment({ data }: Props) {
 							{onReply && (
 								<Modal
 									render={() => (
-										<ReplyCommentModal
+										<ReplyComment
 											commentId={data.parent || data._id}
 											tag={data.author}
 											setOnReply={setOnReply}
 										/>
 									)}
 									onClose={() => setOnReply(false)}
+									maxWidth='3xl'
+								/>
+							)}
+
+							{onUpdate && (
+								<Modal
+									render={() => (
+										<UpdateComment
+											comment={data}
+											setOnUpdate={setOnUpdate}
+										/>
+									)}
+									onClose={() => setOnUpdate(false)}
 									maxWidth='3xl'
 								/>
 							)}
@@ -145,9 +162,11 @@ export default function Comment({ data }: Props) {
 								items={[
 									{
 										label: 'Chỉnh sửa',
+										onClick: () => setOnUpdate(true),
 									},
 									{
 										label: 'Xóa',
+										onClick: () => deleteComment(),
 									},
 								]}
 								top='0rem'
@@ -182,76 +201,4 @@ export default function Comment({ data }: Props) {
 			)}
 		</div>
 	) : null
-}
-
-interface ReplyCommentModalProps {
-	setOnReply: Function
-	tag: User
-	commentId: string
-}
-
-function ReplyCommentModal({
-	setOnReply,
-	tag,
-	commentId,
-}: ReplyCommentModalProps) {
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<{ content: string }>()
-
-	const { auth } = useAuth()
-	const accessToken = auth?.accessToken as string
-
-	const { mutate } = useMutation(
-		(data: CommentData) =>
-			commentsService.reply(
-				commentId,
-				{ ...data, tag: tag._id },
-				accessToken
-			),
-		{
-			onSuccess() {
-				setOnReply(false)
-			},
-		}
-	)
-
-	const onSubmit = handleSubmit(data => {
-		mutate(data)
-	})
-
-	return (
-		<form onSubmit={onSubmit}>
-			<h2 className='text-xl mb-6 font-bold'>
-				Trả lời bình luận của{' '}
-				<Link href={routes.profile(tag.slug)} className='text-blue-500'>
-					@{tag.fullName}
-				</Link>
-			</h2>
-
-			<FormGroupTextarea
-				{...register('content', {
-					required: 'Vui lòng nhập nội câu trả lời.',
-				})}
-				autoFocus
-				maxLength={1000}
-				label=''
-				placeholder={`Trả lời bình luận của ${tag.fullName} tại đây...`}
-				error={errors.content?.message}
-			/>
-
-			<div className='flex mt-6 items-center justify-end space-x-3'>
-				<Button
-					component='div'
-					color='slate'
-					onClick={() => setOnReply(false)}
-				>
-					Hủy
-				</Button>
-				<Button>Gửi</Button>
-			</div>
-		</form>
-	)
 }
