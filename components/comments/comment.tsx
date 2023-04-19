@@ -8,7 +8,7 @@ import markdownToHTML from '~/utils/markdownToHTML'
 import timeFromNow from '~/utils/timeFromNow'
 import Avatar from '../avatar'
 import Dropdown from '../dropdown'
-import { MoreIcon, ReturnIcon } from '../icons'
+import { MoreIcon, ReturnIcon, TickIcon } from '../icons'
 import Modal from '../modal'
 import ReplyComment from './replyComment'
 import UpdateComment from './updateComment'
@@ -16,10 +16,11 @@ import { useMutation } from '@tanstack/react-query'
 import { commentsService } from '~/apiServices'
 
 interface Props {
+	authorId: string
 	data: CommentType
 }
 
-export default function Comment({ data }: Props) {
+export default function Comment({ data, authorId }: Props) {
 	const [htmlContent, setHtmlContent] = useState('')
 
 	const [showMore, setShowMore] = useState(false)
@@ -62,14 +63,26 @@ export default function Comment({ data }: Props) {
 					<Avatar alt='' src={data.author.avatar} />
 				</Link>
 
-				<div className='ml-3 group/more'>
+				<div className='ml-2.5 group/more'>
 					<div className='pt-2 pb-3 pl-4 pr-6 rounded-3xl bg-slate-100'>
 						<Link
 							href={routes.profile(data.author.slug)}
 							className='inline-block'
+							
 						>
-							<h3 className='font-medium'>
+							<h3 className='font-medium flex items-center'>
 								{data.author.fullName}
+
+								{(data.author.isVerified ||
+									data.author.role === 'admin') && (
+									<TickIcon className='h-3 ml-1 text-blue-900/50' />
+								)}
+
+								{authorId === data.author._id && (
+									<span className='text-[0.625rem] rounded text-blue-900/75 bg-blue-100 px-1.5 inline-block ml-2'>
+										Tác giả
+									</span>
+								)}
 							</h3>
 						</Link>
 
@@ -97,7 +110,7 @@ export default function Comment({ data }: Props) {
 						</div>
 					</div>
 
-					<div className='flex items-center justify-between mt-0.5 pl-4 pr-6'>
+					<div className='flex items-center text-sm justify-between mt-0.5 pl-4 pr-6'>
 						<div className='flex text-sm text-blue-900/75 items-center space-x-2'>
 							<div className='relative group/reactions'>
 								<button className=''>Thích</button>
@@ -183,7 +196,7 @@ export default function Comment({ data }: Props) {
 			{data.children.length > 0 && (
 				<div className='mt-4 pl-12 space-y-5'>
 					{data.children.slice(0, showReply).map((data, index) => (
-						<Comment data={data} key={index} />
+						<Comment authorId={authorId} data={data} key={index} />
 					))}
 
 					{showReply < data.children.length && (

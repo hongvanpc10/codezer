@@ -5,9 +5,10 @@ import Comments from '../comments'
 
 interface Props {
 	blogId: string
+	authorId: string
 }
 
-export default function BlogsComments({ blogId }: Props) {
+export default function BlogsComments({ blogId ,authorId}: Props) {
 	const { auth } = useAuth()
 	const user = auth?.data
 
@@ -51,6 +52,7 @@ export default function BlogsComments({ blogId }: Props) {
 						blogId={blogId}
 						onComment={onComment}
 						setOnComment={setOnComment}
+						authorId={authorId}
 					/>
 				</div>
 			</div>

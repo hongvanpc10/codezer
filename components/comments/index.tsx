@@ -19,9 +19,10 @@ interface Props {
 	blogId: string
 	setOnComment: Dispatch<SetStateAction<boolean>>
 	onComment: boolean
+	authorId:string
 }
 
-export default function Comments({ blogId, setOnComment, onComment }: Props) {
+export default function Comments({ blogId, setOnComment, onComment,authorId }: Props) {
 	const queryClient = useQueryClient()
 
 	useEffect(() => {
@@ -246,7 +247,7 @@ export default function Comments({ blogId, setOnComment, onComment }: Props) {
 						.map(page => page?.comments as CommentType[])
 						.flat()
 						.map((comment, index) => (
-							<Comment key={index} data={comment} />
+							<Comment key={index} authorId={authorId} data={comment} />
 						))
 				) : (
 					<h3></h3>
