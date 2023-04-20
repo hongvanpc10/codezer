@@ -49,7 +49,7 @@ function BlogCardVertical({ data, showCategories = true }: Props) {
 					<span>{timeFromNow(data.createdAt)}</span>
 					<span className='flex items-center text-blue-900/50 text-sm'>
 						<EyeIcon className='h-4 mr-0.5' />
-						{Math.round(data.views / 2)}
+						{Math.round(data.views * 0.4)}
 						<HeartSolidIcon className='h-3.5 mr-0.5 ml-2' />
 						{data.likesCount}
 					</span>
