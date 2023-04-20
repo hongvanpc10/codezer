@@ -126,12 +126,7 @@ export default function Comment({ data, authorId }: Props) {
 							</div>
 						)}
 
-						<div className='last:[&_div_div]:hidden right-4 bottom-2 flex justify-end absolute items-center text-xs'>
-							{data.reactions.length > 0 && (
-								<span className='mr-2'>
-									{data.reactions.length}
-								</span>
-							)}
+						<div className='last:[&_div_div]:hidden right-4 bottom-2 flex justify-end absolute'>
 							<FacebookCounter counters={data.reactions} />
 						</div>
 					</div>
