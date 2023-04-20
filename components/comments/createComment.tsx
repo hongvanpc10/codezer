@@ -1,12 +1,13 @@
-import { useMutation } from "@tanstack/react-query"
-import { useForm } from "react-hook-form"
-import { commentsService } from "~/apiServices"
-import { CommentData } from "~/apiServices/commentsService"
-import { useAuth } from "~/hooks"
-import { FormGroupTextarea } from "../form"
-import Button from "../button"
+import { useMutation } from '@tanstack/react-query'
+import { useForm } from 'react-hook-form'
+import { commentsService } from '~/apiServices'
+import { CommentData } from '~/apiServices/commentsService'
+import { useAuth } from '~/hooks'
+import { FormGroupTextarea } from '../form'
+import Button from '../button'
+import useSound from 'use-sound'
 
- interface Props {
+interface Props {
 	setOnComment: Function
 	blogId: string
 }
@@ -14,6 +15,8 @@ import Button from "../button"
 export default function CreateComment({ setOnComment, blogId }: Props) {
 	const { auth } = useAuth()
 	const accessToken = auth?.accessToken as string
+
+	const [playSound] = useSound('/sounds/sound1.mp3')
 
 	const {
 		register,
@@ -26,6 +29,7 @@ export default function CreateComment({ setOnComment, blogId }: Props) {
 			commentsService.create(blogId, data, accessToken),
 		{
 			onSuccess() {
+				playSound()
 				setOnComment(false)
 			},
 		}

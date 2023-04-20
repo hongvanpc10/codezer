@@ -15,6 +15,7 @@ import Modal from '../modal'
 import Reactions from '../reactions'
 import ReplyComment from './replyComment'
 import UpdateComment from './updateComment'
+import useSound from 'use-sound'
 
 interface Props {
 	authorId: string
@@ -45,6 +46,8 @@ export default function Comment({ data, authorId }: Props) {
 
 	const [showReply, setShowReply] = useState(2)
 
+	const [playSound] = useSound('/sounds/sound2.mp3')
+
 	useEffect(() => {
 		const convert = async () => {
 			const html = await markdownToHTML(
@@ -66,16 +69,24 @@ export default function Comment({ data, authorId }: Props) {
 		commentsService.deleteComment(data._id, `${auth?.accessToken}`)
 	)
 
-	const { mutate: addReaction } = useMutation((reaction: CounterObject) =>
-		commentsService.addReaction(data._id, reaction, `${auth?.accessToken}`)
+	const { mutate: addReaction } = useMutation(
+		(reaction: CounterObject) =>
+			commentsService.addReaction(
+				data._id,
+				reaction,
+				`${auth?.accessToken}`
+			),
+		{ onSuccess: playSound }
 	)
 
-	const { mutate: removeReaction } = useMutation((reaction: CounterObject) =>
-		commentsService.removeReaction(
-			data._id,
-			reaction,
-			`${auth?.accessToken}`
-		)
+	const { mutate: removeReaction } = useMutation(
+		(reaction: CounterObject) =>
+			commentsService.removeReaction(
+				data._id,
+				reaction,
+				`${auth?.accessToken}`
+			),
+		{ onSuccess: playSound }
 	)
 
 	return htmlContent ? (

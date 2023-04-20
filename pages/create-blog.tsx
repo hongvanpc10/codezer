@@ -20,6 +20,7 @@ import { useAuth, useBeforeUnload } from '~/hooks'
 import { HeaderOnlyLayout } from '~/layouts'
 import uploadImage from '~/utils/uploadImage'
 import { NextPageWithLayout } from './_app'
+import useSound from 'use-sound'
 
 const CreateBlog: NextPageWithLayout = () => {
 	const {
@@ -44,6 +45,7 @@ const CreateBlog: NextPageWithLayout = () => {
 	const { data: categories } = useQuery(queryKeys.categories, () =>
 		categoriesService.get()
 	)
+	const [playSound] = useSound('/sounds/sound3.mp3')
 
 	const { auth } = useAuth()
 	const accessToken = auth?.accessToken
@@ -63,6 +65,7 @@ const CreateBlog: NextPageWithLayout = () => {
 		(data: BlogData) => blogsService.create(data, accessToken as string),
 		{
 			onSuccess(data) {
+				playSound()
 				router.push(routes.blog(data?.slug as string))
 				data &&
 					queryClient.setQueryData<Blog[]>(

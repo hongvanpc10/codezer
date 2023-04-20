@@ -1,5 +1,6 @@
 import { useInfiniteQuery, useMutation } from '@tanstack/react-query'
 import Link from 'next/link'
+import useSound from 'use-sound'
 import { blogsService, commentsService } from '~/apiServices'
 import { Blog } from '~/apiServices/blogsService'
 import queryKeys from '~/config/queryKeys'
@@ -12,18 +13,22 @@ export default function Aside({ data }: { data: Blog }) {
 	const { auth } = useAuth()
 	const user = auth?.data
 
+	const [playSound] = useSound('/sounds/sound2.mp3')
+
 	const { data: commentsQuery } = useInfiniteQuery(
 		queryKeys.comments(data._id),
 		({ pageParam = { limit: 10 } }) =>
 			commentsService.get(data._id, pageParam)
 	)
 
-	const { mutate: like } = useMutation(() =>
-		blogsService.like(data._id, `${auth?.accessToken}`)
+	const { mutate: like } = useMutation(
+		() => blogsService.like(data._id, `${auth?.accessToken}`),
+		{ onSuccess: playSound }
 	)
 
-	const { mutate: unlike } = useMutation(() =>
-		blogsService.unlike(data._id, `${auth?.accessToken}`)
+	const { mutate: unlike } = useMutation(
+		() => blogsService.unlike(data._id, `${auth?.accessToken}`),
+		{ onSuccess: playSound }
 	)
 
 	return (

@@ -8,6 +8,7 @@ import routes from '~/config/routes'
 import { useAuth } from '~/hooks'
 import Button from '../button'
 import FormGroupTextarea from '../form/formGroupTextarea'
+import useSound from 'use-sound'
 
 export interface Props {
 	setOnReply: Function
@@ -22,6 +23,8 @@ export default function ReplyComment({ setOnReply, tag, commentId }: Props) {
 		formState: { errors },
 	} = useForm<{ content: string }>()
 
+	const [playSound] = useSound('/sounds/sound1.mp3')
+
 	const { auth } = useAuth()
 	const accessToken = auth?.accessToken as string
 
@@ -34,6 +37,7 @@ export default function ReplyComment({ setOnReply, tag, commentId }: Props) {
 			),
 		{
 			onSuccess() {
+				playSound()
 				setOnReply(false)
 			},
 		}
