@@ -23,6 +23,7 @@ export interface Blog extends BlogData {
 	likesCount: number
 	likes: string[]
 	_id: string
+	views: number
 	isPinned: boolean
 }
 

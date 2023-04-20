@@ -3,7 +3,7 @@ import { Blog } from '~/apiServices/blogsService'
 import routes from '~/config/routes'
 import timeFromNow from '~/utils/timeFromNow'
 import capitalizeString from '~/utils/toCapitalize'
-import { HeartSolidIcon, SmsICon } from '../icons'
+import { EyeIcon, HeartSolidIcon, SmsICon } from '../icons'
 import Image from '../image'
 import Skeleton from '../skeleton'
 
@@ -47,10 +47,11 @@ function BlogCardVertical({ data, showCategories = true }: Props) {
 
 				<div className='flex justify-between items-center mt-2 font-medium text-blue-900/75'>
 					<span>{timeFromNow(data.createdAt)}</span>
-					<span className='flex items-center text-blue-900/50 text-[0.9375rem]'>
-						<HeartSolidIcon className='h-4 mr-0.5' />
+					<span className='flex items-center text-blue-900/50 text-sm'>
+						<EyeIcon className='h-4 mr-0.5' />
+						{data.views}
+						<HeartSolidIcon className='h-3.5 mr-0.5 ml-2' />
 						{data.likesCount}
-						<SmsICon className='h-4 ml-2 mr-0.5' />7
 					</span>
 				</div>
 			</div>

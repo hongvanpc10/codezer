@@ -55,7 +55,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
 						<Fly />
 
-						{process.env.NODE_ENV === 'production' && <Analytics />}
+						<Analytics />
 
 						<Private
 							isPrivate={Component.isPrivate}
