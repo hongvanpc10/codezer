@@ -5,15 +5,15 @@ import { NextPage } from 'next'
 import { DefaultSeo } from 'next-seo'
 import type { AppProps } from 'next/app'
 import 'prismjs/themes/prism-okaidia.min.css'
-import { ReactElement, useEffect } from 'react'
+import { ReactElement } from 'react'
 import colors from 'tailwindcss/colors'
+import SocketClient from '~/components/SocketClient'
 import Fly from '~/components/fly'
 import Private from '~/components/private'
 import Restricted from '~/components/restricted'
 import fonts from '~/config/fonts'
 import queryClient from '~/config/queryClient'
 import seoConfig from '~/config/seoConfig'
-import socket from '~/config/socket'
 import { LayoutProps, MainLayout } from '~/layouts'
 import '~/styles/globals.css'
 
@@ -40,42 +40,36 @@ console.log(
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
 	const Layout = Component.Layout || MainLayout
 
-	useEffect(() => {
-		socket.connect()
-
-		return () => {
-			socket.disconnect()
-		}
-	}, [])
-
 	return (
 		<QueryClientProvider client={queryClient}>
-			<GoogleOAuthProvider
-				clientId={
-					process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID as string
-				}
-			>
-				<div
-					className={`${fonts.montserrat.variable} ${fonts.baloo2.variable} font-sans text-blue min-h-screen bg-slate-50/75`}
+			<SocketClient>
+				<GoogleOAuthProvider
+					clientId={
+						process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID as string
+					}
 				>
-					<DefaultSeo {...seoConfig} />
+					<div
+						className={`${fonts.montserrat.variable} ${fonts.baloo2.variable} font-sans text-blue min-h-screen bg-slate-50/75`}
+					>
+						<DefaultSeo {...seoConfig} />
 
-					<Fly />
+						<Fly />
 
-					{process.env.NODE_ENV === 'production' && <Analytics />}
+						{process.env.NODE_ENV === 'production' && <Analytics />}
 
-					<Private
-						isPrivate={Component.isPrivate}
-						isAdminRequired={Component.isAdminRequired}
-					/>
+						<Private
+							isPrivate={Component.isPrivate}
+							isAdminRequired={Component.isAdminRequired}
+						/>
 
-					<Restricted isRestricted={Component.isRestricted} />
+						<Restricted isRestricted={Component.isRestricted} />
 
-					<Layout>
-						<Component {...pageProps} />
-					</Layout>
-				</div>
-			</GoogleOAuthProvider>
+						<Layout>
+							<Component {...pageProps} />
+						</Layout>
+					</div>
+				</GoogleOAuthProvider>
+			</SocketClient>
 		</QueryClientProvider>
 	)
 }

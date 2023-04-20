@@ -19,10 +19,15 @@ interface Props {
 	blogId: string
 	setOnComment: Dispatch<SetStateAction<boolean>>
 	onComment: boolean
-	authorId:string
+	authorId: string
 }
 
-export default function Comments({ blogId, setOnComment, onComment,authorId }: Props) {
+export default function Comments({
+	blogId,
+	setOnComment,
+	onComment,
+	authorId,
+}: Props) {
 	const queryClient = useQueryClient()
 
 	useEffect(() => {
@@ -197,6 +202,118 @@ export default function Comments({ blogId, setOnComment, onComment,authorId }: P
 		}
 	}, [blogId, queryClient])
 
+	useEffect(() => {
+		function onAddReaction(data: CommentType) {
+			queryClient.setQueryData<
+				InfiniteData<
+					DataWithPagination<{
+						comments: CommentType[]
+						allCount: number
+					}>
+				>
+			>(
+				queryKeys.comments(blogId),
+				oldData =>
+					oldData && {
+						...oldData,
+						pages: oldData.pages.map(page => ({
+							...page,
+							comments: data.parent
+								? page.comments.map(comment =>
+										comment._id === data.parent
+											? {
+													...comment,
+													children:
+														comment.children.map(
+															child =>
+																child._id ===
+																data._id
+																	? {
+																			...child,
+																			reactions:
+																				data.reactions,
+																	  }
+																	: child
+														),
+											  }
+											: comment
+								  )
+								: page.comments.map(comment =>
+										comment._id === data._id
+											? {
+													...comment,
+													reactions: data.reactions,
+											  }
+											: comment
+								  ),
+						})),
+					}
+			)
+		}
+
+		socket.on('comment:reaction:add', onAddReaction)
+
+		return () => {
+			socket.off('comment:reaction:add', onAddReaction)
+		}
+	}, [blogId, queryClient])
+
+	useEffect(() => {
+		function onRemoveReaction(data: CommentType) {
+			queryClient.setQueryData<
+				InfiniteData<
+					DataWithPagination<{
+						comments: CommentType[]
+						allCount: number
+					}>
+				>
+			>(
+				queryKeys.comments(blogId),
+				oldData =>
+					oldData && {
+						...oldData,
+						pages: oldData.pages.map(page => ({
+							...page,
+							comments: data.parent
+								? page.comments.map(comment =>
+										comment._id === data.parent
+											? {
+													...comment,
+													children:
+														comment.children.map(
+															child =>
+																child._id ===
+																data._id
+																	? {
+																			...child,
+																			reactions:
+																				data.reactions,
+																	  }
+																	: child
+														),
+											  }
+											: comment
+								  )
+								: page.comments.map(comment =>
+										comment._id === data._id
+											? {
+													...comment,
+													reactions: data.reactions,
+											  }
+											: comment
+								  ),
+						})),
+					}
+			)
+		}
+
+		socket.on('comment:reaction:remove', onRemoveReaction)
+
+		return () => {
+			socket.off('comment:reaction:remove', onRemoveReaction)
+		}
+	}, [blogId, queryClient])
+
 	const { data, isFetchingNextPage, fetchNextPage, isLoading } =
 		useInfiniteQuery(
 			queryKeys.comments(blogId),
@@ -247,7 +364,11 @@ export default function Comments({ blogId, setOnComment, onComment,authorId }: P
 						.map(page => page?.comments as CommentType[])
 						.flat()
 						.map((comment, index) => (
-							<Comment key={index} authorId={authorId} data={comment} />
+							<Comment
+								key={index}
+								authorId={authorId}
+								data={comment}
+							/>
 						))
 				) : (
 					<h3></h3>

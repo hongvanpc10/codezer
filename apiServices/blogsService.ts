@@ -144,3 +144,19 @@ export const unpinBlog = async (id: string, accessToken: string) => {
 
 	return res
 }
+
+export const like = async (id: string, accessToken: string) => {
+	const res = await request.get('/blogs/' + id + '/like', {
+		headers: { Authorization: accessToken },
+	})
+
+	return res
+}
+
+export const unlike = async (id: string, accessToken: string) => {
+	const res = await request.get('/blogs/' + id + '/unlike', {
+		headers: { Authorization: accessToken },
+	})
+
+	return res
+}

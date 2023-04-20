@@ -1,6 +1,8 @@
-import { FacebookCounter, FacebookSelector } from '@charkour/react-reactions'
+import { CounterObject, FacebookCounter } from '@charkour/react-reactions'
+import { useMutation } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { commentsService } from '~/apiServices'
 import { Comment as CommentType } from '~/apiServices/commentsService'
 import routes from '~/config/routes'
 import { useAuth, useRedirectToLogin } from '~/hooks'
@@ -10,14 +12,22 @@ import Avatar from '../avatar'
 import Dropdown from '../dropdown'
 import { MoreIcon, ReturnIcon, TickIcon } from '../icons'
 import Modal from '../modal'
+import Reactions from '../reactions'
 import ReplyComment from './replyComment'
 import UpdateComment from './updateComment'
-import { useMutation } from '@tanstack/react-query'
-import { commentsService } from '~/apiServices'
 
 interface Props {
 	authorId: string
 	data: CommentType
+}
+
+const emoji: { [key: string]: { text: string; color: string } } = {
+	like: { text: 'Thích', color: 'text-blue-500' },
+	love: { text: 'Yêu thích', color: 'text-rose-500' },
+	haha: { text: 'Haha', color: 'text-amber-400' },
+	wow: { text: 'Wow', color: 'text-amber-400' },
+	angry: { text: 'Phẫn nộ', color: 'text-orange-500' },
+	sad: { text: 'Buồn', color: 'text-amber-400' },
 }
 
 export default function Comment({ data, authorId }: Props) {
@@ -56,6 +66,18 @@ export default function Comment({ data, authorId }: Props) {
 		commentsService.deleteComment(data._id, `${auth?.accessToken}`)
 	)
 
+	const { mutate: addReaction } = useMutation((reaction: CounterObject) =>
+		commentsService.addReaction(data._id, reaction, `${auth?.accessToken}`)
+	)
+
+	const { mutate: removeReaction } = useMutation((reaction: CounterObject) =>
+		commentsService.removeReaction(
+			data._id,
+			reaction,
+			`${auth?.accessToken}`
+		)
+	)
+
 	return htmlContent ? (
 		<div>
 			<div className='items-start flex'>
@@ -64,11 +86,10 @@ export default function Comment({ data, authorId }: Props) {
 				</Link>
 
 				<div className='ml-2.5 group/more'>
-					<div className='pt-2 pb-3 pl-4 pr-6 rounded-3xl bg-slate-100'>
+					<div className='pt-2 pb-5 pl-4 relative pr-6 rounded-3xl bg-slate-100'>
 						<Link
 							href={routes.profile(data.author.slug)}
 							className='inline-block'
-							
 						>
 							<h3 className='font-medium flex items-center'>
 								{data.author.fullName}
@@ -105,25 +126,39 @@ export default function Comment({ data, authorId }: Props) {
 							</div>
 						)}
 
-						<div className='last:[&_div_div]:hidden flex justify-end -mr-3 -mb-0.5'>
+						<div className='last:[&_div_div]:hidden right-4 bottom-2 flex justify-end absolute items-center text-xs'>
 							<FacebookCounter counters={data.reactions} />
+							{data.reactions.length > 0 && (
+								<span className='ml-1'>
+									{data.reactions.length}
+								</span>
+							)}
 						</div>
 					</div>
 
 					<div className='flex items-center text-sm justify-between mt-0.5 pl-4 pr-6'>
 						<div className='flex text-sm text-blue-900/75 items-center space-x-2'>
-							<div className='relative group/reactions'>
-								<button className=''>Thích</button>
-
-								<div className='absolute hidden group-hover/reactions:block transition-all duration-300 opacity-0 group-hover/reactions:opacity-100 left-2 bottom-1/2 group-hover/reactions:bottom-full z-10'>
-									<FacebookSelector
-										iconSize={24}
-										onSelect={key => {
-											console.log(key)
-										}}
-									/>
-								</div>
-							</div>
+							<Reactions
+								onAdd={addReaction}
+								onRemove={removeReaction}
+								reaction={data.reactions.find(
+									reaction => reaction.by === user?._id
+								)}
+							>
+								{reaction =>
+									reaction ? (
+										<span
+											className={`${
+												emoji[reaction.emoji].color
+											} font-medium`}
+										>
+											{emoji[reaction.emoji].text}
+										</span>
+									) : (
+										'Thích'
+									)
+								}
+							</Reactions>
 
 							<div className='w-1 h-1 rounded-full bg-blue-500' />
 

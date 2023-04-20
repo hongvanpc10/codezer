@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import { ArticleJsonLd, NextSeo } from 'next-seo'
 import Link from 'next/link'
@@ -61,10 +61,12 @@ const BlogDetail = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 		queryKeys.blog(props.data?.slug),
 		() => blogsService.getDetail(props.data?.slug),
 		{
-			initialData: props.data,
+			placeholderData: props.data,
 			enabled: !!props.data?.slug,
 		}
 	)
+
+	const queryClient = useQueryClient()
 
 	useEffect(() => {
 		socket.emit('join-room', data?._id)
@@ -135,7 +137,7 @@ const BlogDetail = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
 					<Header data={data} />
 
-					<Viewer content={data.content} />
+					<Viewer content={props.data.content} />
 
 					<hr className='border-blue-900/10 mt-20 mb-4' />
 

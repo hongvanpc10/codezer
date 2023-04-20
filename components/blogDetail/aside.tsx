@@ -1,17 +1,12 @@
-import { useInfiniteQuery } from '@tanstack/react-query'
+import { useInfiniteQuery, useMutation } from '@tanstack/react-query'
 import Link from 'next/link'
-import { commentsService } from '~/apiServices'
+import { blogsService, commentsService } from '~/apiServices'
 import { Blog } from '~/apiServices/blogsService'
 import queryKeys from '~/config/queryKeys'
 import routes from '~/config/routes'
 import { useAuth } from '~/hooks'
-import {
-	ArchiveIcon,
-	ArchiveSolidIcon,
-	HeartIcon,
-	HeartSolidIcon,
-	MessageIcon,
-} from '../icons'
+import { ArchiveIcon, ArchiveSolidIcon, MessageIcon } from '../icons'
+import LikeButton from '../like'
 
 export default function Aside({ data }: { data: Blog }) {
 	const { auth } = useAuth()
@@ -21,6 +16,14 @@ export default function Aside({ data }: { data: Blog }) {
 		queryKeys.comments(data._id),
 		({ pageParam = { limit: 10 } }) =>
 			commentsService.get(data._id, pageParam)
+	)
+
+	const { mutate: like } = useMutation(() =>
+		blogsService.like(data._id, `${auth?.accessToken}`)
+	)
+
+	const { mutate: unlike } = useMutation(() =>
+		blogsService.unlike(data._id, `${auth?.accessToken}`)
 	)
 
 	return (
@@ -37,13 +40,12 @@ export default function Aside({ data }: { data: Blog }) {
 
 			<div className='flex items-center justify-around'>
 				<div className='flex items-center flex-col text-lg'>
-					<button className='mb-1'>
-						{data.likes.includes(user?._id as string) ? (
-							<HeartSolidIcon className='h-6 text-rose-500' />
-						) : (
-							<HeartIcon className='h-6' />
-						)}
-					</button>
+					<LikeButton
+						onLike={like}
+						onUnlike={unlike}
+						isLiked={data.likes.includes(user?._id as string)}
+						className='mb-1'
+					/>
 
 					{data.likes.length}
 				</div>

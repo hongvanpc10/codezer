@@ -31,8 +31,10 @@ const EditBlog: NextPageWithLayout = () => {
 	const user = auth?.data
 	const accessToken = auth?.accessToken
 
-	const { data, isError } = useQuery(queryKeys.blog(slug), () =>
-		blogsService.getDetail(slug)
+	const { data, isError } = useQuery(
+		queryKeys.blog(slug),
+		() => blogsService.getDetail(slug),
+		{ keepPreviousData: false }
 	)
 
 	const {

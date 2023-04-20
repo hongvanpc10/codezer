@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
