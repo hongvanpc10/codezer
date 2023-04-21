@@ -29,12 +29,7 @@ const Community: NextPageWithLayout = () => {
 			<section className='xl:col-6 lg:col-8 col-12 space-y-6'>
 				<div className='bg-white/90 rounded-3xl px-5 pt-6 pb-4 shadow-lg shadow-blue-900/5'>
 					<div className='flex items-center'>
-						<Avatar
-							size={9}
-							noRing
-							alt=''
-							src={user.avatar}
-						/>
+						<Avatar size={9} noRing alt='' src={user.avatar} />
 						<input
 							placeholder='Bạn đang nghĩ gì?'
 							className='py-2.5 cursor-pointer transition placeholder:text-blue-900/50 hover:bg-blue-50/75 px-6 bg-blue-50/50 rounded-full flex-1 ml-2.5'
@@ -58,12 +53,7 @@ const Community: NextPageWithLayout = () => {
 				<div className='bg-white/90 rounded-3xl px-3 pt-6 pb-4 shadow-lg shadow-blue-900/5'>
 					<div className='flex items-center px-2'>
 						<Link href={''}>
-							<Avatar
-								src={images.logo}
-								alt=''
-								noRing
-								size={9}
-							/>
+							<Avatar src={images.logo} alt='' noRing size={9} />
 						</Link>
 
 						<div className='ml-3'>
@@ -126,11 +116,13 @@ const Community: NextPageWithLayout = () => {
 					</div>
 
 					<div className='flex items-center border-y py-1.5 border-blue-900/5'>
-						<button className='flex items-center justify-center mx-1 rounded-xl transition hover:bg-slate-50 py-2 flex-1'>
-							<LikeIcon className='h-6' />
+						<button className='flex items-center justify-center mx-1 rounded-xl transition hover:bg-slate-50 py-2 flex-1 font-medium'>
+							<LikeIcon className='h-6 mr-3' />
+							Thích
 						</button>
-						<button className='flex items-center justify-center mx-1 rounded-xl transition hover:bg-slate-50 py-2 flex-1'>
-							<SmsOutlineIcon className='h-6' />
+						<button className='flex items-center justify-center mx-1 rounded-xl transition hover:bg-slate-50 py-2 flex-1 font-medium'>
+							<SmsOutlineIcon className='h-6 mr-3' />
+							Bình luận
 						</button>
 					</div>
 

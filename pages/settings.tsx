@@ -12,7 +12,7 @@ const Settings: NextPageWithLayout = () => {
 	const user = auth?.data
 
 	return (
-		<div className='space-y-8 mx-auto xl:w-7/12 lg:w-10/12'>
+		<div className='space-y-16 mx-auto xl:w-7/12 lg:w-10/12'>
 			<NextSeo title='Cài đặt' />
 
 			<section>
