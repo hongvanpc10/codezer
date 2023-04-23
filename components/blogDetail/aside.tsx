@@ -63,7 +63,7 @@ export default function Aside({ data }: { data: Blog }) {
 							<ArchiveIcon className='h-6' />
 						)}
 					</button>
-					1
+					0
 				</div>
 
 				<div className='flex items-center flex-col text-lg'>
