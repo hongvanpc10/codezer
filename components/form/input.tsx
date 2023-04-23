@@ -17,6 +17,7 @@ export interface Props {
 	onBlur?: FocusEventHandler<HTMLInputElement>
 	maxLength?: number
 	defaultValue?: string
+	value?: string
 }
 
 export default forwardRef(function Input(
@@ -30,6 +31,7 @@ export default forwardRef(function Input(
 		onChange,
 		maxLength,
 		defaultValue,
+		value,
 	}: Props,
 	ref: LegacyRef<HTMLInputElement>
 ) {
@@ -61,6 +63,7 @@ export default forwardRef(function Input(
 				onChange={onChange}
 				maxLength={maxLength}
 				defaultValue={defaultValue}
+				value={value}
 			/>
 		</div>
 	)

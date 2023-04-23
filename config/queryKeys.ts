@@ -1,3 +1,5 @@
+import { Params } from '~/utils/request'
+
 const queryKeys = {
 	newBlogs: ['blogs', 'new'],
 	blogsGroupByCategories: ['blogs', 'group-by-categories'],
@@ -22,6 +24,18 @@ const queryKeys = {
 	],
 	user: (slug: string) => ['user', slug],
 	comments: (id: string) => ['comments', id],
+	searchBlogs: (query: string, params?: {}) => [
+		'search',
+		query,
+		'blogs',
+		params,
+	],
+	searchUsers: (query: string, params?: {}) => [
+		'search',
+		query,
+		'users',
+		params,
+	],
 }
 
 export default queryKeys
