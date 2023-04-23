@@ -18,6 +18,7 @@ export interface User {
 	blogsCount: number
 	likesCount: number
 	website: string
+	type: 'register' | 'google' | 'facebook'
 }
 
 export const getTopUsers = async () => {
@@ -76,4 +77,22 @@ export const verify = async (id: string, accessToken: string) => {
 	})
 
 	return res
+}
+
+export interface ChangePasswordData {
+	password: string
+	newPassword: string
+}
+
+export const changePassword = async (
+	data: ChangePasswordData,
+	accessToken: string
+) => {
+	const res = await request.patch('/users/change-password', data, {
+		headers: {
+			Authorization: accessToken,
+		},
+	})
+
+	return res?.data
 }

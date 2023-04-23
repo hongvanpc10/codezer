@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import { ArticleJsonLd, NextSeo } from 'next-seo'
 import Link from 'next/link'
@@ -10,6 +10,7 @@ import {
 	Aside,
 	BlogsWithSameAuthor,
 	Header,
+	Reactions,
 	Viewer,
 } from '~/components/blogDetail'
 import Comments from '~/components/blogDetail/comments'
@@ -65,8 +66,6 @@ const BlogDetail = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 			enabled: !!props.data?.slug,
 		}
 	)
-
-	const queryClient = useQueryClient()
 
 	useEffect(() => {
 		socket.emit('join-room', data?._id)
@@ -139,7 +138,11 @@ const BlogDetail = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
 					<Viewer content={props.data.content} />
 
-					<hr className='border-blue-900/10 mt-20 mb-4' />
+					<div className='mt-20'></div>
+
+					<div className='hide-on-xl'><Reactions data={data} /></div>
+
+					<hr className='border-blue-900/10 mt-5 mb-4' />
 
 					<div className='flex items-center flex-wrap mb-12'>
 						{data.categories.map((category, index) => (

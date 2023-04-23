@@ -40,7 +40,7 @@ export default function Editor({
 				return html
 			}}
 			placeholder={placeholder}
-			htmlClass='!prose-blue !prose mx-auto prose-img:rounded-2xl prose-img:mx-auto prose-a:underline-offset-2 prose-p:break-words prose-a:break-words prose-headings:break-words prose-pre:!rounded-2xl prose-td:!p-3 even:prose-tr:bg-blue-50 prose-th:!p-3 prose-tr:rounded-xl prose-tr:border-none prose-thead:bg-blue-100/75 prose-thead:rounded-xl prose-thead:border-none prose-table:border-separate first:prose-th:rounded-l-xl last:prose-th:rounded-r-xl first:prose-td:rounded-l-xl last:prose-td:rounded-r-xl prose-table:border-spacing-px rose-figcaption:text-center prose-figcaption:italic prose-figcaption:!mt-3 prose-video:rounded-2xl prose-pre:scroll-sm'
+			htmlClass='!prose-blue !prose mx-auto prose-img:rounded-2xl prose-img:mx-auto prose-a:underline-offset-2 prose-p:break-words prose-a:break-words prose-a:break-all prose-headings:break-words prose-pre:!rounded-2xl prose-td:!p-3 even:prose-tr:bg-blue-50 prose-th:!p-3 prose-tr:rounded-xl prose-tr:border-none prose-thead:bg-blue-100/75 prose-thead:rounded-xl prose-thead:border-none prose-table:border-separate first:prose-th:rounded-l-xl last:prose-th:rounded-r-xl first:prose-td:rounded-l-xl last:prose-td:rounded-r-xl prose-table:border-spacing-px rose-figcaption:text-center prose-figcaption:italic prose-figcaption:!mt-3 prose-video:rounded-2xl prose-pre:scroll-sm'
 			markdownClass='!prose-blue !prose mx-auto'
 			shortcuts
 			view={view}

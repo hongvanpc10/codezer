@@ -90,8 +90,8 @@ export default function Comment({ data, authorId }: Props) {
 	)
 
 	return htmlContent ? (
-		<div>
-			<div className='items-start flex'>
+		<div className='max-w-full'>
+			<div className='items-start flex max-w-full'>
 				<Link href={routes.profile(data.author.slug)} className='mt-2'>
 					<Avatar alt='' src={data.author.avatar} />
 				</Link>
@@ -119,9 +119,9 @@ export default function Comment({ data, authorId }: Props) {
 						</Link>
 
 						<div
-							className={`!prose !prose-blue prose-img:rounded-2xl prose-video:rounded-2xl prose-img:mx-auto prose-a:underline-offset-2 prose-p:break-words prose-headings:break-words prose-a:break-words prose-pre:!rounded-2xl prose-td:!p-3 even:prose-tr:bg-blue-50 prose-th:!p-3 prose-tr:rounded-xl prose-tr:border-none prose-thead:bg-blue-100/75 prose-thead:rounded-xl prose-thead:border-none prose-table:border-separate first:prose-th:rounded-l-xl last:prose-th:rounded-r-xl first:prose-td:rounded-l-xl last:prose-td:rounded-r-xl prose-table:border-spacing-px prose-figcaption:text-center prose-figcaption:italic prose-figcaption:!mt-3 prose-pre:scroll-sm prose-blockquote:!not-italic prose-blockquote:!font-normal prose-blockquote:bg-blue-50/50 [&>*]:prose-blockquote:before:hidden [&>*]:prose-blockquote:after:hidden prose-blockquote:py-1 first:[&>*]:prose-blockquote:!mt-2 last:[&>*]:prose-blockquote:!mb-2 prose-blockquote:pr-4 prose-blockquote:rounded-r-2xl prose-th:!align-middle ${
+							className={`!prose !prose-blue prose-img:rounded-2xl prose-video:rounded-2xl prose-img:mx-auto prose-a:underline-offset-2 prose-p:break-words prose-headings:break-words prose-a:break-words prose-pre:!rounded-2xl prose-td:!p-3 even:prose-tr:bg-blue-50 prose-th:!p-3 prose-tr:rounded-xl prose-tr:border-none prose-thead:bg-blue-100/75 prose-thead:rounded-xl prose-thead:border-none prose-table:border-separate first:prose-th:rounded-l-xl last:prose-th:rounded-r-xl first:prose-td:rounded-l-xl last:prose-td:rounded-r-xl prose-table:border-spacing-px prose-figcaption:text-center prose-figcaption:italic prose-figcaption:!mt-3 prose-pre:scroll-sm prose-blockquote:!not-italic prose-blockquote:!font-normal prose-blockquote:bg-blue-50/50 [&>*]:prose-blockquote:before:hidden [&>*]:prose-blockquote:after:hidden prose-blockquote:py-1 first:[&>*]:prose-blockquote:!mt-2 last:[&>*]:prose-blockquote:!mb-2 prose-blockquote:pr-4 prose-blockquote:rounded-r-2xl prose-th:!align-middle prose-a:break-all ${
 								data.tag &&
-								'first:prose-a:!no-underline first:prose-a:!font-medium first:prose-a:!mr-2'
+								'first:prose-a:!no-underline first:prose-a:!font-medium first:prose-a:!mr-1.5'
 							} prose-p:!my-1`}
 							dangerouslySetInnerHTML={{ __html: htmlContent }}
 						></div>
@@ -147,8 +147,8 @@ export default function Comment({ data, authorId }: Props) {
 						</div>
 					</div>
 
-					<div className='flex items-center text-sm justify-between mt-0.5 pl-4 pr-6'>
-						<div className='flex text-sm text-blue-900/75 items-center space-x-2'>
+					<div className='flex items-center text-sm justify-between mt-0.5 sm:pl-4 pl-2 pr-2 sm:pr-6'>
+						<div className='flex text-sm text-blue-900/75 items-center space-x-1.5 sm:space-x-2'>
 							<Reactions
 								onAdd={addReaction}
 								onRemove={removeReaction}
@@ -230,7 +230,7 @@ export default function Comment({ data, authorId }: Props) {
 								]}
 								top='0rem'
 							>
-								<button className='flex items-center ml-4 justify-center group-hover/more:opacity-100 opacity-0 transition px-1'>
+								<button className='flex items-center sm:ml-4 ml-3 justify-center group-hover/more:opacity-100 opacity-0 transition sm:px-1 px-0.5'>
 									<MoreIcon className='h-5 text-blue-900/80' />
 								</button>
 							</Dropdown>
@@ -240,7 +240,7 @@ export default function Comment({ data, authorId }: Props) {
 			</div>
 
 			{data.children.length > 0 && (
-				<div className='mt-4 pl-12 space-y-5'>
+				<div className='mt-4 sm:ml-8 border-l-2 border-blue-500 sm:pl-4 ml-4 pl-3 space-y-5'>
 					{data.children.slice(0, showReply).map((data, index) => (
 						<Comment authorId={authorId} data={data} key={index} />
 					))}

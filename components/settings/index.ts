@@ -1,2 +1,5 @@
-export { default as Updater } from './updater'
 export { default as AvatarUpdater } from './avatarUpdater'
+export { default as Notification } from './notification'
+export { default as PersonalInformation } from './personalInfomation'
+export { default as Security } from './security'
+export { default as Updater } from './updater'
