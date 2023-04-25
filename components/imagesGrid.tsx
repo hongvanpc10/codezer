@@ -18,7 +18,7 @@ export default function ImagesGrid({ images }: Props) {
 						: images.length === 2
 						? 'grid-cols-1 grid-rows-2'
 						: 'grid-cols-1 grid-rows-1'
-				} gap-3`}
+				} gap-2.5`}
 			>
 				{images
 					.slice(0, 4)
@@ -47,7 +47,7 @@ export default function ImagesGrid({ images }: Props) {
 						>
 							<Image
 								alt=''
-								rounded='lg'
+								rounded='xl'
 								src={image.url}
 								ratio={image.ratio}
 								className='ring-1 ring-blue-900/5 ring-offset-2'
@@ -55,7 +55,7 @@ export default function ImagesGrid({ images }: Props) {
 							/>
 
 							{images.length > 4 && index === 3 && (
-								<div className='absolute text-white rounded-lg text-3xl font-medium inset-0 flex items-center justify-center bg-slate-900/25'>
+								<div className='absolute text-white rounded-xl text-3xl font-medium inset-0 flex items-center justify-center bg-slate-900/25'>
 									+{images.length - 4}
 								</div>
 							)}
