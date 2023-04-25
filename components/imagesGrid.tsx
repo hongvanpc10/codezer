@@ -51,7 +51,7 @@ export default function ImagesGrid({ images }: Props) {
 								src={image.url}
 								ratio={image.ratio}
 								className='ring-1 ring-blue-900/5 ring-offset-2'
-								sizes={[100, 50, 33]}
+								sizes={[100, 33, 33]}
 							/>
 
 							{images.length > 4 && index === 3 && (
