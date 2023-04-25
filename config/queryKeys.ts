@@ -36,6 +36,7 @@ const queryKeys = {
 		'users',
 		params,
 	],
+	posts: ['posts'],
 }
 
 export default queryKeys

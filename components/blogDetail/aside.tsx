@@ -6,7 +6,7 @@ import { Blog } from '~/apiServices/blogsService'
 import queryKeys from '~/config/queryKeys'
 import routes from '~/config/routes'
 import { useAuth } from '~/hooks'
-import { ArchiveIcon, ArchiveSolidIcon, MessageIcon } from '../icons'
+import { MessageIcon } from '../icons'
 import LikeButton from '../like'
 
 export default function Aside({ data }: { data: Blog }) {
@@ -53,17 +53,6 @@ export default function Aside({ data }: { data: Blog }) {
 					/>
 
 					{data.likes.length}
-				</div>
-
-				<div className='flex items-center flex-col text-lg'>
-					<button className='mb-1'>
-						{false ? (
-							<ArchiveSolidIcon className='h-6 text-rose-500' />
-						) : (
-							<ArchiveIcon className='h-6' />
-						)}
-					</button>
-					0
 				</div>
 
 				<div className='flex items-center flex-col text-lg'>

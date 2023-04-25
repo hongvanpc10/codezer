@@ -67,5 +67,8 @@ module.exports = {
 		{
 			pattern: /ring(-(0|1|2|4|8))?/,
 		},
+		{
+			pattern: /max-w-.{2}/,
+		},
 	],
 }

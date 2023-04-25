@@ -10,7 +10,7 @@ interface Props {
 	className?: string
 	containerClassName?: string
 	rounded?: boolean | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'full'
-	ratio?: [number, number]
+	ratio?: number[]
 	fallback?: string
 	sizes?: [number, number, number]
 }
