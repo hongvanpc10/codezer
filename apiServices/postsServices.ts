@@ -15,6 +15,7 @@ export interface Post extends CreatePostData {
 	author: User
 	reactions: CounterObject[]
 	createdAt: string
+	_id: string
 }
 
 export const create = async (data: CreatePostData, accessToken: string) => {
@@ -37,6 +38,30 @@ export const get = async (accessToken: string, params?: Params) => {
 			params,
 		}
 	)
+
+	return res?.data
+}
+
+export const update = async (
+	id: string,
+	data: CreatePostData,
+	accessToken: string
+) => {
+	const res = await request.patch<CreatePostData, ResData<Post>>(
+		'/posts/' + id,
+		data,
+		{
+			headers: { Authorization: accessToken },
+		}
+	)
+
+	return res?.data
+}
+
+export const deletePost = async (id: string, accessToken: string) => {
+	const res = await request.delete<ResData<Post>>('/posts/' + id, {
+		headers: { Authorization: accessToken },
+	})
 
 	return res?.data
 }

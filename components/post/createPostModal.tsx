@@ -1,84 +1,36 @@
-import { useState } from 'react'
-import ReactImageUploading, { ImageListType } from 'react-images-uploading'
-import { User } from '~/apiServices/usersService'
-import { useAuth } from '~/hooks'
-import Avatar from '../avatar'
 import {
-	CloseIcon,
-	EditIcon,
-	GalleryBoldIcon,
-	GlobalIcon,
-	VideoIcon,
-} from '../icons'
-import Image from '../image'
-import Modal from '../modal'
-import Button from '../button'
+	InfiniteData,
+	useMutation,
+	useQueryClient,
+} from '@tanstack/react-query'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Error } from '../form'
-import { useMutation } from '@tanstack/react-query'
-import { CreatePostData } from '~/apiServices/postsServices'
+import ReactImageUploading, { ImageListType } from 'react-images-uploading'
+import useSound from 'use-sound'
 import { postsService } from '~/apiServices'
-import Loader from '../loader'
+import { CreatePostData, Post } from '~/apiServices/postsServices'
+import { User } from '~/apiServices/usersService'
+import queryKeys from '~/config/queryKeys'
+import { DataWithPagination } from '~/utils/request'
 import uploadImage from '~/utils/uploadImage'
+import Avatar from '../avatar'
+import Button from '../button'
+import { Error } from '../form'
+import { CloseIcon, EditIcon, GalleryBoldIcon, GlobalIcon } from '../icons'
+import Image from '../image'
+import Loader from '../loader'
 
-export default function CreatePost() {
-	const { auth } = useAuth()
-	const user = auth?.data
-
-	return user ? (
-		<div className='bg-white/90 rounded-3xl px-5 pt-6 pb-4 shadow-lg shadow-blue-900/5'>
-			<div className='flex items-center'>
-				<Avatar size={9} noRing alt='' src={user.avatar} />
-				<Modal
-					render={setIsOpen => (
-						<CreatePostModal
-							setIsOpen={setIsOpen}
-							user={user}
-							accessToken={auth.accessToken}
-						/>
-					)}
-					defaultOpen={false}
-					maxWidth='xl'
-					scale={false}
-					closeable={false}
-				>
-					{setIsOpen => (
-						<input
-							onClick={() => setIsOpen(true)}
-							placeholder='Bạn đang nghĩ gì?'
-							className='py-2.5 cursor-pointer transition placeholder:text-blue-900/50 hover:bg-blue-50/75 px-6 bg-blue-50/50 rounded-full flex-1 ml-2.5'
-						/>
-					)}
-				</Modal>
-			</div>
-
-			<hr className='mt-4 mb-2 border-blue-900/5' />
-
-			<div className='flex items-center'>
-				<button className='flex-1 transition hover:bg-slate-100 font-medium justify-center py-2 rounded-xl flex items-center mr-1'>
-					<GalleryBoldIcon className='h-7 mr-3 text-green-500' />
-					Ảnh
-				</button>
-				<button className='flex-1 transition hover:bg-slate-100 font-medium justify-center py-2 rounded-xl flex items-center ml-1'>
-					<VideoIcon className='h-7 mr-3 text-rose-500' />
-					Video
-				</button>
-			</div>
-		</div>
-	) : null
-}
-
-interface CreatePostModalProps {
+interface Props {
 	setIsOpen: Function
 	user: User
 	accessToken: string
 }
 
-function CreatePostModal({
+export default function CreatePostModal({
 	setIsOpen,
 	user,
 	accessToken,
-}: CreatePostModalProps) {
+}: Props) {
 	const [images, setImages] = useState<ImageListType>([])
 	const [isImagesUploading, setIsImagesUploading] = useState(false)
 
@@ -88,10 +40,38 @@ function CreatePostModal({
 		formState: { errors },
 	} = useForm<{ content: string }>()
 
+	const queryClient = useQueryClient()
+
+	const [playSound] = useSound('/sounds/sound3.mp3')
+
 	const { isLoading, mutate } = useMutation(
 		(data: CreatePostData) => postsService.create(data, accessToken),
 		{
-			onSuccess() {
+			onSuccess(data) {
+				if (data) {
+					queryClient.setQueryData<
+						InfiniteData<DataWithPagination<{ posts: Post[] }>>
+					>(
+						queryKeys.posts,
+						oldData =>
+							oldData && {
+								...oldData,
+								pages: [
+									{
+										...oldData.pages[0],
+										posts: [
+											data,
+											...oldData.pages[0].posts,
+										],
+									},
+									...oldData.pages.slice(1),
+								],
+							}
+					)
+				}
+
+				playSound()
+
 				setIsOpen(false)
 			},
 		}
@@ -145,7 +125,7 @@ function CreatePostModal({
 						autoFocus
 						className='w-full bg-slate-50/50 rounded-2xl caret-blue-500 p-3 text-lg resize-none'
 						placeholder={`${user.fullName} ơi, bạn đang nghĩ gì thế?`}
-						rows={3}
+						rows={4}
 						{...register('content', {
 							required: 'Vui lòng nhập nội dung bài post',
 						})}

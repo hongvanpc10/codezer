@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/router'
 import { usersService } from '~/apiServices'
@@ -9,16 +10,45 @@ import Button from '~/components/button'
 import Dropdown from '~/components/dropdown'
 import { AddIcon, MoreIcon, TickIcon } from '~/components/icons'
 import Image from '~/components/image'
-import Loader from '~/components/loader'
 import { Activities, Blogs, Introduction } from '~/components/profile'
 import ScrollToTopButton from '~/components/scrollToTopButton'
 import queryKeys from '~/config/queryKeys'
 import routes from '~/config/routes'
 import { useAuth, useResponsive } from '~/hooks'
 import copyToClipboard from '~/utils/copyToClipboard'
-import { Error } from '~/utils/request'
 
-const Profile = () => {
+export const getStaticPaths: GetStaticPaths = async () => {
+	const data = await usersService.getUsers({
+		sort: 'views',
+		limit: 20,
+	})
+
+	return {
+		paths: data?.map(user => ({ params: { slug: user.slug } })) || [],
+		fallback: true,
+	}
+}
+
+export const getStaticProps: GetStaticProps<{ data: User }> = async context => {
+	try {
+		const user = await usersService.getProfile(
+			context.params?.slug as string
+		)
+
+		if (!user) return { notFound: true }
+
+		return {
+			props: {
+				data: user,
+			},
+			revalidate: 60,
+		}
+	} catch (error) {
+		return { notFound: true }
+	}
+}
+
+const Profile = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 	const { auth, isLogin } = useAuth()
 
 	const user = auth?.data
@@ -30,10 +60,10 @@ const Profile = () => {
 
 	const queryClient = useQueryClient()
 
-	const { data, error } = useQuery(
+	const { data } = useQuery(
 		queryKeys.user(slug),
 		() => usersService.getProfile(slug),
-		{ enabled: !!slug }
+		{ enabled: !!slug, initialData: props.data }
 	)
 
 	const { match } = useResponsive()
@@ -108,9 +138,6 @@ const Profile = () => {
 			},
 		}
 	)
-
-	if (error && (error as Error).errorCode === 'ugu4001')
-		router.push('/user-not-found')
 
 	return data ? (
 		<div className='-mt-20 mx-auto lg:w-11/12'>
@@ -258,9 +285,7 @@ const Profile = () => {
 				</div>
 			</div>
 		</div>
-	) : (
-		<Loader.Inline />
-	)
+	) : null
 }
 
 export default Profile

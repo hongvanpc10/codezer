@@ -2,12 +2,12 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { NextSeo } from 'next-seo'
 import { postsService } from '~/apiServices'
 import { Post as PostType } from '~/apiServices/postsServices'
-import { CreatePost } from '~/components/community'
-import Post from '~/components/post'
 import queryKeys from '~/config/queryKeys'
 import { useAuth, useInView } from '~/hooks'
 import { NextPageWithLayout } from '../_app'
 import { useEffect } from 'react'
+import ScrollToTopButton from '~/components/scrollToTopButton'
+import Post, { CreatePost } from '~/components/post'
 
 const Community: NextPageWithLayout = () => {
 	const { auth } = useAuth()
@@ -45,6 +45,8 @@ const Community: NextPageWithLayout = () => {
 	return (
 		<div className='row -mt-8'>
 			<NextSeo title='Cộng đồng' />
+
+			<ScrollToTopButton />
 
 			<div className='xl:col-3 lg:col-2 col-12'></div>
 

@@ -20,6 +20,7 @@ import useSound from 'use-sound'
 interface Props {
 	authorId: string
 	data: CommentType
+	small?: boolean
 }
 
 const emoji: { [key: string]: { text: string; color: string } } = {
@@ -31,7 +32,7 @@ const emoji: { [key: string]: { text: string; color: string } } = {
 	sad: { text: 'Buồn', color: 'text-amber-400' },
 }
 
-export default function Comment({ data, authorId }: Props) {
+export default function Comment({ data, authorId, small }: Props) {
 	const [htmlContent, setHtmlContent] = useState('')
 
 	const [showMore, setShowMore] = useState(false)
@@ -93,11 +94,22 @@ export default function Comment({ data, authorId }: Props) {
 		<div className='max-w-full'>
 			<div className='items-start flex max-w-full'>
 				<Link href={routes.profile(data.author.slug)} className='mt-2'>
-					<Avatar alt='' src={data.author.avatar} />
+					<Avatar
+						alt=''
+						size={8}
+						noRing={small}
+						src={data.author.avatar}
+					/>
 				</Link>
 
 				<div className='ml-2.5 group/more'>
-					<div className='pt-2 pb-5 pl-4 relative pr-6 rounded-3xl bg-slate-100'>
+					<div
+						className={`${
+							small
+								? 'pt-2 pb-3 pl-3 pr-4'
+								: 'pt-2 pb-5 pl-4 pr-6'
+						} relative rounded-3xl bg-slate-100`}
+					>
 						<Link
 							href={routes.profile(data.author.slug)}
 							className='inline-block'
@@ -212,7 +224,14 @@ export default function Comment({ data, authorId }: Props) {
 
 							<div className='w-1 h-1 rounded-full bg-blue-500' />
 
-							<span>{timeFromNow(data.createdAt)}</span>
+							<span>
+								{small
+									? timeFromNow(data.createdAt)
+											.split(' ')
+											.slice(0, -1)
+											.join(' ')
+									: timeFromNow(data.createdAt)}
+							</span>
 						</div>
 
 						{(user?.role === 'admin' ||
@@ -240,9 +259,18 @@ export default function Comment({ data, authorId }: Props) {
 			</div>
 
 			{data.children.length > 0 && (
-				<div className='mt-4 sm:ml-8 border-l-2 border-blue-500 sm:pl-4 ml-4 pl-3 space-y-5'>
+				<div
+					className={`mt-4 sm:ml-8 sm:pl-4 ml-4 space-y-5 ${
+						small ? '' : 'border-l-2 border-blue-500 pl-3'
+					}`}
+				>
 					{data.children.slice(0, showReply).map((data, index) => (
-						<Comment authorId={authorId} data={data} key={index} />
+						<Comment
+							small={small}
+							authorId={authorId}
+							data={data}
+							key={index}
+						/>
 					))}
 
 					{showReply < data.children.length && (

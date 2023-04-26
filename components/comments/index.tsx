@@ -20,6 +20,9 @@ interface Props {
 	setOnComment: Dispatch<SetStateAction<boolean>>
 	onComment: boolean
 	authorId: string
+	small?: boolean
+	viewMore?: boolean
+	limit?: number
 }
 
 export default function Comments({
@@ -27,6 +30,9 @@ export default function Comments({
 	setOnComment,
 	onComment,
 	authorId,
+	small,
+	viewMore,
+	limit = 10,
 }: Props) {
 	const queryClient = useQueryClient()
 
@@ -314,10 +320,10 @@ export default function Comments({
 		}
 	}, [blogId, queryClient])
 
-	const { data, isFetchingNextPage, fetchNextPage, isLoading } =
+	const { data, isFetchingNextPage, fetchNextPage, isLoading, hasNextPage } =
 		useInfiniteQuery(
 			queryKeys.comments(blogId),
-			({ pageParam = { limit: 10 } }) =>
+			({ pageParam = { limit } }) =>
 				commentsService.get(blogId, pageParam),
 			{
 				getNextPageParam(lastPage) {
@@ -326,7 +332,7 @@ export default function Comments({
 						(lastPage?.pagination.totalPages as number)
 					)
 						return {
-							limit: 10,
+							limit,
 							page:
 								(lastPage?.pagination.currentPage as number) +
 								1,
@@ -338,10 +344,10 @@ export default function Comments({
 	const { inView, ref } = useInView()
 
 	useEffect(() => {
-		if (inView && !isFetchingNextPage) {
+		if (inView && !isFetchingNextPage && !viewMore) {
 			fetchNextPage()
 		}
-	}, [fetchNextPage, inView, isFetchingNextPage])
+	}, [fetchNextPage, inView, isFetchingNextPage, viewMore])
 
 	return (
 		<div className=''>
@@ -368,6 +374,7 @@ export default function Comments({
 								key={index}
 								authorId={authorId}
 								data={comment}
+								small={small}
 							/>
 						))
 				) : (
@@ -376,7 +383,18 @@ export default function Comments({
 
 				{(isFetchingNextPage || isLoading) && <Loader.Inline />}
 
-				<div ref={ref}></div>
+				{!viewMore && <div ref={ref}></div>}
+
+				{viewMore && hasNextPage && (
+					<div className='flex justify-center'>
+						<button
+							onClick={() => fetchNextPage()}
+							className='font-medium text-blue-900/75'
+						>
+							Xem bình luận trước
+						</button>
+					</div>
+				)}
 			</div>
 		</div>
 	)
