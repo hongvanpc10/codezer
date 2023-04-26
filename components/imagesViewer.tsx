@@ -63,7 +63,7 @@ export default function ImagesViewer({
 					</button>
 				)}
 
-				{isOpen < images.length - 1 && images.length >= 0 && (
+				{isOpen < images.length - 1 && isOpen >= 0 && (
 					<button
 						onClick={() => setIsOpen(prev => prev + 1)}
 						className='absolute flex transition hover:bg-black/30 items-center justify-center right-6 w-10 h-10 z-50 rounded-full bg-black/25 text-white'
