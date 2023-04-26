@@ -2,6 +2,7 @@ import { FacebookCounter } from '@charkour/react-reactions'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { Post as PostType } from '~/apiServices/postsServices'
+import routes from '~/config/routes'
 import { useAuth } from '~/hooks'
 import markdownToHTML from '~/utils/markdownToHTML'
 import timeFromNow from '~/utils/timeFromNow'
@@ -14,13 +15,13 @@ import {
 	TickIcon,
 } from './icons'
 import ImagesGrid from './imagesGrid'
-import routes from '~/config/routes'
+import Skeleton from './skeleton'
 
 interface Props {
 	data: PostType
 }
 
-export default function Post({ data }: Props) {
+const Post = ({ data }: Props) => {
 	const [htmlContent, setHtmlContent] = useState(data.content)
 
 	const { auth } = useAuth()
@@ -117,3 +118,48 @@ export default function Post({ data }: Props) {
 		</div>
 	) : null
 }
+
+Post.Skeleton = function PostSkeleton() {
+	return (
+		<div className='bg-white/90 rounded-3xl px-3 pt-6 pb-4 shadow-lg shadow-blue-900/5'>
+			<div className='flex items-center px-2'>
+				<Skeleton size={9} rounded='full' />
+
+				<div className='ml-3'>
+					<Skeleton.Text width={32} />
+					<Skeleton.Text size='sm' width={24} />
+				</div>
+			</div>
+
+			<div className='mt-3 mb-4'>
+				<Skeleton.Text lines={2} lastLineWidth='60%' />
+			</div>
+
+			<Skeleton ratio={[16, 9]} rounded='md' />
+
+			<div className='flex pb-2.5 pt-3 items-center justify-between text-sm px-2'>
+				<Skeleton.Text width={20} size='sm' />
+				<Skeleton.Text width={28} size='sm' />
+			</div>
+
+			<div className='flex items-center border-y py-1.5 border-blue-900/5'>
+				<button className='flex items-center justify-center mx-1 rounded-xl transition hover:bg-slate-50 py-2 flex-1 font-medium'>
+					<Skeleton.Text width={28} size='lg' />
+				</button>
+				<button className='flex items-center justify-center mx-1 rounded-xl transition hover:bg-slate-50 py-2 flex-1 font-medium'>
+					<Skeleton.Text width={28} size='lg'/>
+				</button>
+			</div>
+
+			<div className='flex items-center pt-3'>
+				<Skeleton size={8} rounded='full' />
+				
+				<div className='ml-2 flex-1' >
+					<Skeleton height={10} rounded='full'/>
+				</div>
+			</div>
+		</div>
+	)
+}
+
+export default Post

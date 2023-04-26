@@ -50,7 +50,7 @@ export default function ImagesViewer({
 					<img
 						alt=''
 						src={images[isOpen]}
-						className='max-h-[calc(100vh-5rem)] transition z-50 absolute shadow-2xl shadow-blue-900/10 max-w-[calc(100vw-1rem)] rounded-2xl'
+						className='max-h-[calc(100vh-5rem)] transition z-50 absolute shadow-2xl shadow-blue-900/25 max-w-[calc(100vw-1rem)] rounded-2xl'
 					/>
 				</Transition.Child>
 

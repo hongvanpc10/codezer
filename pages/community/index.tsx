@@ -5,31 +5,42 @@ import { Post as PostType } from '~/apiServices/postsServices'
 import { CreatePost } from '~/components/community'
 import Post from '~/components/post'
 import queryKeys from '~/config/queryKeys'
-import { useAuth } from '~/hooks'
+import { useAuth, useInView } from '~/hooks'
 import { NextPageWithLayout } from '../_app'
+import { useEffect } from 'react'
 
 const Community: NextPageWithLayout = () => {
 	const { auth } = useAuth()
-	const user = auth?.data
 
-	const { data } = useInfiniteQuery(
-		queryKeys.posts,
-		({ pageParam = { limit: 6 } }) =>
-			postsService.get(auth?.accessToken as string, pageParam),
-		{
-			enabled: !!auth?.accessToken,
-			getNextPageParam(lastPage) {
-				if (
-					(lastPage?.pagination.currentPage as number) <
-					(lastPage?.pagination.totalPages as number)
-				)
-					return {
-						limit: 6,
-						page: (lastPage?.pagination.currentPage as number) + 1,
-					}
-			},
+	const { inView, ref } = useInView()
+
+	const { data, isFetching, isFetchingNextPage, hasNextPage, fetchNextPage } =
+		useInfiniteQuery(
+			queryKeys.posts,
+			({ pageParam = { limit: 6 } }) =>
+				postsService.get(auth?.accessToken as string, pageParam),
+			{
+				enabled: !!auth?.accessToken,
+				getNextPageParam(lastPage) {
+					if (
+						(lastPage?.pagination.currentPage as number) <
+						(lastPage?.pagination.totalPages as number)
+					)
+						return {
+							limit: 6,
+							page:
+								(lastPage?.pagination.currentPage as number) +
+								1,
+						}
+				},
+			}
+		)
+
+	useEffect(() => {
+		if (inView && hasNextPage && !isFetchingNextPage) {
+			fetchNextPage()
 		}
-	)
+	}, [fetchNextPage, hasNextPage, inView, isFetchingNextPage])
 
 	return (
 		<div className='row -mt-8'>
@@ -44,9 +55,11 @@ const Community: NextPageWithLayout = () => {
 					data.pages
 						.map(page => page?.posts as PostType[])
 						.flat()
-						.map((post, index) => (
-							<Post key={index} data={post} />
-						))}
+						.map((post, index) => <Post key={index} data={post} />)}
+
+				{(isFetching || isFetchingNextPage) && <Post.Skeleton />}
+
+				<div className='mt-28' ref={ref} />
 			</section>
 
 			<div className='xl:col-3 lg:col-2 col-12'></div>
