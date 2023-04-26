@@ -63,7 +63,7 @@ const Profile = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 	const { data } = useQuery(
 		queryKeys.user(slug),
 		() => usersService.getProfile(slug),
-		{ enabled: !!slug, initialData: props.data }
+		{ enabled: !!slug, placeholderData: props.data }
 	)
 
 	const { match } = useResponsive()
