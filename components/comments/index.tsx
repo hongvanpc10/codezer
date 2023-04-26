@@ -23,6 +23,7 @@ interface Props {
 	small?: boolean
 	viewMore?: boolean
 	limit?: number
+	showLoading?: boolean
 }
 
 export default function Comments({
@@ -33,6 +34,7 @@ export default function Comments({
 	small,
 	viewMore,
 	limit = 10,
+	showLoading = true,
 }: Props) {
 	const queryClient = useQueryClient()
 
@@ -381,7 +383,9 @@ export default function Comments({
 					<h3></h3>
 				)}
 
-				{(isFetchingNextPage || isLoading) && <Loader.Inline />}
+				{(isFetchingNextPage || isLoading) && showLoading && (
+					<Loader.Inline />
+				)}
 
 				{!viewMore && <div ref={ref}></div>}
 

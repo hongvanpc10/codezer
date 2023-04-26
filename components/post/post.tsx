@@ -254,6 +254,7 @@ const Post = ({ data }: Props) => {
 					small
 					viewMore
 					limit={5}
+					showLoading={false}
 				/>
 			</div>
 		</div>
