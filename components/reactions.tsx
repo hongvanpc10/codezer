@@ -3,6 +3,15 @@ import { Transition } from '@headlessui/react'
 import { Fragment, ReactNode, useState } from 'react'
 import { useAuth, useRedirectToLogin } from '~/hooks'
 
+export const emoji: { [key: string]: { text: string; color: string } } = {
+	like: { text: 'Thích', color: 'text-blue-500' },
+	love: { text: 'Yêu thích', color: 'text-rose-500' },
+	haha: { text: 'Haha', color: 'text-amber-400' },
+	wow: { text: 'Wow', color: 'text-amber-400' },
+	angry: { text: 'Phẫn nộ', color: 'text-orange-500' },
+	sad: { text: 'Buồn', color: 'text-amber-400' },
+}
+
 interface Props {
 	children: (reaction?: CounterObject) => ReactNode
 	iconSize?: number
@@ -50,12 +59,12 @@ export default function Reactions({
 				as={Fragment}
 				enter='duration-150 delay-700'
 				enterFrom='opacity-0 bottom-1/2'
-				enterTo='opacity-100 bottom-full'
+				enterTo='opacity-100 bottom-[calc(100%+0.2rem)]'
 				leave='duration-75'
-				leaveFrom='opacity-100 bottom-full'
+				leaveFrom='opacity-100 bottom-[calc(100%+0.2rem)]'
 				leaveTo='opacity-0 bottom-1/2'
 			>
-				<div className='absolute transition-all left-2 bottom-full z-10'>
+				<div className='absolute transition-all left-2 z-10'>
 					<FacebookSelector iconSize={iconSize} onSelect={onSelect} />
 				</div>
 			</Transition>

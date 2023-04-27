@@ -16,6 +16,7 @@ import queryClient from '~/config/queryClient'
 import seoConfig from '~/config/seoConfig'
 import { LayoutProps, MainLayout } from '~/layouts'
 import '~/styles/globals.css'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
 	Layout?: (props: LayoutProps) => ReactElement
@@ -56,6 +57,8 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 						<Fly />
 
 						<Analytics />
+
+						<ReactQueryDevtools />
 
 						<Private
 							isPrivate={Component.isPrivate}

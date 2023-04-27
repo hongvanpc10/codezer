@@ -1,4 +1,4 @@
-import { FacebookCounter } from '@charkour/react-reactions'
+import { CounterObject, FacebookCounter } from '@charkour/react-reactions'
 import {
 	InfiniteData,
 	useInfiniteQuery,
@@ -7,6 +7,7 @@ import {
 } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import useSound from 'use-sound'
 import { commentsService, postsService } from '~/apiServices'
 import { Post as PostType } from '~/apiServices/postsServices'
 import queryKeys from '~/config/queryKeys'
@@ -20,16 +21,22 @@ import Avatar from '../avatar'
 import Comments from '../comments'
 import Dropdown from '../dropdown'
 import {
-	CameraOutlineIcon,
+	AngryIcon,
+	HeartSolidIcon,
 	LikeIcon,
+	LikeSolidIcon,
 	MoreIcon,
+	SadIcon,
 	SendIcon,
+	SmileIcon,
 	SmsOutlineIcon,
+	SurpriseIcon,
 	TickIcon,
 } from '../icons'
 import ImagesGrid from '../imagesGrid'
 import Loader from '../loader'
 import Modal from '../modal'
+import Reactions, { emoji } from '../reactions'
 import Skeleton from '../skeleton'
 import UpdatePostModal from './updatePostModal'
 
@@ -47,6 +54,74 @@ const Post = ({ data }: Props) => {
 	const { auth } = useAuth()
 	const user = auth?.data
 
+	const queryClient = useQueryClient()
+
+	const [playSound] = useSound('/sounds/sound2.mp3')
+
+	useEffect(() => {
+		socket.emit('join-room', data._id)
+
+		return () => {
+			socket.emit('leave-room', data._id)
+		}
+	}, [data._id])
+
+	useEffect(() => {
+		function onAddReaction(post: PostType) {
+			queryClient.setQueryData<
+				InfiniteData<DataWithPagination<{ posts: PostType[] }>>
+			>(
+				queryKeys.posts,
+				oldData =>
+					oldData && {
+						...oldData,
+						pages: oldData.pages.map(page => ({
+							...page,
+							posts: page.posts.map(item =>
+								item._id === post._id
+									? { ...item, reactions: post.reactions }
+									: item
+							),
+						})),
+					}
+			)
+		}
+
+		socket.on('post:reaction:add/' + data._id, onAddReaction)
+
+		return () => {
+			socket.off('post:reaction:add/' + data._id, onAddReaction)
+		}
+	}, [data._id, queryClient])
+
+	useEffect(() => {
+		function onRemoveReaction(post: PostType) {
+			queryClient.setQueryData<
+				InfiniteData<DataWithPagination<{ posts: PostType[] }>>
+			>(
+				queryKeys.posts,
+				oldData =>
+					oldData && {
+						...oldData,
+						pages: oldData.pages.map(page => ({
+							...page,
+							posts: page.posts.map(item =>
+								item._id === post._id
+									? { ...item, reactions: post.reactions }
+									: item
+							),
+						})),
+					}
+			)
+		}
+
+		socket.on('post:reaction:remove/' + data._id, onRemoveReaction)
+
+		return () => {
+			socket.off('post:reaction:remove/' + data._id, onRemoveReaction)
+		}
+	}, [data._id, queryClient])
+
 	useEffect(() => {
 		async function convert() {
 			const _html = await markdownToHTML(
@@ -61,8 +136,6 @@ const Post = ({ data }: Props) => {
 
 		convert()
 	}, [data.content, viewMore])
-
-	const queryClient = useQueryClient()
 
 	const { isLoading, mutate: deletePost } = useMutation(
 		() => postsService.deletePost(data._id, auth?.accessToken as string),
@@ -89,18 +162,30 @@ const Post = ({ data }: Props) => {
 		}
 	)
 
-	useEffect(() => {
-		socket.emit('join-room', data._id)
-
-		return () => {
-			socket.emit('leave-room', data._id)
-		}
-	}, [data._id])
-
 	const { data: commentsQuery } = useInfiniteQuery(
 		queryKeys.comments(data._id),
 		({ pageParam = { limit: 10 } }) =>
 			commentsService.get(data._id, pageParam)
+	)
+
+	const { mutate: addReaction } = useMutation(
+		(reaction: CounterObject) =>
+			postsService.addReaction(
+				data._id,
+				reaction,
+				`${auth?.accessToken}`
+			),
+		{ onSuccess: playSound }
+	)
+
+	const { mutate: removeReaction } = useMutation(
+		(reaction: CounterObject) =>
+			postsService.removeReaction(
+				data._id,
+				reaction,
+				`${auth?.accessToken}`
+			),
+		{ onSuccess: playSound }
 	)
 
 	return user ? (
@@ -212,15 +297,53 @@ const Post = ({ data }: Props) => {
 			</div>
 
 			<div className='flex items-center border-y py-1.5 border-blue-900/5'>
-				<button className='flex items-center justify-center mx-1 rounded-xl transition hover:bg-slate-50 py-2 flex-1 font-medium'>
-					<LikeIcon className='h-6 mr-3' />
-					Thích
+				<button className='flex mx-1 rounded-xl justify-center transition hover:bg-slate-50 py-2 flex-1 font-medium'>
+					<Reactions
+						onAdd={addReaction}
+						onRemove={removeReaction}
+						reaction={data.reactions.find(
+							reaction => reaction.by === user?._id
+						)}
+						iconSize={32}
+					>
+						{reaction => (
+							<span
+								className={`flex items-center ${
+									reaction && emoji[reaction.emoji].color
+								}`}
+							>
+								{(() => {
+									const list: {
+										[key: string]: Function
+									} = {
+										like: LikeSolidIcon,
+										love: HeartSolidIcon,
+										haha: SmileIcon,
+										wow: SurpriseIcon,
+										sad: SadIcon,
+										angry: AngryIcon,
+									}
+
+									const Icon = reaction
+										? list[reaction?.emoji] || LikeIcon
+										: LikeIcon
+
+									return <Icon className='h-6 mr-2.5' />
+								})()}
+
+								{reaction
+									? emoji[reaction.emoji].text
+									: 'Thích'}
+							</span>
+						)}
+					</Reactions>
 				</button>
+
 				<button
 					onClick={() => setOnComment(true)}
 					className='flex items-center justify-center mx-1 rounded-xl transition hover:bg-slate-50 py-2 flex-1 font-medium'
 				>
-					<SmsOutlineIcon className='h-6 mr-3' />
+					<SmsOutlineIcon className='h-6 mr-2.5' />
 					Bình luận
 				</button>
 			</div>
@@ -235,9 +358,6 @@ const Post = ({ data }: Props) => {
 					/>
 
 					<div className='absolute flex items-center right-3 space-x-2 text-blue-900/60'>
-						<button>
-							<CameraOutlineIcon className='h-5' />
-						</button>
 						<button>
 							<SendIcon className='h-5' />
 						</button>

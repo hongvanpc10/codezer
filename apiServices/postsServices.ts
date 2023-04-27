@@ -65,3 +65,29 @@ export const deletePost = async (id: string, accessToken: string) => {
 
 	return res?.data
 }
+
+export const addReaction = async (
+	postId: string,
+	reaction: CounterObject,
+	accessToken: string
+) => {
+	const res = await request.patch(`/posts/${postId}/add-reaction`, reaction, {
+		headers: { Authorization: accessToken },
+	})
+	return res?.data
+}
+
+export const removeReaction = async (
+	postId: string,
+	reaction: CounterObject,
+	accessToken: string
+) => {
+	const res = await request.patch(
+		`/posts/${postId}/remove-reaction`,
+		reaction,
+		{
+			headers: { Authorization: accessToken },
+		}
+	)
+	return res?.data
+}

@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import { ArticleJsonLd, NextSeo } from 'next-seo'
 import Link from 'next/link'
@@ -58,6 +58,8 @@ export const getStaticProps: GetStaticProps<{ data: Blog }> = async context => {
 const BlogDetail = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 	const router = useRouter()
 
+	const queryClient = useQueryClient()
+
 	const { data } = useQuery(
 		queryKeys.blog(props.data?.slug),
 		() => blogsService.getDetail(props.data?.slug),
@@ -74,6 +76,44 @@ const BlogDetail = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 			socket.emit('leave-room', data?._id)
 		}
 	}, [data?._id])
+
+	useEffect(() => {
+		const onLike = ({ blog, user }: { blog: string; user: string }) => {
+			queryClient.setQueryData<Blog>(
+				queryKeys.blog(blog),
+				oldData =>
+					oldData && {
+						...oldData,
+						likes: [...oldData.likes, user],
+					}
+			)
+		}
+
+		socket.on('blog:like/' + data?._id, onLike)
+
+		return () => {
+			socket.off('blog:like/' + data?._id, onLike)
+		}
+	}, [data?._id, queryClient])
+
+	useEffect(() => {
+		const onUnlike = ({ blog, user }: { blog: string; user: string }) => {
+			queryClient.setQueryData<Blog>(
+				queryKeys.blog(blog),
+				oldData =>
+					oldData && {
+						...oldData,
+						likes: oldData.likes.filter(id => id !== user),
+					}
+			)
+		}
+
+		socket.on('blog:unlike/' + data?._id, onUnlike)
+
+		return () => {
+			socket.off('blog:unlike/' + data?._id, onUnlike)
+		}
+	}, [data?._id, queryClient])
 
 	if (router.isFallback) return <Loader.Inline />
 
@@ -140,7 +180,9 @@ const BlogDetail = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
 					<div className='mt-20'></div>
 
-					<div className='hide-on-xl'><Reactions data={data} /></div>
+					<div className='hide-on-xl'>
+						<Reactions data={data} />
+					</div>
 
 					<hr className='border-blue-900/10 mt-5 mb-4' />
 

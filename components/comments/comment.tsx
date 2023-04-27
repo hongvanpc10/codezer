@@ -12,7 +12,7 @@ import Avatar from '../avatar'
 import Dropdown from '../dropdown'
 import { MoreIcon, ReturnIcon, TickIcon } from '../icons'
 import Modal from '../modal'
-import Reactions from '../reactions'
+import Reactions, { emoji } from '../reactions'
 import ReplyComment from './replyComment'
 import UpdateComment from './updateComment'
 import useSound from 'use-sound'
@@ -21,15 +21,6 @@ interface Props {
 	authorId: string
 	data: CommentType
 	small?: boolean
-}
-
-const emoji: { [key: string]: { text: string; color: string } } = {
-	like: { text: 'Thích', color: 'text-blue-500' },
-	love: { text: 'Yêu thích', color: 'text-rose-500' },
-	haha: { text: 'Haha', color: 'text-amber-400' },
-	wow: { text: 'Wow', color: 'text-amber-400' },
-	angry: { text: 'Phẫn nộ', color: 'text-orange-500' },
-	sad: { text: 'Buồn', color: 'text-amber-400' },
 }
 
 export default function Comment({ data, authorId, small }: Props) {

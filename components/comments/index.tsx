@@ -64,10 +64,10 @@ export default function Comments({
 			)
 		}
 
-		socket.on('comment:create', onCreateComment)
+		socket.on('comment:create/' + blogId, onCreateComment)
 
 		return () => {
-			socket.off('comment:create', onCreateComment)
+			socket.off('comment:create/' + blogId, onCreateComment)
 		}
 	}, [blogId, queryClient])
 
@@ -104,10 +104,10 @@ export default function Comments({
 			)
 		}
 
-		socket.on('comment:reply', onReplyComment)
+		socket.on('comment:reply/' + blogId, onReplyComment)
 
 		return () => {
-			socket.off('comment:reply', onReplyComment)
+			socket.off('comment:reply/' + blogId, onReplyComment)
 		}
 	}, [blogId, queryClient])
 
@@ -156,10 +156,10 @@ export default function Comments({
 			)
 		}
 
-		socket.on('comment:update', onUpdateComment)
+		socket.on('comment:update/' + blogId, onUpdateComment)
 
 		return () => {
-			socket.off('comment:update', onUpdateComment)
+			socket.off('comment:update/' + blogId, onUpdateComment)
 		}
 	}, [blogId, queryClient])
 
@@ -203,10 +203,10 @@ export default function Comments({
 			)
 		}
 
-		socket.on('comment:delete', onDeleteComment)
+		socket.on('comment:delete/' + blogId, onDeleteComment)
 
 		return () => {
-			socket.off('comment:delete', onDeleteComment)
+			socket.off('comment:delete/' + blogId, onDeleteComment)
 		}
 	}, [blogId, queryClient])
 
@@ -259,10 +259,10 @@ export default function Comments({
 			)
 		}
 
-		socket.on('comment:reaction:add', onAddReaction)
+		socket.on('comment:reaction:add/' + blogId, onAddReaction)
 
 		return () => {
-			socket.off('comment:reaction:add', onAddReaction)
+			socket.off('comment:reaction:add/' + blogId, onAddReaction)
 		}
 	}, [blogId, queryClient])
 
@@ -315,10 +315,10 @@ export default function Comments({
 			)
 		}
 
-		socket.on('comment:reaction:remove', onRemoveReaction)
+		socket.on('comment:reaction:remove/' + blogId, onRemoveReaction)
 
 		return () => {
-			socket.off('comment:reaction:remove', onRemoveReaction)
+			socket.off('comment:reaction:remove/' + blogId, onRemoveReaction)
 		}
 	}, [blogId, queryClient])
 
