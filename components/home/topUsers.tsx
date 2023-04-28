@@ -4,7 +4,7 @@ import { usersService } from '~/apiServices'
 import queryKeys from '~/config/queryKeys'
 import routes from '~/config/routes'
 import Avatar from '../avatar'
-import { CupIcon } from '../icons'
+import { CoinIcon, CupIcon } from '../icons'
 import Skeleton from '../skeleton'
 import Heading from './heading'
 
@@ -60,8 +60,9 @@ export default function TopUsers() {
 										</h3>
 									</Link>
 
-									<span className='font-medium'>
+									<span className='font-medium flex items-center'>
 										{user.scores}
+										<CoinIcon className='h-3.5 ml-1' />
 									</span>
 								</div>
 							</li>
