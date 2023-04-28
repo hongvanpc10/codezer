@@ -15,10 +15,7 @@ export default function Activities({ data }: { data: User }) {
 				<Info
 					label='Điểm tích luỹ'
 					value={
-						<span className='flex items-center'>
-							{data.scores}
-							<CoinIcon className='h-3.5 ml-1' />
-						</span>
+						<span className='flex items-center'>{data.scores}</span>
 					}
 				/>
 				<Info label='Số bài viết' value={data.blogsCount} />

@@ -62,7 +62,6 @@ export default function TopUsers() {
 
 									<span className='font-medium flex items-center'>
 										{user.scores}
-										<CoinIcon className='h-3.5 ml-1' />
 									</span>
 								</div>
 							</li>
