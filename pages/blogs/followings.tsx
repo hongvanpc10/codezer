@@ -9,7 +9,8 @@ import Pagination from '~/components/pagination'
 import { Select } from '~/components/select'
 import { Option } from '~/components/select/select'
 import queryKeys from '~/config/queryKeys'
-import { Error } from '~/utils/request'
+import { useAuth } from '~/hooks'
+import { NextPageWithLayout } from '../_app'
 
 const sortOptions: Option<{
 	sort?: string
@@ -36,28 +37,22 @@ const sortOptions: Option<{
 	},
 ]
 
-export default function BlogsByCategory() {
+const Followings: NextPageWithLayout = () => {
 	const [page, setPage] = useState(1)
 	const [sort, setSort] = useState(sortOptions[0])
 
+	const { auth } = useAuth()
+
 	const router = useRouter()
 
-	const slug = router.query.slug as string
-
-	const { data, error } = useQuery(
-		queryKeys.blogsByCategory(
-			slug,
-			page,
-			sort.value.sort,
-			sort.value.order
-		),
+	const { data } = useQuery(
+		queryKeys.followingsBlogs(12, page, sort.value.order, sort.value.order),
 		() =>
-			blogsService.getBlogsByCategory(slug, {
+			blogsService.getFollowingsBlogs(auth?.accessToken as string, {
 				page,
 				...sort.value,
 				limit: 12,
-			}),
-		{ enabled: !!slug }
+			})
 	)
 
 	useEffect(() => {
@@ -72,31 +67,20 @@ export default function BlogsByCategory() {
 		}
 	}, [router.query])
 
-	if (error && (error as Error).errorCode === 'bc4046')
-		router.push('/category-not-found')
-
 	return (
 		<div>
-			<NextSeo
-				title={
-					data?.category.name ? `${data.category.name}` : 'Bài viết'
-				}
-			/>
+			<NextSeo title={'Bài viết theo dõi'} />
 
 			<div className='row gutter-xl'>
 				<section className='xl:col-8 lg:col-9 col-12'>
 					<div className='flex items-center justify-between mb-10'>
-						<h1 className='text-2xl font-bold'>
-							{data?.category.name
-								? `${data.category.name}`
-								: 'Bài viết'}
-						</h1>
+						<h1 className='text-2xl font-bold'>{'Bài viết'}</h1>
 
 						<Select
 							value={sort}
 							onChange={option => {
 								router.push({
-									query: { sort: option.type, slug },
+									query: { sort: option.type },
 								})
 							}}
 							options={sortOptions}
@@ -126,15 +110,13 @@ export default function BlogsByCategory() {
 				</section>
 
 				<section className='xl:col-4 lg:col-3 col-12'>
-					{data?.category.description && (
-						<p className='mb-6 pb-3 border-blue-900/5 border-b'>
-							{data.category.description}
-						</p>
-					)}
-
 					<Categories />
 				</section>
 			</div>
 		</div>
 	)
 }
+
+Followings.isPrivate = true
+
+export default Followings

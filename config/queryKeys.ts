@@ -10,7 +10,10 @@ const queryKeys = {
 
 	pinnedBlogs: (limit: number | false = false) => ['blogs', 'pinned', limit],
 	blog: (slug: string) => ['blog', slug],
-	followingsBlogs: (id: string) => ['blogs', 'followings', id],
+	followingsBlogs: (
+		limit: number,
+		...params: (string | number | undefined)[]
+	) => ['blogs', 'followings', limit, ...params],
 	blogs: (...params: (string | number | undefined)[]) => ['blogs', ...params],
 	blogsByCategory: (
 		slug: string,

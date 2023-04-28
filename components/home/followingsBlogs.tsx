@@ -2,6 +2,7 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { blogsService } from '~/apiServices'
 import { Blog } from '~/apiServices/blogsService'
 import queryKeys from '~/config/queryKeys'
+import routes from '~/config/routes'
 import { useAuth } from '~/hooks'
 import { BlogCardVertical } from '../blogCard'
 import Button from '../button'
@@ -11,11 +12,9 @@ import Heading from './heading'
 export default function FollowingBLogs() {
 	const { auth, isLogin } = useAuth()
 
-	const user = auth?.data
-
 	const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
 		useInfiniteQuery(
-			queryKeys.followingsBlogs(user?._id as string),
+			queryKeys.followingsBlogs(3),
 			({ pageParam = { limit: 3 } }) =>
 				blogsService.getFollowingsBlogs(
 					auth?.accessToken as string,
@@ -43,7 +42,7 @@ export default function FollowingBLogs() {
 			? data.pages[0]?.blogs && data.pages[0].blogs.length > 0
 			: true) ? (
 		<section>
-			<Heading>Đang theo dõi</Heading>
+			<Heading href={routes.followingsBlogs}>Đang theo dõi</Heading>
 
 			<div className='row gutter-nm md:gutter-md xl:gutter-nm'>
 				{data
