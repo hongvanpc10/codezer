@@ -4,7 +4,7 @@ import { usersService } from '~/apiServices'
 import queryKeys from '~/config/queryKeys'
 import routes from '~/config/routes'
 import Avatar from '../avatar'
-import { CoinIcon, CupIcon } from '../icons'
+import { CupIcon } from '../icons'
 import Skeleton from '../skeleton'
 import Heading from './heading'
 

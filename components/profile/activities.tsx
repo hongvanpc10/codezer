@@ -2,7 +2,6 @@ import { User } from '~/apiServices/usersService'
 import Box from '../box'
 import Heading from './heading'
 import Info from './info'
-import { CoinIcon } from '../icons'
 
 export default function Activities({ data }: { data: User }) {
 	return (
