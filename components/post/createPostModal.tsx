@@ -142,7 +142,7 @@ export default function CreatePostModal({
 					multiple
 					onChange={value => setImages(value)}
 					maxFileSize={1024 * 1024}
-					maxNumber={10}
+					maxNumber={15}
 				>
 					{({
 						dragProps,
@@ -217,7 +217,7 @@ export default function CreatePostModal({
 									<Error>Kích thước ảnh quá lớn</Error>
 								)}
 								{errors?.maxNumber && (
-									<Error>Chỉ tối đa 10 ảnh</Error>
+									<Error>Chỉ tối đa 15 ảnh</Error>
 								)}
 							</div>
 						</div>
