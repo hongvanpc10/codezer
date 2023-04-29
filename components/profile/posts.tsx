@@ -52,7 +52,7 @@ export default function Posts({ id }: { id: string }) {
 			{(isFetching || isFetchingNextPage) && <Post.Skeleton />}
 
 			{data && data.pages[0] && data.pages[0].posts.length === 0 && (
-				<h3 className='text-center opacity-50 w-full mt-6 text-xl font-medium'>
+				<h3 className='text-center opacity-50 w-full mt-6 text-xl'>
 					Tác giả chưa có bài viết nào
 				</h3>
 			)}
