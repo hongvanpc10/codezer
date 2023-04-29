@@ -68,22 +68,28 @@ const Post = ({ data }: Props) => {
 
 	useEffect(() => {
 		function onAddReaction(post: PostType) {
-			queryClient.setQueryData<
-				InfiniteData<DataWithPagination<{ posts: PostType[] }>>
-			>(
+			return [
 				queryKeys.posts,
-				oldData =>
-					oldData && {
-						...oldData,
-						pages: oldData.pages.map(page => ({
-							...page,
-							posts: page.posts.map(item =>
-								item._id === post._id
-									? { ...item, reactions: post.reactions }
-									: item
-							),
-						})),
-					}
+				queryKeys.followingsPosts(user?._id as string),
+				queryKeys.userPosts(data.author._id),
+			].forEach(key =>
+				queryClient.setQueryData<
+					InfiniteData<DataWithPagination<{ posts: PostType[] }>>
+				>(
+					key,
+					oldData =>
+						oldData && {
+							...oldData,
+							pages: oldData.pages.map(page => ({
+								...page,
+								posts: page.posts.map(item =>
+									item._id === post._id
+										? { ...item, reactions: post.reactions }
+										: item
+								),
+							})),
+						}
+				)
 			)
 		}
 
@@ -92,26 +98,32 @@ const Post = ({ data }: Props) => {
 		return () => {
 			socket.off('post:reaction:add/' + data._id, onAddReaction)
 		}
-	}, [data._id, queryClient])
+	}, [data._id, data.author._id, queryClient, user?._id])
 
 	useEffect(() => {
 		function onRemoveReaction(post: PostType) {
-			queryClient.setQueryData<
-				InfiniteData<DataWithPagination<{ posts: PostType[] }>>
-			>(
+			return [
 				queryKeys.posts,
-				oldData =>
-					oldData && {
-						...oldData,
-						pages: oldData.pages.map(page => ({
-							...page,
-							posts: page.posts.map(item =>
-								item._id === post._id
-									? { ...item, reactions: post.reactions }
-									: item
-							),
-						})),
-					}
+				queryKeys.followingsPosts(user?._id as string),
+				queryKeys.userPosts(data.author._id),
+			].forEach(key =>
+				queryClient.setQueryData<
+					InfiniteData<DataWithPagination<{ posts: PostType[] }>>
+				>(
+					key,
+					oldData =>
+						oldData && {
+							...oldData,
+							pages: oldData.pages.map(page => ({
+								...page,
+								posts: page.posts.map(item =>
+									item._id === post._id
+										? { ...item, reactions: post.reactions }
+										: item
+								),
+							})),
+						}
+				)
 			)
 		}
 
@@ -120,7 +132,7 @@ const Post = ({ data }: Props) => {
 		return () => {
 			socket.off('post:reaction:remove/' + data._id, onRemoveReaction)
 		}
-	}, [data._id, queryClient])
+	}, [data._id, data.author._id, queryClient, user?._id])
 
 	useEffect(() => {
 		async function convert() {
@@ -141,23 +153,30 @@ const Post = ({ data }: Props) => {
 		() => postsService.deletePost(data._id, auth?.accessToken as string),
 		{
 			onSuccess(data) {
-				if (data) {
-					queryClient.setQueryData<
-						InfiniteData<DataWithPagination<{ posts: PostType[] }>>
-					>(
+				if (data)
+					[
 						queryKeys.posts,
-						oldData =>
-							oldData && {
-								...oldData,
-								pages: oldData.pages.map(page => ({
-									...page,
-									posts: page.posts.filter(
-										post => post._id !== data._id
-									),
-								})),
-							}
+						queryKeys.followingsPosts(user?._id as string),
+						queryKeys.userPosts(data.author._id),
+					].forEach(key =>
+						queryClient.setQueryData<
+							InfiniteData<
+								DataWithPagination<{ posts: PostType[] }>
+							>
+						>(
+							key,
+							oldData =>
+								oldData && {
+									...oldData,
+									pages: oldData.pages.map(page => ({
+										...page,
+										posts: page.posts.filter(
+											post => post._id !== data._id
+										),
+									})),
+								}
+						)
 					)
-				}
 			},
 		}
 	)

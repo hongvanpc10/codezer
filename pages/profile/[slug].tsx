@@ -10,7 +10,7 @@ import Button from '~/components/button'
 import Dropdown from '~/components/dropdown'
 import { AddIcon, MoreIcon, TickIcon } from '~/components/icons'
 import Image from '~/components/image'
-import { Activities, Blogs, Introduction } from '~/components/profile'
+import { Activities, BlogsAndPosts, Introduction } from '~/components/profile'
 import ScrollToTopButton from '~/components/scrollToTopButton'
 import queryKeys from '~/config/queryKeys'
 import routes from '~/config/routes'
@@ -281,7 +281,7 @@ const Profile = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 				</div>
 
 				<div className='xl:col-8 col-12'>
-					<Blogs id={data._id} />
+					<BlogsAndPosts id={data._id} />
 				</div>
 			</div>
 		</div>

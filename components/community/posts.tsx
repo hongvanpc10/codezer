@@ -31,9 +31,9 @@ export default function Posts() {
 					else router.push('')
 				}}
 				as='div'
-				className='mt-8'
+				className='mt-10'
 			>
-				<Tab.List className='flex space-x-2 items-center mb-10 bg-white shadow-2xl shadow-blue-900/10 p-2 rounded-3xl'>
+				<Tab.List className='flex space-x-2 items-center mb-12 bg-white shadow-2xl shadow-blue-900/10 p-2 rounded-3xl'>
 					{['Tất cả', 'Theo dõi'].map((label, index) => (
 						<Tab key={index} className='flex-1'>
 							{({ selected }) => (

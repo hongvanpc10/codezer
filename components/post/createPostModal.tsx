@@ -48,27 +48,31 @@ export default function CreatePostModal({
 		(data: CreatePostData) => postsService.create(data, accessToken),
 		{
 			onSuccess(data) {
-				if (data) {
-					queryClient.setQueryData<
-						InfiniteData<DataWithPagination<{ posts: Post[] }>>
-					>(
-						queryKeys.posts,
-						oldData =>
-							oldData && {
-								...oldData,
-								pages: [
-									{
-										...oldData.pages[0],
-										posts: [
-											data,
-											...oldData.pages[0].posts,
+				if (data)
+					[queryKeys.posts, queryKeys.userPosts(user._id)].forEach(
+						key =>
+							queryClient.setQueryData<
+								InfiniteData<
+									DataWithPagination<{ posts: Post[] }>
+								>
+							>(
+								key,
+								oldData =>
+									oldData && {
+										...oldData,
+										pages: [
+											{
+												...oldData.pages[0],
+												posts: [
+													data,
+													...oldData.pages[0].posts,
+												],
+											},
+											...oldData.pages.slice(1),
 										],
-									},
-									...oldData.pages.slice(1),
-								],
-							}
+									}
+							)
 					)
-				}
 
 				playSound()
 

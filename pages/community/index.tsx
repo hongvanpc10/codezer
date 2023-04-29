@@ -1,5 +1,5 @@
 import { NextSeo } from 'next-seo'
-import { Posts } from '~/components/community'
+import { Posts, Suggestion } from '~/components/community'
 import ScrollToTopButton from '~/components/scrollToTopButton'
 import { NextPageWithLayout } from '../_app'
 
@@ -16,7 +16,9 @@ const Community: NextPageWithLayout = () => {
 				<Posts />
 			</div>
 
-			<div className='xl:col-3 lg:col-2 col-12'></div>
+			<div className='xl:col-3 lg:col-2 col-12'>
+				<Suggestion />
+			</div>
 		</div>
 	)
 }

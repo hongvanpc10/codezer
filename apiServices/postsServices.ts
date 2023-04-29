@@ -57,6 +57,17 @@ export const getFollowingsPosts = async (
 	return res?.data
 }
 
+export const getUserPosts = async (id: string, params?: Params) => {
+	const res = await request.get<ResDataWithPagination<{ posts: Post[] }>>(
+		'/posts/' + id,
+		{
+			params,
+		}
+	)
+
+	return res?.data
+}
+
 export const update = async (
 	id: string,
 	data: CreatePostData,

@@ -1,3 +1,3 @@
 export { default as Activities } from './activities'
-export { default as Blogs } from './blogs'
+export { default as BlogsAndPosts } from './blogsAndPosts'
 export { default as Introduction } from './introduction'

@@ -27,6 +27,16 @@ export const getTopUsers = async () => {
 	return res?.data
 }
 
+export const getSuggestion = async (accessToken: string) => {
+	const res = await request.get<ResData<User[]>>('/users/suggestion', {
+		headers: {
+			Authorization: accessToken,
+		},
+	})
+
+	return res?.data
+}
+
 export const getUsers = async (params: Params) => {
 	const res = await request.get<ResData<User[]>>('/users', { params })
 

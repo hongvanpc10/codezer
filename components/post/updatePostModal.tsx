@@ -18,6 +18,7 @@ import { Error } from '../form'
 import { CloseIcon, EditIcon, GalleryBoldIcon, GlobalIcon } from '../icons'
 import Image from '../image'
 import Loader from '../loader'
+import { useAuth } from '~/hooks'
 
 interface Props {
 	setIsOpen: Function
@@ -30,6 +31,7 @@ export default function Update({ setIsOpen, user, accessToken, data }: Props) {
 	const [images, setImages] = useState<ImageListType>(
 		data.images.map(image => ({ dataURL: image }))
 	)
+
 	const [isImagesUploading, setIsImagesUploading] = useState(false)
 
 	const {
@@ -47,23 +49,28 @@ export default function Update({ setIsOpen, user, accessToken, data }: Props) {
 			postsService.update(data._id, payload, accessToken),
 		{
 			onSuccess(data) {
-				if (data) {
-					queryClient.setQueryData<
-						InfiniteData<DataWithPagination<{ posts: Post[] }>>
-					>(
+				if (data)
+					[
 						queryKeys.posts,
-						oldData =>
-							oldData && {
-								...oldData,
-								pages: oldData.pages.map(page => ({
-									...page,
-									posts: page.posts.map(post =>
-										post._id === data._id ? data : post
-									),
-								})),
-							}
-					)
-				}
+						queryKeys.followingsPosts(user._id),
+						queryKeys.userPosts(data.author._id),
+					].forEach(key => {
+						queryClient.setQueryData<
+							InfiniteData<DataWithPagination<{ posts: Post[] }>>
+						>(
+							key,
+							oldData =>
+								oldData && {
+									...oldData,
+									pages: oldData.pages.map(page => ({
+										...page,
+										posts: page.posts.map(post =>
+											post._id === data._id ? data : post
+										),
+									})),
+								}
+						)
+					})
 
 				setIsOpen(false)
 			},

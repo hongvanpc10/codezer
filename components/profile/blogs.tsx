@@ -7,26 +7,23 @@ import { BlogCardVertical } from '../blogCard'
 import Loader from '../loader'
 
 export default function Blogs({ id }: { id: string }) {
-	const { data, isFetchingNextPage, fetchNextPage } =
-		useInfiniteQuery(
-			['blogs', 'user', id],
-			({ pageParam = { limit: 4 } }) =>
-				blogsService.getBlogsByUser(id, pageParam),
-			{
-				getNextPageParam(lastPage) {
-					if (
-						(lastPage?.pagination.currentPage as number) <
-						(lastPage?.pagination.totalPages as number)
-					)
-						return {
-							limit: 4,
-							page:
-								(lastPage?.pagination.currentPage as number) +
-								1,
-						}
-				},
-			}
-		)
+	const { data, isFetchingNextPage, fetchNextPage } = useInfiniteQuery(
+		['blogs', 'user', id],
+		({ pageParam = { limit: 4 } }) =>
+			blogsService.getBlogsByUser(id, pageParam),
+		{
+			getNextPageParam(lastPage) {
+				if (
+					(lastPage?.pagination.currentPage as number) <
+					(lastPage?.pagination.totalPages as number)
+				)
+					return {
+						limit: 4,
+						page: (lastPage?.pagination.currentPage as number) + 1,
+					}
+			},
+		}
+	)
 
 	const { inView, ref } = useInView()
 
@@ -37,9 +34,7 @@ export default function Blogs({ id }: { id: string }) {
 	}, [fetchNextPage, inView, isFetchingNextPage])
 
 	return (
-		<section className='xl:mt-0 mt-6'>
-			<h2 className='text-xl font-bold mb-4'>Bài viết</h2>
-
+		<>
 			<div className='row gutter-sm'>
 				{data
 					? data?.pages
@@ -55,11 +50,17 @@ export default function Blogs({ id }: { id: string }) {
 								<BlogCardVertical.Skeleton />
 							</div>
 					  ))}
+
+				{data && data.pages[0] && data.pages[0].blogs.length === 0 && (
+					<h3 className='text-center opacity-50 w-full mt-6 text-xl font-medium'>
+						Tác giả chưa có bài viết nào
+					</h3>
+				)}
 			</div>
 
 			{isFetchingNextPage && <Loader.Inline />}
 
 			<div ref={ref} />
-		</section>
+		</>
 	)
 }
