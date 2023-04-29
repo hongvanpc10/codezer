@@ -46,7 +46,7 @@ const Followings: NextPageWithLayout = () => {
 	const router = useRouter()
 
 	const { data } = useQuery(
-		queryKeys.followingsBlogs(12, page, sort.value.order, sort.value.order),
+		queryKeys.followingsBlogs(12, page, sort.value.sort, sort.value.order),
 		() =>
 			blogsService.getFollowingsBlogs(auth?.accessToken as string, {
 				page,

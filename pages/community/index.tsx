@@ -20,7 +20,7 @@ const Community: NextPageWithLayout = () => {
 			</div>
 
 			<div className='xl:col-3 lg:col-2 col-12'>
-				<div className='show-on-xl'>
+				<div className='show-on-xl sticky top-24'>
 					<Suggestion />
 				</div>
 			</div>
