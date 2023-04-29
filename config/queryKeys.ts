@@ -40,6 +40,7 @@ const queryKeys = {
 		params,
 	],
 	posts: ['posts'],
+	followingsPosts: ['followings', 'posts'],
 }
 
 export default queryKeys

@@ -42,6 +42,21 @@ export const get = async (accessToken: string, params?: Params) => {
 	return res?.data
 }
 
+export const getFollowingsPosts = async (
+	accessToken: string,
+	params?: Params
+) => {
+	const res = await request.get<ResDataWithPagination<{ posts: Post[] }>>(
+		'/posts/followings',
+		{
+			headers: { Authorization: accessToken },
+			params,
+		}
+	)
+
+	return res?.data
+}
+
 export const update = async (
 	id: string,
 	data: CreatePostData,
