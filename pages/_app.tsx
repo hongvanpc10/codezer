@@ -17,6 +17,7 @@ import seoConfig from '~/config/seoConfig'
 import { LayoutProps, MainLayout } from '~/layouts'
 import '~/styles/globals.css'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import images from '~/assets/images'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
 	Layout?: (props: LayoutProps) => ReactElement
