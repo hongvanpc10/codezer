@@ -7,7 +7,7 @@ export default function Notification() {
 			<h2 className='text-2xl font-bold mb-6'>Thông báo</h2>
 
 			<Box>
-				<div className='space-y-4'>
+				<div className='space-y-5'>
 					<div className='flex items-center justify-between'>
 						<label>Tất cả bài viết mới</label>
 						<Toggle defaultChecked={true} />
