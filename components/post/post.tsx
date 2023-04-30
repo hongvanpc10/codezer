@@ -51,7 +51,7 @@ const Post = ({ data }: Props) => {
 	const [onComment, setOnComment] = useState(false)
 	const [viewMore, setViewMore] = useState(false)
 
-	const { auth, updateUser } = useAuth()
+	const { auth } = useAuth()
 	const user = auth?.data
 
 	const redirectToLogin = useRedirectToLogin()
@@ -138,12 +138,14 @@ const Post = ({ data }: Props) => {
 
 	useEffect(() => {
 		async function convert() {
+			const content = data.content
+
 			const _html = await markdownToHTML(
-				data.content.length > 255
+				content.length > 255
 					? viewMore
-						? data.content
-						: data.content.slice(0, 255) + '...'
-					: data.content
+						? content
+						: content.slice(0, 255) + '...'
+					: content
 			)
 			setHtmlContent(_html)
 		}
