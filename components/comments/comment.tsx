@@ -52,7 +52,13 @@ export default function Comment({ data, authorId, small }: Props) {
 						? data.content.slice(0, 200) + '...'
 						: data.content)
 			)
-			setHtmlContent(html)
+			setHtmlContent(
+				html.replaceAll(
+					/#[a-z0-9_]+/gi,
+					tag =>
+						`<a class="!no-underline !font-normal" href="" target="_blank">${tag}</a>`
+				)
+			)
 		}
 		convert()
 	}, [data.content, data.tag, showMore])

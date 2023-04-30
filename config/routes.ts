@@ -12,7 +12,7 @@ const routes = {
 	editBlog: (slug: string) => '/' + slug + '/edit',
 	blogsByCategory: (slug: string) => '/blogs/' + slug,
 	pinnedBlogs: '/blogs/pinned',
-	community: '/community',
+	posts: '/posts',
 	followingsBlogs: '/blogs/followings',
 	savedBlogs: '/blogs/saved',
 }

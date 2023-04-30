@@ -76,7 +76,7 @@ export default function Sidebar() {
 			title: 'Bài viết',
 		},
 		{
-			href: routes.community,
+			href: routes.posts,
 			icon: MessagesIcon,
 			activeIcon: MessagesSolidIcon,
 			title: 'Cộng đồng',

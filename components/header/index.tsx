@@ -37,7 +37,7 @@ export default function Header() {
 		{
 			label: 'Cộng đồng',
 			icon: MessagesIcon,
-			href: routes.community,
+			href: routes.posts,
 		},
 		{
 			label: 'Tìm kiếm',

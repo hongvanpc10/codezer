@@ -13,8 +13,8 @@ import { Post as PostType } from '~/apiServices/postsServices'
 import queryKeys from '~/config/queryKeys'
 import routes from '~/config/routes'
 import socket from '~/config/socket'
-import { useAuth, useRedirectToLogin } from '~/hooks'
-import markdownToHTML, { highlightHashtags } from '~/utils/markdownToHTML'
+import { useAuth } from '~/hooks'
+import markdownToHTML from '~/utils/markdownToHTML'
 import { DataWithPagination } from '~/utils/request'
 import timeFromNow from '~/utils/timeFromNow'
 import Avatar from '../avatar'
@@ -53,8 +53,6 @@ const Post = ({ data }: Props) => {
 
 	const { auth } = useAuth()
 	const user = auth?.data
-
-	const redirectToLogin = useRedirectToLogin()
 
 	const queryClient = useQueryClient()
 
@@ -147,7 +145,13 @@ const Post = ({ data }: Props) => {
 						: content.slice(0, 255) + '...'
 					: content
 			)
-			setHtmlContent(highlightHashtags(_html))
+			setHtmlContent(
+				_html.replaceAll(
+					/#[a-z0-9_]+/gi,
+					tag =>
+						`<a class="!no-underline !font-normal" href="" target="_blank">${tag}</a>`
+				)
+			)
 		}
 
 		convert()

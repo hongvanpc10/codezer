@@ -1,10 +1,10 @@
 import { NextSeo } from 'next-seo'
-import { Posts, Suggestion } from '~/components/community'
+import { Posts, Suggestion } from '~/components/posts'
 import ScrollToTopButton from '~/components/scrollToTopButton'
 import { NextPageWithLayout } from '../_app'
 import { CreatePost } from '~/components/post'
 
-const Community: NextPageWithLayout = () => {
+const PostsPage: NextPageWithLayout = () => {
 	return (
 		<div className='row -mt-8'>
 			<NextSeo title='Cộng đồng' />
@@ -28,6 +28,6 @@ const Community: NextPageWithLayout = () => {
 	)
 }
 
-Community.isPrivate = true
+PostsPage.isPrivate = true
 
-export default Community
+export default PostsPage

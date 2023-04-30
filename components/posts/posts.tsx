@@ -1,8 +1,8 @@
 import { Tab } from '@headlessui/react'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { FollowingsPosts, Suggestion } from '~/components/community'
-import AllPost from '~/components/community/allPosts'
+import { FollowingsPosts, Suggestion } from '~/components/posts'
+import AllPost from '~/components/posts/allPosts'
 import { CreatePost } from '~/components/post'
 
 export default function Posts() {
