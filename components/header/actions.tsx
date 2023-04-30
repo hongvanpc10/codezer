@@ -72,6 +72,7 @@ export default function Actions() {
 		{
 			label: 'Bài viết đã lưu',
 			divider: true,
+			href: routes.savedBlogs
 		},
 		{
 			label: 'Đăng xuất',

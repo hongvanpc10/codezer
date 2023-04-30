@@ -1,4 +1,9 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+	InfiniteData,
+	useInfiniteQuery,
+	useMutation,
+	useQueryClient,
+} from '@tanstack/react-query'
 import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -7,8 +12,9 @@ import { blogsService } from '~/apiServices'
 import { Blog } from '~/apiServices/blogsService'
 import queryKeys from '~/config/queryKeys'
 import routes from '~/config/routes'
-import { useAuth } from '~/hooks'
+import { useAuth, useRedirectToLogin } from '~/hooks'
 import copyToClipboard from '~/utils/copyToClipboard'
+import { DataWithPagination } from '~/utils/request'
 import timeFromNow from '~/utils/timeFromNow'
 import Avatar from '../avatar'
 import Confirm from '../confirm'
@@ -17,7 +23,7 @@ import { MoreIcon } from '../icons'
 import Loader from '../loader'
 
 export default function Header({ data }: { data: Blog }) {
-	const { auth } = useAuth()
+	const { auth, updateUser } = useAuth()
 
 	const user = auth?.data
 	const accessToken = auth?.accessToken
@@ -27,6 +33,8 @@ export default function Header({ data }: { data: Blog }) {
 	const router = useRouter()
 
 	const queryClient = useQueryClient()
+
+	const redirectToLogin = useRedirectToLogin()
 
 	const { mutate: deleteBlog, isLoading: isDeleting } = useMutation(
 		() =>
@@ -88,6 +96,80 @@ export default function Header({ data }: { data: Blog }) {
 		}
 	)
 
+	const { mutate: save, isLoading: isSaving } = useMutation(
+		() => blogsService.save(data._id, accessToken as string),
+		{
+			onSuccess(data) {
+				if (user) {
+					if (data) {
+						queryClient.setQueryData<
+							InfiniteData<DataWithPagination<{ blogs: Blog[] }>>
+						>(
+							queryKeys.savedBlogs(user._id),
+							oldData =>
+								oldData && {
+									...oldData,
+									pages: [
+										{
+											...oldData.pages[0],
+											blogs: [
+												data,
+												...oldData.pages[0].blogs,
+											],
+										},
+										...oldData.pages.slice(1),
+									],
+								}
+						)
+
+						updateUser({
+							...user,
+							savedBlogs: [...user.savedBlogs, data._id],
+						})
+					}
+				}
+			},
+		}
+	)
+
+	const { mutate: unsave, isLoading: isUnsaving } = useMutation(
+		() => blogsService.unsave(data._id, accessToken as string),
+		{
+			onSuccess(id) {
+				if (user) {
+					queryClient.setQueryData<
+						InfiniteData<DataWithPagination<{ blogs: Blog[] }>>
+					>(
+						queryKeys.savedBlogs(user._id),
+						oldData =>
+							oldData && {
+								...oldData,
+								pages: oldData.pages.map(page => ({
+									...page,
+									blogs: page.blogs.filter(
+										blog => blog._id !== id
+									),
+								})),
+							}
+					)
+
+					updateUser({
+						...user,
+						savedBlogs: user.savedBlogs.filter(
+							blogId => blogId !== id
+						),
+					})
+				}
+			},
+		}
+	)
+
+	const { data: savedBlogsQuery } = useInfiniteQuery(
+		queryKeys.savedBlogs(user?._id as string),
+		() => blogsService.getSavedBlogs(accessToken as string),
+		{ enabled: !!user }
+	)
+
 	const MENU_ITEMS: Item[] = [
 		{
 			label: 'Chỉnh sửa',
@@ -107,8 +189,23 @@ export default function Header({ data }: { data: Blog }) {
 			onClick: () => (data.isPinned ? unpinBlog() : pinBlog()),
 		},
 		{
-			label: 'Lưu bài viết',
+			label: user
+				? user.savedBlogs.includes(data._id)
+					? 'Hủy lưu bài viết'
+					: 'Lưu bài viết'
+				: 'Lưu bài viết',
 			divider: true,
+			onClick: () => {
+				if (!user) {
+					return redirectToLogin()
+				}
+
+				if (user.savedBlogs.includes(data._id)) {
+					unsave()
+				} else {
+					save()
+				}
+			},
 		},
 		{
 			label: 'Sao chép liên kết',
@@ -129,7 +226,11 @@ export default function Header({ data }: { data: Blog }) {
 				/>
 			)}
 
-			{(isDeleting || isPinning || isUnpinning) && <Loader />}
+			{(isDeleting ||
+				isPinning ||
+				isUnpinning ||
+				isSaving ||
+				isUnsaving) && <Loader />}
 
 			<div className='flex items-center justify-between mb-12'>
 				<div className='flex items-center'>

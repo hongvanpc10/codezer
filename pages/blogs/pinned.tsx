@@ -14,17 +14,24 @@ const PinnedBlogs: NextPageWithLayout = () => {
 		<div>
 			<NextSeo title='Bài viết đã ghim' />
 
-			<h1 className='text-2xl font-bold mb-8'>Bài viết đã ghim</h1>
-
 			<section className='row'>
-				<div className='xl:col-8 lg:col-9 col-12 space-y-8'>
-					{data
-						? data.map((blog, index) => (
-								<BlogCardHorizontal key={index} data={blog} />
-						  ))
-						: Array.from(Array(4)).map((_, index) => (
-								<BlogCardHorizontal.Skeleton key={index} />
-						  ))}
+				<div className='xl:col-8 lg:col-9 mx-auto col-12'>
+					<h1 className='text-2xl font-bold mb-8'>
+						Bài viết đã ghim
+					</h1>
+
+					<div className='space-y-8'>
+						{data
+							? data.map((blog, index) => (
+									<BlogCardHorizontal
+										key={index}
+										data={blog}
+									/>
+							  ))
+							: Array.from(Array(4)).map((_, index) => (
+									<BlogCardHorizontal.Skeleton key={index} />
+							  ))}
+					</div>
 				</div>
 			</section>
 		</div>

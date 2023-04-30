@@ -13,7 +13,7 @@ import { Post as PostType } from '~/apiServices/postsServices'
 import queryKeys from '~/config/queryKeys'
 import routes from '~/config/routes'
 import socket from '~/config/socket'
-import { useAuth } from '~/hooks'
+import { useAuth, useRedirectToLogin } from '~/hooks'
 import markdownToHTML from '~/utils/markdownToHTML'
 import { DataWithPagination } from '~/utils/request'
 import timeFromNow from '~/utils/timeFromNow'
@@ -51,8 +51,10 @@ const Post = ({ data }: Props) => {
 	const [onComment, setOnComment] = useState(false)
 	const [viewMore, setViewMore] = useState(false)
 
-	const { auth } = useAuth()
+	const { auth, updateUser } = useAuth()
 	const user = auth?.data
+
+	const redirectToLogin = useRedirectToLogin()
 
 	const queryClient = useQueryClient()
 
@@ -253,9 +255,6 @@ const Post = ({ data }: Props) => {
 								user._id === data.author._id ||
 								user.role === 'admin',
 							onClick: () => deletePost(),
-						},
-						{
-							label: 'Lưu',
 						},
 					]}
 				>

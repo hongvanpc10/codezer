@@ -19,6 +19,7 @@ export interface User {
 	likesCount: number
 	website: string
 	type: 'register' | 'google' | 'facebook'
+	savedBlogs: string[]
 }
 
 export const getTopUsers = async () => {

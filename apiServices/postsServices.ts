@@ -117,3 +117,31 @@ export const removeReaction = async (
 	)
 	return res?.data
 }
+
+export const save = async (id: string, accessToken: string) => {
+	const res = await request.get<ResData<Post>>('/posts/' + id + '/save', {
+		headers: { Authorization: accessToken },
+	})
+
+	return res?.data
+}
+
+export const unsave = async (id: string, accessToken: string) => {
+	const res = await request.get<ResData<string>>('/posts/' + id + '/unsave', {
+		headers: { Authorization: accessToken },
+	})
+
+	return res?.data
+}
+
+export const getSavedPosts = async (accessToken: string, params?: Params) => {
+	const res = await request.get<ResDataWithPagination<{ posts: Post[] }>>(
+		'posts/saved',
+		{
+			params,
+			headers: { Authorization: accessToken },
+		}
+	)
+
+	return res?.data
+}

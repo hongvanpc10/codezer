@@ -161,3 +161,31 @@ export const unlike = async (id: string, accessToken: string) => {
 
 	return res
 }
+
+export const save = async (id: string, accessToken: string) => {
+	const res = await request.get<ResData<Blog>>('/blogs/' + id + '/save', {
+		headers: { Authorization: accessToken },
+	})
+
+	return res?.data
+}
+
+export const unsave = async (id: string, accessToken: string) => {
+	const res = await request.get<ResData<string>>('/blogs/' + id + '/unsave', {
+		headers: { Authorization: accessToken },
+	})
+
+	return res?.data
+}
+
+export const getSavedBlogs = async (accessToken: string, params?: Params) => {
+	const res = await request.get<ResDataWithPagination<{ blogs: Blog[] }>>(
+		'blogs/saved',
+		{
+			params,
+			headers: { Authorization: accessToken },
+		}
+	)
+
+	return res?.data
+}

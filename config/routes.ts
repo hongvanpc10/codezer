@@ -14,6 +14,7 @@ const routes = {
 	pinnedBlogs: '/blogs/pinned',
 	community: '/community',
 	followingsBlogs: '/blogs/followings',
+	savedBlogs: '/blogs/saved',
 }
 
 export default routes
