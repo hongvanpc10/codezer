@@ -147,7 +147,13 @@ const Post = ({ data }: Props) => {
 						: content.slice(0, 255) + '...'
 					: content
 			)
-			setHtmlContent(_html)
+			setHtmlContent(
+				_html.replaceAll(
+					/#[a-z0-9_]+/gi,
+					tag =>
+						`<a class="!no-underline !font-normal" href="" target="_blank">${tag}</a>`
+				)
+			)
 		}
 
 		convert()

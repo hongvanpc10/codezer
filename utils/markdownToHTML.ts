@@ -48,9 +48,5 @@ export default async function markdownToHTML(md: string, options?: Options) {
 
 	const file = await professor.process(md)
 
-	return `${file.value}`.replaceAll(
-		/#[a-z0-9_]+/gi,
-		tag =>
-			`<a class="!no-underline !font-normal" href="" target="_blank">${tag}</a>`
-	)
+	return `${file.value}`
 }
