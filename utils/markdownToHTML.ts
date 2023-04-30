@@ -50,3 +50,10 @@ export default async function markdownToHTML(md: string, options?: Options) {
 
 	return `${file.value}`
 }
+
+export const highlightHashtags = (html: string) =>
+	html.replaceAll(
+		/#[a-z0-9_]+/gi,
+		tag =>
+			`<a class="!no-underline !font-normal" href="" target="_blank">${tag}</a>`
+	)
