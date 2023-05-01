@@ -59,7 +59,7 @@ export const getFollowingsPosts = async (
 
 export const getUserPosts = async (id: string, params?: Params) => {
 	const res = await request.get<ResDataWithPagination<{ posts: Post[] }>>(
-		'/posts/' + id,
+		'/posts/user/' + id,
 		{
 			params,
 		}
@@ -142,6 +142,12 @@ export const getSavedPosts = async (accessToken: string, params?: Params) => {
 			headers: { Authorization: accessToken },
 		}
 	)
+
+	return res?.data
+}
+
+export const getDetail = async (id: string) => {
+	const res = await request.get<ResData<Post>>('/posts/' + id)
 
 	return res?.data
 }

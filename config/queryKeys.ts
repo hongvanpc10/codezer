@@ -40,12 +40,19 @@ const queryKeys = {
 		'users',
 		params,
 	],
+	searchPosts: (query: string, params?: {}) => [
+		'search',
+		query,
+		'posts',
+		params,
+	],
 	posts: ['posts'],
 	followingsPosts: (id: string) => ['followings', 'posts'],
 	userPosts: (id: string) => ['posts', 'user', id],
 	suggestion: (id: string) => ['users', 'suggestion', id],
 	savedBlogs: (id: string) => ['blogs', 'saved', id],
 	savedPosts: (id: string) => ['posts', 'saved', id],
+	postDetail: (id: string) => ['posts', id, 'post'],
 }
 
 export default queryKeys

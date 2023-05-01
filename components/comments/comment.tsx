@@ -257,8 +257,10 @@ export default function Comment({ data, authorId, small }: Props) {
 
 			{data.children.length > 0 && (
 				<div
-					className={`mt-4 sm:ml-8 sm:pl-4 ml-4 space-y-5 ${
-						small ? '' : 'border-l-2 border-blue-500 pl-3'
+					className={`mt-4 sm:ml-11 ml-8 ${
+						small
+							? 'sm:space-y-4 space-y-3'
+							: 'sm:space-y-5 space-y-4'
 					}`}
 				>
 					{data.children.slice(0, showReply).map((data, index) => (

@@ -15,6 +15,8 @@ const routes = {
 	posts: '/posts',
 	followingsBlogs: '/blogs/followings',
 	savedBlogs: '/blogs/saved',
+	postsByTag: (tag: string) => '/posts/tag/' + tag,
+	postDetail: (id: string) => '/posts/' + id,
 }
 
 export default routes

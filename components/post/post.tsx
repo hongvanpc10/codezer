@@ -39,6 +39,8 @@ import Modal from '../modal'
 import Reactions, { emoji } from '../reactions'
 import Skeleton from '../skeleton'
 import UpdatePostModal from './updatePostModal'
+import copyToClipboard from '~/utils/copyToClipboard'
+import { useRouter } from 'next/router'
 
 interface Props {
 	data: PostType
@@ -53,6 +55,8 @@ const Post = ({ data }: Props) => {
 
 	const { auth } = useAuth()
 	const user = auth?.data
+
+	const router = useRouter()
 
 	const queryClient = useQueryClient()
 
@@ -149,7 +153,9 @@ const Post = ({ data }: Props) => {
 				_html.replaceAll(
 					/#[a-z0-9_]+/gi,
 					tag =>
-						`<a class="!no-underline !font-normal" href="" target="_blank">${tag}</a>`
+						`<a class="!no-underline !font-normal" href="${routes.postsByTag(
+							tag.slice(1)
+						)}">${tag}</a>`
 				)
 			)
 		}
@@ -216,10 +222,10 @@ const Post = ({ data }: Props) => {
 	)
 
 	return user ? (
-		<div className='bg-white/90 rounded-3xl px-3 pt-6 pb-4 shadow-lg shadow-blue-900/5'>
+		<div className='bg-white/90 max-w-2xl mx-auto rounded-3xl sm:px-3 px-2 pt-5 sm:pt-6 pb-4 shadow-lg shadow-blue-900/5'>
 			{isLoading && <Loader />}
 
-			<div className='flex items-start justify-between px-3'>
+			<div className='flex items-start justify-between px-2 sm:px-3'>
 				<div className='flex items-center'>
 					<Link href={routes.profile(data.author.slug)}>
 						<Avatar
@@ -261,6 +267,21 @@ const Post = ({ data }: Props) => {
 								user._id === data.author._id ||
 								user.role === 'admin',
 							onClick: () => deletePost(),
+							divider: true,
+						},
+						{
+							label: 'Xem chi tiết',
+							onClick: () =>
+								router.push(routes.postDetail(data._id)),
+						},
+						{
+							label: 'Sao chép liên kết',
+							onClick: () => {
+								copyToClipboard(
+									window.location.origin +
+										routes.postDetail(data._id)
+								)
+							},
 						},
 					]}
 				>
@@ -287,7 +308,7 @@ const Post = ({ data }: Props) => {
 			)}
 
 			<p
-				className={`px-2 !prose !prose-blue prose-img:rounded-2xl prose-video:rounded-2xl prose-img:mx-auto prose-a:underline-offset-2 prose-p:break-words prose-headings:break-words prose-a:break-words prose-pre:!rounded-2xl prose-td:!p-3 even:prose-tr:bg-blue-50 prose-th:!p-3 prose-tr:rounded-xl prose-tr:border-none prose-thead:bg-blue-100/75 prose-thead:rounded-xl prose-thead:border-none prose-table:border-separate first:prose-th:rounded-l-xl last:prose-th:rounded-r-xl first:prose-td:rounded-l-xl last:prose-td:rounded-r-xl prose-table:border-spacing-px prose-figcaption:text-center prose-figcaption:italic prose-figcaption:!mt-3 prose-pre:scroll-sm prose-blockquote:!not-italic prose-blockquote:!font-normal prose-blockquote:bg-blue-50/50 [&>*]:prose-blockquote:before:hidden [&>*]:prose-blockquote:after:hidden prose-blockquote:py-1 first:[&>*]:prose-blockquote:!mt-2 last:[&>*]:prose-blockquote:!mb-2 prose-blockquote:pr-4 prose-blockquote:rounded-r-2xl prose-th:!align-middle mt-3 mb-4 prose-p:!my-2 ${
+				className={`sm:px-2 px-1 !prose !prose-blue prose-img:rounded-2xl prose-video:rounded-2xl prose-img:mx-auto prose-a:underline-offset-2 prose-p:break-words prose-headings:break-words prose-a:break-words prose-pre:!rounded-2xl prose-td:!p-3 even:prose-tr:bg-blue-50 prose-th:!p-3 prose-tr:rounded-xl prose-tr:border-none prose-thead:bg-blue-100/75 prose-thead:rounded-xl prose-thead:border-none prose-table:border-separate first:prose-th:rounded-l-xl last:prose-th:rounded-r-xl first:prose-td:rounded-l-xl last:prose-td:rounded-r-xl prose-table:border-spacing-px prose-figcaption:text-center prose-figcaption:italic prose-figcaption:!mt-3 prose-pre:scroll-sm prose-blockquote:!not-italic prose-blockquote:!font-normal prose-blockquote:bg-blue-50/50 [&>*]:prose-blockquote:before:hidden [&>*]:prose-blockquote:after:hidden prose-blockquote:py-1 first:[&>*]:prose-blockquote:!mt-2 last:[&>*]:prose-blockquote:!mb-2 prose-blockquote:pr-4 prose-blockquote:rounded-r-2xl prose-th:!align-middle mt-3 mb-4 prose-p:!my-2 ${
 					data.images.length === 0 &&
 					(data.content.trim().length < 50
 						? '!prose-2xl'
@@ -300,7 +321,9 @@ const Post = ({ data }: Props) => {
 							  '<button class="font-medium ml-1" >Xem thêm</button>'
 							: htmlContent,
 				}}
-				onClick={() => setViewMore(true)}
+				onClick={() => {
+					setViewMore(true)
+				}}
 			></p>
 
 			<ImagesGrid images={data.images} />
@@ -407,7 +430,7 @@ const Post = ({ data }: Props) => {
 
 Post.Skeleton = function PostSkeleton() {
 	return (
-		<div className='bg-white/90 rounded-3xl px-3 pt-6 pb-4 shadow-lg shadow-blue-900/5'>
+		<div className='bg-white/90 max-w-2xl mx-auto rounded-3xl px-3 pt-6 pb-4 shadow-lg shadow-blue-900/5'>
 			<div className='flex items-center px-2'>
 				<Skeleton size={9} rounded='full' />
 

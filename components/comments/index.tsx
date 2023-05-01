@@ -366,7 +366,11 @@ export default function Comments({
 				/>
 			)}
 
-			<div className='space-y-6'>
+			<div
+				className={`${
+					small ? 'sm:space-y-5 space-y-4' : 'sm:space-y-6 space-y-4'
+				}`}
+			>
 				{data?.pages[0] && data.pages[0].comments.length > 0 ? (
 					data.pages
 						.map(page => page?.comments as CommentType[])

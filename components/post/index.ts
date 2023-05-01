@@ -1,2 +1,2 @@
 export { default as CreatePost } from './createPost'
-export { default } from './post'
+export { default  } from './post'

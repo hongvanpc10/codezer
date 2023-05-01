@@ -23,7 +23,7 @@ export default function CreatePost() {
 			closeable={false}
 		>
 			{setIsOpen => (
-				<div className='bg-white/90 rounded-3xl px-5 pt-6 pb-4 shadow-lg shadow-blue-900/5'>
+				<div className='bg-white/90 mx-auto max-w-2xl rounded-3xl px-5 pt-6 pb-4 shadow-lg shadow-blue-900/5'>
 					<div className='flex items-center'>
 						<Avatar size={9} noRing alt='' src={user.avatar} />
 
