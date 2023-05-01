@@ -13,7 +13,7 @@ export default function Posts({ searchQuery }: { searchQuery: string }) {
 	const { data, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
 		useInfiniteQuery(
 			queryKeys.searchPosts(searchQuery, { limit: 10 }),
-			({ pageParam = { limit: 2 } }) =>
+			({ pageParam = { limit: 6 } }) =>
 				searchService.searchPosts(searchQuery, pageParam),
 			{
 				enabled: searchQuery.trim().length > 1,
@@ -23,7 +23,7 @@ export default function Posts({ searchQuery }: { searchQuery: string }) {
 						(lastPage?.pagination.totalPages as number)
 					)
 						return {
-							limit: 2,
+							limit: 6,
 							page:
 								(lastPage?.pagination.currentPage as number) +
 								1,
@@ -51,11 +51,13 @@ export default function Posts({ searchQuery }: { searchQuery: string }) {
 							.map((blog, index) => (
 								<Post key={index} data={blog} />
 							))}
+
+						{(isFetching || isFetchingNextPage) && (
+							<Loader.Inline />
+						)}
+
+						<div className='mt-28' ref={ref} />
 					</div>
-
-					{(isFetching || isFetchingNextPage) && <Loader.Inline />}
-
-					<div className='mt-28' ref={ref} />
 				</section>
 			)}
 		</>
