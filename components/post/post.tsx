@@ -261,6 +261,7 @@ const Post = ({ data }: Props) => {
 							label: 'Xem chi tiết',
 							onClick: () =>
 								router.push(routes.postDetail(data._id)),
+							divider: true,
 						},
 						{
 							label: 'Chỉnh sửa',
