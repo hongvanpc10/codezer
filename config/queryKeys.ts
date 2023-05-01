@@ -47,7 +47,7 @@ const queryKeys = {
 		params,
 	],
 	posts: ['posts'],
-	followingsPosts: (id: string) => ['followings', 'posts'],
+	followingsPosts: (id: string) => ['followings', 'posts', id],
 	userPosts: (id: string) => ['posts', 'user', id],
 	suggestion: (id: string) => ['users', 'suggestion', id],
 	savedBlogs: (id: string) => ['blogs', 'saved', id],

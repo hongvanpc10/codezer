@@ -11,7 +11,10 @@ export default function Suggestion() {
 
 	const { data, isLoading } = useQuery(
 		queryKeys.suggestion(user?._id as string),
-		() => usersService.getSuggestion(accessToken as string)
+		() => usersService.getSuggestion(accessToken as string),
+		{
+			enabled: !!accessToken,
+		}
 	)
 
 	return (
@@ -23,7 +26,7 @@ export default function Suggestion() {
 						<SuggestionItem data={user} key={index} />
 					))}
 
-				{isLoading	 &&
+				{isLoading &&
 					Array.from(Array(5)).map((_, i) => (
 						<SuggestionItem.Skeleton key={i} />
 					))}
