@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/router'
 import { postsService } from '~/apiServices'
 import Post from '~/components/post'
@@ -19,5 +20,12 @@ export default function PostDetail() {
 
 	if (error) router.push('/post-not-found')
 
-	return data ? <Post data={data} /> : <Post.Skeleton />
+	return data ? (
+		<>
+			<NextSeo title={data.content} />
+			<Post data={data} />
+		</>
+	) : (
+		<Post.Skeleton />
+	)
 }
