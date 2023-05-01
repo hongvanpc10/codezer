@@ -22,7 +22,7 @@ export default function PostDetail() {
 
 	return data ? (
 		<>
-			<NextSeo title={data.content} />
+			<NextSeo title='Bài viết' />
 			<Post data={data} />
 		</>
 	) : (

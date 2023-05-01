@@ -13,7 +13,7 @@ import { Post as PostType } from '~/apiServices/postsServices'
 import queryKeys from '~/config/queryKeys'
 import routes from '~/config/routes'
 import socket from '~/config/socket'
-import { useAuth } from '~/hooks'
+import { useAuth, useRedirectToLogin } from '~/hooks'
 import markdownToHTML from '~/utils/markdownToHTML'
 import { DataWithPagination } from '~/utils/request'
 import timeFromNow from '~/utils/timeFromNow'
@@ -59,6 +59,8 @@ const Post = ({ data }: Props) => {
 	const router = useRouter()
 
 	const queryClient = useQueryClient()
+
+	const redirectToLogin = useRedirectToLogin()
 
 	const [playSound] = useSound('/sounds/sound2.mp3')
 
@@ -221,7 +223,7 @@ const Post = ({ data }: Props) => {
 		{ onSuccess: playSound }
 	)
 
-	return user ? (
+	return (
 		<div className='bg-white/90 max-w-2xl mx-auto rounded-3xl sm:px-3 px-2 pt-5 sm:pt-6 pb-4 shadow-lg shadow-blue-900/5'>
 			{isLoading && <Loader />}
 
@@ -257,15 +259,15 @@ const Post = ({ data }: Props) => {
 						{
 							label: 'Chỉnh sửa',
 							show:
-								user._id === data.author._id ||
-								user.role === 'admin',
+								user?._id === data.author._id ||
+								user?.role === 'admin',
 							onClick: () => setOnUpdate(true),
 						},
 						{
 							label: 'Xóa',
 							show:
-								user._id === data.author._id ||
-								user.role === 'admin',
+								user?._id === data.author._id ||
+								user?.role === 'admin',
 							onClick: () => deletePost(),
 							divider: true,
 						},
@@ -291,7 +293,7 @@ const Post = ({ data }: Props) => {
 				</Dropdown>
 			</div>
 
-			{onUpdate && (
+			{onUpdate && user && (
 				<Modal
 					render={() => (
 						<UpdatePostModal
@@ -387,7 +389,11 @@ const Post = ({ data }: Props) => {
 				</button>
 
 				<button
-					onClick={() => setOnComment(true)}
+					onClick={() => {
+						if (!user) return redirectToLogin()
+
+						setOnComment(true)
+					}}
 					className='flex items-center justify-center mx-1 rounded-xl transition hover:bg-slate-50 py-2 flex-1 font-medium'
 				>
 					<SmsOutlineIcon className='h-6 mr-2.5' />
@@ -395,22 +401,24 @@ const Post = ({ data }: Props) => {
 				</button>
 			</div>
 
-			<div className='flex items-center pt-3'>
-				<Avatar alt='' src={user.avatar} noRing />
-				<div className='flex relative flex-1 items-center'>
-					<input
-						placeholder='Viết bình luận của bạn...'
-						className='w-full py-2 px-6 bg-blue-50/50 rounded-full ml-2 placeholder:text-blue-900/50'
-						onClick={() => setOnComment(true)}
-					/>
+			{user && (
+				<div className='flex items-center pt-3'>
+					<Avatar alt='' src={user.avatar} noRing />
+					<div className='flex relative flex-1 items-center'>
+						<input
+							placeholder='Viết bình luận của bạn...'
+							className='w-full py-2 px-6 bg-blue-50/50 rounded-full ml-2 placeholder:text-blue-900/50'
+							onClick={() => setOnComment(true)}
+						/>
 
-					<div className='absolute flex items-center right-3 space-x-2 text-blue-900/60'>
-						<button>
-							<SendIcon className='h-5' />
-						</button>
+						<div className='absolute flex items-center right-3 space-x-2 text-blue-900/60'>
+							<button>
+								<SendIcon className='h-5' />
+							</button>
+						</div>
 					</div>
 				</div>
-			</div>
+			)}
 
 			<div className='pt-6'>
 				<Comments
@@ -425,7 +433,7 @@ const Post = ({ data }: Props) => {
 				/>
 			</div>
 		</div>
-	) : null
+	)
 }
 
 Post.Skeleton = function PostSkeleton() {
