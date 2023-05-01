@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Box from '~/components/box'
 import { Input } from '~/components/form'
+import ScrollToTopButton from '~/components/scrollToTopButton'
 import { Blogs, Posts, Users } from '~/components/search'
 
 const Search = () => {
@@ -21,6 +22,8 @@ const Search = () => {
 			<NextSeo
 				title={'Tìm kiếm' + (searchQuery ? ` - ${searchQuery}` : '')}
 			/>
+
+			<ScrollToTopButton />
 
 			<h1 className='text-3xl font-bold mb-6'>Tìm kiếm</h1>
 
