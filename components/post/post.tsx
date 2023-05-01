@@ -258,6 +258,11 @@ const Post = ({ data }: Props) => {
 				<Dropdown
 					items={[
 						{
+							label: 'Xem chi tiết',
+							onClick: () =>
+								router.push(routes.postDetail(data._id)),
+						},
+						{
 							label: 'Chỉnh sửa',
 							show:
 								user?._id === data.author._id ||
@@ -272,11 +277,7 @@ const Post = ({ data }: Props) => {
 							onClick: () => deletePost(),
 							divider: true,
 						},
-						{
-							label: 'Xem chi tiết',
-							onClick: () =>
-								router.push(routes.postDetail(data._id)),
-						},
+
 						{
 							label: 'Sao chép liên kết',
 							onClick: () => {
