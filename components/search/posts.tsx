@@ -12,7 +12,7 @@ export default function Posts({ searchQuery }: { searchQuery: string }) {
 
 	const { data, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } =
 		useInfiniteQuery(
-			queryKeys.searchPosts(searchQuery, { limit: 10 }),
+			queryKeys.searchPosts(searchQuery, { limit: 6 }),
 			({ pageParam = { limit: 6 } }) =>
 				searchService.searchPosts(searchQuery, pageParam),
 			{
