@@ -438,7 +438,7 @@ const Post = ({ data }: Props) => {
 
 Post.Skeleton = function PostSkeleton() {
 	return (
-		<div className='bg-white/90 max-w-2xl mx-auto rounded-3xl px-3 pt-6 pb-4 shadow-lg shadow-blue-900/5'>
+		<div className='bg-white/90 max-w-2xl mx-auto rounded-3xl sm:px-3 px-2 pt-5 sm:pt-6 pb-4 shadow-lg shadow-blue-900/5'>
 			<div className='flex items-center px-2'>
 				<Skeleton size={9} rounded='full' />
 
