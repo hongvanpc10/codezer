@@ -41,6 +41,7 @@ import Skeleton from '../skeleton'
 import UpdatePostModal from './updatePostModal'
 import copyToClipboard from '~/utils/copyToClipboard'
 import { useRouter } from 'next/router'
+import pattern from '~/config/pattern'
 
 interface Props {
 	data: PostType
@@ -153,7 +154,7 @@ const Post = ({ data }: Props) => {
 			)
 			setHtmlContent(
 				_html.replaceAll(
-					/#[a-z0-9_]+/gi,
+					pattern.hashtag,
 					tag =>
 						`<a class="!no-underline !font-normal" href="${routes.postsByTag(
 							tag.slice(1)

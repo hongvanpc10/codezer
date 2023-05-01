@@ -53,6 +53,7 @@ const queryKeys = {
 	savedBlogs: (id: string) => ['blogs', 'saved', id],
 	savedPosts: (id: string) => ['posts', 'saved', id],
 	postDetail: (id: string) => ['posts', id, 'post'],
+	hashtags: ['hashtags'],
 }
 
 export default queryKeys

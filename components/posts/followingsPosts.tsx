@@ -5,6 +5,8 @@ import { Post as PostType } from '~/apiServices/postsServices'
 import Post from '~/components/post'
 import queryKeys from '~/config/queryKeys'
 import { useAuth, useInView } from '~/hooks'
+import Suggestion from './suggestion'
+import Tags from './tags'
 
 export default function FollowingsPosts() {
 	const { auth } = useAuth()
@@ -44,6 +46,14 @@ export default function FollowingsPosts() {
 
 	return (
 		<div className='space-y-8'>
+			<div className='hide-on-xl'>
+				<Suggestion />
+			</div>
+
+			<div className='hide-on-xl'>
+				<Tags />
+			</div>
+
 			{data?.pages &&
 				data.pages
 					.map(page => page?.posts as PostType[])

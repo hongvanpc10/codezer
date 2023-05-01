@@ -5,6 +5,7 @@ import { Post as PostType } from '~/apiServices/postsServices'
 import Post from '~/components/post'
 import queryKeys from '~/config/queryKeys'
 import { useAuth, useInView } from '~/hooks'
+import Tags from './tags'
 
 export default function AllPost() {
 	const { auth } = useAuth()
@@ -41,6 +42,10 @@ export default function AllPost() {
 
 	return (
 		<div className='space-y-8'>
+			<div className='hide-on-xl'>
+				<Tags />
+			</div>
+
 			{data?.pages &&
 				data.pages
 					.map(page => page?.posts as PostType[])

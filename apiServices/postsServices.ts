@@ -151,3 +151,8 @@ export const getDetail = async (id: string) => {
 
 	return res?.data
 }
+
+export const getHashtags = async () => {
+	const res = await request.get<ResData<string[]>>('/posts/hashtags')
+	return res?.data
+}

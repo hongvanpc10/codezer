@@ -1,9 +1,8 @@
 import { Tab } from '@headlessui/react'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { FollowingsPosts, Suggestion } from '~/components/posts'
+import { FollowingsPosts } from '~/components/posts'
 import AllPost from '~/components/posts/allPosts'
-import { CreatePost } from '~/components/post'
 
 export default function Posts() {
 	const [selectedTab, setSelectedTab] = useState(0)
@@ -53,9 +52,6 @@ export default function Posts() {
 				</Tab.Panel>
 
 				<Tab.Panel>
-					<div className='mb-8 hide-on-xl'>
-						<Suggestion />
-					</div>
 					<FollowingsPosts />
 				</Tab.Panel>
 			</Tab.Panels>
