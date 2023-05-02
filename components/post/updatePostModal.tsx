@@ -18,7 +18,6 @@ import { Error } from '../form'
 import { CloseIcon, EditIcon, GalleryBoldIcon, GlobalIcon } from '../icons'
 import Image from '../image'
 import Loader from '../loader'
-import { useAuth } from '~/hooks'
 
 interface Props {
 	setIsOpen: Function
@@ -48,12 +47,12 @@ export default function Update({ setIsOpen, user, accessToken, data }: Props) {
 		(payload: CreatePostData) =>
 			postsService.update(data._id, payload, accessToken),
 		{
-			onSuccess(data) {
-				if (data)
+			onSuccess(postData) {
+				if (postData)
 					[
 						queryKeys.posts,
 						queryKeys.followingsPosts(user._id),
-						queryKeys.userPosts(data.author._id),
+						queryKeys.userPosts(postData.author._id),
 					].forEach(key => {
 						queryClient.setQueryData<
 							InfiniteData<DataWithPagination<{ posts: Post[] }>>
@@ -65,7 +64,9 @@ export default function Update({ setIsOpen, user, accessToken, data }: Props) {
 									pages: oldData.pages.map(page => ({
 										...page,
 										posts: page.posts.map(post =>
-											post._id === data._id ? data : post
+											post._id === postData._id
+												? postData
+												: post
 										),
 									})),
 								}

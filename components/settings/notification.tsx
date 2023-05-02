@@ -1,5 +1,15 @@
 import Box from '../box'
-import Toggle from '../toggle'
+import NotificationSettingItem, { Props } from './notificationSettingItem'
+
+const items: Props[] = [
+	{ _key: 'newBlog', label: 'Tất cả bài viết mới' },
+	{ _key: 'newFromFollowings', label: 'Bài viết từ bạn bè' },
+	{ _key: 'newComment', label: 'Bình luận trong bài blog/post' },
+	{ _key: 'newLike', label: 'Lượt thích trong bài viết' },
+	{ _key: 'newReaction', label: 'Lượt cảm xúc trong bài post, bình luận' },
+	{ _key: 'newReply', label: 'Trả lời bình luận' },
+	{ _key: 'newFollower', label: 'Lượt theo dõi mới' },
+]
 
 export default function Notification() {
 	return (
@@ -8,35 +18,9 @@ export default function Notification() {
 
 			<Box>
 				<div className='space-y-5'>
-					<div className='flex items-center justify-between'>
-						<label>Tất cả bài viết mới</label>
-						<Toggle defaultChecked={true} />
-					</div>
-
-					<div className='flex items-center justify-between'>
-						<label>Bài viết theo dõi</label>
-						<Toggle defaultChecked={true} />
-					</div>
-
-					<div className='flex items-center justify-between'>
-						<label>Bình luận trong bài blog / post</label>
-						<Toggle defaultChecked={true} />
-					</div>
-
-					<div className='flex items-center justify-between'>
-						<label>Lượt thích trong bài blog / post</label>
-						<Toggle defaultChecked={true} />
-					</div>
-
-					<div className='flex items-center justify-between'>
-						<label>Trả lời bình luận</label>
-						<Toggle defaultChecked={true} />
-					</div>
-
-					<div className='flex items-center justify-between'>
-						<label>Cảm xúc trong bình luận</label>
-						<Toggle defaultChecked={true} />
-					</div>
+					{items.map((props, i) => (
+						<NotificationSettingItem key={i} {...props} />
+					))}
 				</div>
 			</Box>
 		</section>

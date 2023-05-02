@@ -14,7 +14,7 @@ export default function Tags() {
 	const [limit, setLimit] = useState(true)
 
 	return (
-		<div className='bg-white xl:max-h-[calc(100vh-9rem)] overflow-y-auto px-2 py-4 rounded-3xl shadow-xl shadow-blue-900/5'>
+		<div className='bg-white max-w-2xl mx-auto xl:max-h-[calc(100vh-9rem)] overflow-y-auto px-2 py-4 rounded-3xl shadow-xl shadow-blue-900/5'>
 			<h2 className='ml-4 text-lg font-medium'>Tags</h2>
 
 			<div className='mt-3 flex flex-wrap'>

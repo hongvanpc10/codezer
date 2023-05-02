@@ -13,7 +13,7 @@ import { Post as PostType } from '~/apiServices/postsServices'
 import queryKeys from '~/config/queryKeys'
 import routes from '~/config/routes'
 import socket from '~/config/socket'
-import { useAuth, useRedirectToLogin } from '~/hooks'
+import { useAuth, useInView, useRedirectToLogin } from '~/hooks'
 import markdownToHTML from '~/utils/markdownToHTML'
 import { DataWithPagination } from '~/utils/request'
 import timeFromNow from '~/utils/timeFromNow'
@@ -22,6 +22,7 @@ import Comments from '../comments'
 import Dropdown from '../dropdown'
 import {
 	AngryIcon,
+	GlobalIcon,
 	HeartSolidIcon,
 	LikeIcon,
 	LikeSolidIcon,
@@ -54,6 +55,8 @@ const Post = ({ data }: Props) => {
 	const [onComment, setOnComment] = useState(false)
 	const [viewMore, setViewMore] = useState(false)
 
+	const { inView, ref } = useInView()
+
 	const { auth } = useAuth()
 	const user = auth?.data
 
@@ -66,15 +69,21 @@ const Post = ({ data }: Props) => {
 	const [playSound] = useSound('/sounds/sound2.mp3')
 
 	useEffect(() => {
-		socket.emit('join-room', data._id)
+		if (inView) socket.emit('join-room', data._id)
+		else socket.emit('leave-room', data._id)
 
 		return () => {
 			socket.emit('leave-room', data._id)
 		}
-	}, [data._id])
+	}, [data._id, inView])
 
 	useEffect(() => {
 		function onAddReaction(post: PostType) {
+			queryClient.setQueryData<PostType>(
+				queryKeys.postDetail(post._id),
+				oldData => oldData && { ...oldData, reactions: post.reactions }
+			)
+
 			return [
 				queryKeys.posts,
 				queryKeys.followingsPosts(user?._id as string),
@@ -109,6 +118,11 @@ const Post = ({ data }: Props) => {
 
 	useEffect(() => {
 		function onRemoveReaction(post: PostType) {
+			queryClient.setQueryData<PostType>(
+				queryKeys.postDetail(post._id),
+				oldData => oldData && { ...oldData, reactions: post.reactions }
+			)
+
 			return [
 				queryKeys.posts,
 				queryKeys.followingsPosts(user?._id as string),
@@ -170,7 +184,7 @@ const Post = ({ data }: Props) => {
 		() => postsService.deletePost(data._id, auth?.accessToken as string),
 		{
 			onSuccess(data) {
-				if (data)
+				data &&
 					[
 						queryKeys.posts,
 						queryKeys.followingsPosts(user?._id as string),
@@ -225,7 +239,10 @@ const Post = ({ data }: Props) => {
 	)
 
 	return (
-		<div className='bg-white/90 max-w-2xl mx-auto rounded-3xl sm:px-3 px-2 pt-5 sm:pt-6 pb-4 shadow-lg shadow-blue-900/5'>
+		<div
+			ref={ref}
+			className='bg-white/90 max-w-2xl mx-auto rounded-3xl sm:px-3 px-2 pt-5 sm:pt-6 pb-4 shadow-lg shadow-blue-900/5'
+		>
 			{isLoading && <Loader />}
 
 			<div className='flex items-start justify-between px-2 sm:px-3'>
@@ -248,9 +265,15 @@ const Post = ({ data }: Props) => {
 									<TickIcon className='h-[1.125rem] text-sky-500 ml-1' />
 								)}
 							</h3>
-							<span className='text-sm'>
-								{timeFromNow(data.createdAt, true)}
-							</span>
+							<div className='flex items-center'>
+								<span className='text-sm'>
+									{timeFromNow(data.createdAt, true)}
+								</span>
+
+								<div className='h-[0.1875rem] mx-1.5 w-[0.1875rem] rounded-full bg-blue-500' />
+
+								<GlobalIcon className='h-2.5' />
+							</div>
 						</Link>
 					</div>
 				</div>

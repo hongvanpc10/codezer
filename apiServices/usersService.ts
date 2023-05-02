@@ -1,5 +1,14 @@
 import request, { Params, ResData } from '~/utils/request'
 
+export type NotificationsSettingKey =
+	| 'newBlog'
+	| 'newFromFollowings'
+	| 'newFollower'
+	| 'newComment'
+	| 'newReply'
+	| 'newLike'
+	| 'newReaction'
+
 export interface User {
 	avatar: string
 	fullName: string
@@ -20,6 +29,16 @@ export interface User {
 	website: string
 	type: 'register' | 'google' | 'facebook'
 	savedBlogs: string[]
+
+	notificationsSetting: {
+		newBlog: boolean
+		newFromFollowings: boolean
+		newFollower: boolean
+		newComment: boolean
+		newReply: boolean
+		newLike: boolean
+		newReaction: boolean
+	}
 }
 
 export const getTopUsers = async () => {
