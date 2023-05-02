@@ -73,6 +73,12 @@ export default function Update({ setIsOpen, user, accessToken, data }: Props) {
 						)
 					})
 
+				postData &&
+					queryClient.setQueryData<Post>(
+						queryKeys.postDetail(postData._id),
+						oldData => oldData && { ...oldData, ...postData }
+					)
+
 				setIsOpen(false)
 			},
 		}
