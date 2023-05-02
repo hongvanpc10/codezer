@@ -5,7 +5,7 @@ moment.locale('vi')
 
 export default function timeFromNow(date: string, detailed?: boolean) {
 	const daysDiff = -moment(date).diff(new Date(), 'd')
-	const time = moment(date).format('H:m')
+	const time = moment(date).format('H:mm')
 
 	return detailed
 		? daysDiff === 0
