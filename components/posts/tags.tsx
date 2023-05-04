@@ -32,12 +32,15 @@ export default function Tags() {
 						))}
 
 				{isLoading &&
-					Array.from(Array(5)).map((_, i) => (
+					Array.from(Array(10)).map((_, i) => (
 						<div className='mb-3.5 mr-2' key={i}>
 							<Skeleton
 								height={7}
 								rounded='xl'
-								width={[7, 7.5, 5, 6, 8][i] + 'rem'}
+								width={
+									[7, 7.5, 5, 6, 8, 9, 5, 7.5, 6, 8][i] +
+									'rem'
+								}
 							/>
 						</div>
 					))}
