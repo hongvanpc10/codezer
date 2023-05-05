@@ -3,7 +3,7 @@ import {
 	useMutation,
 	useQueryClient,
 } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import ReactImageUploading, { ImageListType } from 'react-images-uploading'
 import useSound from 'use-sound'
@@ -39,6 +39,12 @@ export default function CreatePostModal({
 		handleSubmit,
 		formState: { errors },
 	} = useForm<{ content: string }>()
+
+	const { ref, ...registerReturn } = register('content', {
+		required: 'Vui lòng nhập nội dung bài post',
+	})
+
+	const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
 	const queryClient = useQueryClient()
 
@@ -100,6 +106,16 @@ export default function CreatePostModal({
 		mutate({ content, images: imagesUploaded })
 	})
 
+	const autoResize = () => {
+		if (textareaRef.current) {
+			textareaRef.current.style.height = 'auto'
+			textareaRef.current.style.height =
+				textareaRef.current.scrollHeight + 'px'
+		}
+	}
+
+	useEffect(autoResize, [])
+
 	return (
 		<form
 			onSubmit={onSubmit}
@@ -107,11 +123,11 @@ export default function CreatePostModal({
 		>
 			{(isLoading || isImagesUploading) && <Loader />}
 
-			<h2 className='text-2xl font-semibold mb-8 flex-grow'>
+			<h2 className='text-2xl font-semibold pb-4 flex-grow'>
 				Tạo bài post mới
 			</h2>
 
-			<div className='overflow-y-auto scroll-sm -mx-3 px-2 flex-1 pb-10'>
+			<div className='overflow-y-auto scroll-sm -mx-3 px-2 flex-1 pt-6 pb-10'>
 				<div className='flex items-center'>
 					<Avatar alt='' size={11} noRing src={user.avatar} />
 					<div className='ml-3'>
@@ -127,13 +143,15 @@ export default function CreatePostModal({
 				<div className='mb-6 mt-3'>
 					<textarea
 						autoFocus
-						className='w-full bg-slate-50/50 rounded-2xl caret-blue-500 p-3 text-lg resize-none'
+						className='w-full min-h-[16rem] bg-slate-50/50 rounded-2xl caret-blue-500 p-3 text-lg resize-none'
 						placeholder={`${user.fullName} ơi, bạn đang nghĩ gì thế?`}
-						rows={4}
-						{...register('content', {
-							required: 'Vui lòng nhập nội dung bài post',
-						})}
+						{...registerReturn}
+						ref={e => {
+							ref(e)
+							textareaRef.current = e
+						}}
 						spellCheck={false}
+						onInput={autoResize}
 					></textarea>
 
 					{errors.content?.message && (
@@ -227,17 +245,17 @@ export default function CreatePostModal({
 						</div>
 					)}
 				</ReactImageUploading>
-			</div>
 
-			<div className='flex pt-3 bg-white/450 items-center justify-end space-x-3'>
-				<Button
-					component='div'
-					onClick={() => setIsOpen(false)}
-					color='slate'
-				>
-					Hủy
-				</Button>
-				<Button>Đăng</Button>
+				<div className='flex mt-16 items-center justify-end space-x-3'>
+					<Button
+						component='div'
+						onClick={() => setIsOpen(false)}
+						color='slate'
+					>
+						Hủy
+					</Button>
+					<Button>Đăng</Button>
+				</div>
 			</div>
 		</form>
 	)

@@ -20,7 +20,6 @@ export default function CreatePost() {
 			defaultOpen={false}
 			maxWidth='xl'
 			scale={false}
-			closeable={false}
 		>
 			{setIsOpen => (
 				<div className='bg-white/90 mx-auto max-w-2xl rounded-3xl px-5 pt-6 pb-4 shadow-lg shadow-blue-900/5'>

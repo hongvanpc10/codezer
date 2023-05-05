@@ -331,7 +331,6 @@ const Post = ({ data }: Props) => {
 					)}
 					maxWidth='xl'
 					scale={false}
-					closeable={false}
 				/>
 			)}
 
