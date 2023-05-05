@@ -13,7 +13,7 @@ export interface CreatePostData {
 
 export interface Post extends CreatePostData {
 	author: User
-	reactions: CounterObject[]
+	reactions: (CounterObject & { by: User })[]
 	createdAt: string
 	_id: string
 }

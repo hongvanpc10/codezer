@@ -14,7 +14,7 @@ import {
 	SearchIcon,
 } from '../icons'
 import Popover from '../popover'
-import NotificationsPopover from './notificationsPopover'
+import { NotificationsPopover } from '../notifications'
 
 interface ActionsButtonProps {
 	href?: string
@@ -72,7 +72,7 @@ export default function Actions() {
 		{
 			label: 'Bài viết đã lưu',
 			divider: true,
-			href: routes.savedBlogs
+			href: routes.savedBlogs,
 		},
 		{
 			label: 'Đăng xuất',

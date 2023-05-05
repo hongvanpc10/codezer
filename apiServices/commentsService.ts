@@ -105,10 +105,7 @@ export const update = async (
 	return res?.data
 }
 
-export const deleteComment = async (
-	id: string,
-	accessToken: string
-) => {
+export const deleteComment = async (id: string, accessToken: string) => {
 	const res = await request.delete('/comments/' + id, {
 		headers: { Authorization: accessToken },
 	})
