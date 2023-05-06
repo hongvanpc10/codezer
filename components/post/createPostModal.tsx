@@ -143,7 +143,7 @@ export default function CreatePostModal({
 				<div className='mb-6 mt-3'>
 					<textarea
 						autoFocus
-						className='w-full min-h-[10rem] bg-slate-50/50 rounded-2xl caret-blue-500 p-3 text-lg resize-none'
+						className='w-full bg-slate-50/50 rounded-2xl caret-blue-500 p-3 text-lg resize-none'
 						placeholder={`${user.fullName} ơi, bạn đang nghĩ gì thế?`}
 						{...registerReturn}
 						ref={e => {
@@ -152,6 +152,7 @@ export default function CreatePostModal({
 						}}
 						spellCheck={false}
 						onInput={autoResize}
+						rows={5}
 					></textarea>
 
 					{errors.content?.message && (

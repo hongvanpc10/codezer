@@ -157,6 +157,7 @@ export default function Update({ setIsOpen, user, accessToken, data }: Props) {
 						}}
 						spellCheck={false}
 						onInput={autoResize}
+						rows={5}
 					></textarea>
 
 					{errors.content?.message && (
