@@ -77,7 +77,7 @@ export default function ImagesGrid({ images }: Props) {
 
 							{images.length > 5 && index === 4 && (
 								<div className='absolute text-white rounded-lg text-3xl font-medium inset-0 flex items-center justify-center bg-black/40'>
-									+{images.length - 5}
+									+{images.length - 4}
 								</div>
 							)}
 						</div>
