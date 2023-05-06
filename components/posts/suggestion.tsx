@@ -18,7 +18,7 @@ export default function Suggestion() {
 	)
 
 	return (
-		<div className='bg-white px-2 max-w-2xl mx-auto py-4 rounded-3xl shadow-xl shadow-blue-900/5'>
+		<div className='bg-white px-2 max-h-[calc(100vh-9rem)] overflow-y-auto max-w-2xl mx-auto py-4 rounded-3xl shadow-xl shadow-blue-900/5'>
 			<h2 className='ml-4 text-lg font-medium'>Đề cử</h2>
 			<ul className='space-y-1 mt-3'>
 				{data &&
