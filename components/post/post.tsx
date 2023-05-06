@@ -358,33 +358,7 @@ const Post = ({ data }: Props) => {
 			<div className='flex pb-2.5 pt-3 items-center justify-between text-sm px-2'>
 				<div className='last:[&_div_div]:hidden cursor-pointer group flex items-center relative'>
 					{data.reactions.length > 0 && (
-						<>
-							<FacebookCounter counters={data.reactions} />
-
-							<ul className='absolute transition opacity-0 group-hover:opacity-100 invisible group-hover:visible top-[calc(100%+0.25rem)] z-10 left-0 bg-black/50 py-1 pl-2 pr-4 text-xs text-white rounded-lg'>
-								{data.reactions
-									.slice(0, 10)
-									.map(reaction =>
-										reaction.by._id === user?._id
-											? 'Bạn'
-											: reaction.by.fullName
-									)
-									.map((name, index) => (
-										<li
-											className='whitespace-nowrap'
-											key={index}
-										>
-											{name}
-										</li>
-									))}
-
-								{data.reactions.length > 10 && (
-									<li className='whitespace-nowrap'>
-										{data.reactions.length - 10} người khác
-									</li>
-								)}
-							</ul>
-						</>
+						<FacebookCounter counters={data.reactions} />
 					)}
 
 					<span className='ml-2'>
@@ -402,7 +376,7 @@ const Post = ({ data }: Props) => {
 						onAdd={addReaction}
 						onRemove={removeReaction}
 						reaction={data.reactions.find(
-							reaction => reaction.by._id === user?._id
+							reaction => reaction.by === user?._id
 						)}
 						iconSize={32}
 					>

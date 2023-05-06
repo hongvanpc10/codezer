@@ -1,10 +1,10 @@
+import { CounterObject } from '@charkour/react-reactions'
 import request, {
 	Params,
 	ResData,
 	ResDataWithPagination,
 } from '~/utils/request'
 import { User } from './usersService'
-import { CounterObject } from '@charkour/react-reactions'
 
 export interface CreatePostData {
 	content: string
@@ -13,7 +13,7 @@ export interface CreatePostData {
 
 export interface Post extends CreatePostData {
 	author: User
-	reactions: (CounterObject & { by: User })[]
+	reactions: CounterObject[]
 	createdAt: string
 	_id: string
 }
