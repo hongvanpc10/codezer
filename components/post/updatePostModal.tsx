@@ -148,7 +148,7 @@ export default function Update({ setIsOpen, user, accessToken, data }: Props) {
 				<div className='mb-6 mt-3'>
 					<textarea
 						autoFocus
-						className='w-full min-h-[12rem] bg-slate-50/50 rounded-2xl caret-blue-500 p-3 text-lg resize-none'
+						className='w-full min-h-[10rem] bg-slate-50/50 rounded-2xl caret-blue-500 p-3 text-lg resize-none'
 						placeholder={`${user.fullName} ơi, bạn đang nghĩ gì thế?`}
 						{...registerReturn}
 						ref={e => {
