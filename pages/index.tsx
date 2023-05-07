@@ -1,5 +1,4 @@
 import { PopunderAds } from '~/components/advertisments'
-import SocialBarAds from '~/components/advertisments/socialBarAds'
 import {
 	BlogsGroupByCategories,
 	Categories,
@@ -17,7 +16,6 @@ const Home = () => {
 			<ScrollToTopButton />
 
 			<PopunderAds />
-			<SocialBarAds />
 
 			<div className='flex space-x-4 !-mt-8 items-center justify-end !-mb-8'>
 				<Weather />

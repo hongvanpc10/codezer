@@ -18,6 +18,7 @@ import { LayoutProps, MainLayout } from '~/layouts'
 import '~/styles/globals.css'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import images from '~/assets/images'
+import SocialBarAds from '~/components/advertisments/socialBarAds'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
 	Layout?: (props: LayoutProps) => ReactElement
@@ -58,6 +59,8 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 						<Fly />
 
 						<Analytics />
+
+						<SocialBarAds />
 
 						<ReactQueryDevtools />
 
