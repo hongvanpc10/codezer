@@ -18,6 +18,10 @@ export default function Footer() {
 			label: 'Snake Game',
 			href: 'https://snake.codezer.online',
 		},
+		{
+			label: 'Donate',
+			href: routes.directLinkAds,
+		},
 	]
 
 	return (
@@ -47,13 +51,13 @@ export default function Footer() {
 					</span>
 
 					<div className='flex items-center space-x-8 text-blue-900/75 sm:mt-0 mt-4'>
-						<Link href=''>
+						<Link href={routes.directLinkAds}>
 							<FacebookIcon2 className='h-5' />
 						</Link>
-						<Link href=''>
+						<Link href={routes.directLinkAds}>
 							<GithubIcon2 className='h-5' />
 						</Link>
-						<Link href=''>
+						<Link href={routes.directLinkAds}>
 							<TwitterIcon className='h-5' />
 						</Link>
 					</div>
