@@ -15,7 +15,7 @@ const Home = () => {
 		<div className='space-y-14'>
 			<ScrollToTopButton />
 
-			<PopAds />
+			{/* <PopAds /> */}
 
 			<div className='flex space-x-4 !-mt-8 items-center justify-end !-mb-8'>
 				<Weather />
