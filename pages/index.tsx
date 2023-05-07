@@ -1,4 +1,3 @@
-import { PopAds } from '~/components/advertisments'
 import {
 	BlogsGroupByCategories,
 	Categories,
@@ -14,8 +13,6 @@ const Home = () => {
 	return (
 		<div className='space-y-14'>
 			<ScrollToTopButton />
-
-			{/* <PopAds /> */}
 
 			<div className='flex space-x-4 !-mt-8 items-center justify-end !-mb-8'>
 				<Weather />

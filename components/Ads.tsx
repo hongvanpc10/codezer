@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Script from 'next/script'
 
-export default function MonetagAds() {
+export default function Ads() {
 	return (
 		<>
 			<Head>

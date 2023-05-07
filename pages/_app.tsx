@@ -8,7 +8,7 @@ import type { AppProps } from 'next/app'
 import 'prismjs/themes/prism-okaidia.min.css'
 import { ReactElement } from 'react'
 import colors from 'tailwindcss/colors'
-import { InPagePushAds, MonetagAds } from '~/components/advertisments'
+import Ads from '~/components/Ads'
 import Fly from '~/components/fly'
 import Private from '~/components/private'
 import Restricted from '~/components/restricted'
@@ -59,9 +59,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
 						<Analytics />
 
-						{/* <InPagePushAds /> */}
-
-						<MonetagAds/>
+						<Ads />
 
 						<ReactQueryDevtools />
 
