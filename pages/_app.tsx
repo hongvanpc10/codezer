@@ -8,7 +8,7 @@ import type { AppProps } from 'next/app'
 import 'prismjs/themes/prism-okaidia.min.css'
 import { ReactElement } from 'react'
 import colors from 'tailwindcss/colors'
-import { SocialBarAds } from '~/components/advertisments'
+import { PopupAds, SocialBarAds } from '~/components/advertisments'
 import Fly from '~/components/fly'
 import Private from '~/components/private'
 import Restricted from '~/components/restricted'
@@ -60,6 +60,8 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 						<Analytics />
 
 						<SocialBarAds />
+
+						<PopupAds />
 
 						<ReactQueryDevtools />
 
