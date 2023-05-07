@@ -17,8 +17,7 @@ const routes = {
 	savedBlogs: '/blogs/saved',
 	postsByTag: (tag: string) => '/posts/tag/' + tag,
 	postDetail: (id: string) => '/posts/' + id,
-	directLinkAds:
-		'https://www.highrevenuegate.com/bpeeuhun?key=0e06dd1c2a3b0d469ef473461ef05363',
+	directLinkAds: '//vaikijie.net/4/5930674',
 }
 
 export default routes
