@@ -56,13 +56,13 @@ export default function Footer() {
 					</span>
 
 					<div className='flex items-center space-x-8 text-blue-900/75 sm:mt-0 mt-4'>
-						<Link href={routes.directLinkAds}>
+						<Link href={routes.directLinkAds} target='_blank'>
 							<FacebookIcon2 className='h-5' />
 						</Link>
-						<Link href={routes.directLinkAds}>
+						<Link href={routes.directLinkAds} target='_blank'>
 							<GithubIcon2 className='h-5' />
 						</Link>
-						<Link href={routes.directLinkAds}>
+						<Link href={routes.directLinkAds} target='_blank'>
 							<TwitterIcon className='h-5' />
 						</Link>
 					</div>
