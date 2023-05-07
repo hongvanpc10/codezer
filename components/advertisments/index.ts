@@ -1,4 +1,2 @@
-export { default as NativeAds } from './nativeAds'
-export { default as PopunderAds } from './popunderAds'
-export { default as PopupAds } from './popupAds'
-export { default as SocialBarAds } from './socialBarAds'
+export { default as PopAds } from './popAds'
+export { default as InPagePushAds } from './inPagePushAds '

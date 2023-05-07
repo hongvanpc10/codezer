@@ -1,6 +1,6 @@
 import Script from 'next/script'
 
-export default function SocialBarAds() {
+export default function InPagePushAds() {
 	return (
 		<Script
 			type='text/javascript'
