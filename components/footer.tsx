@@ -6,6 +6,7 @@ import Logo from './logo'
 interface Product {
 	label: string
 	href: string
+	newTab?: boolean
 }
 
 export default function Footer() {
@@ -21,6 +22,7 @@ export default function Footer() {
 		{
 			label: 'Donate',
 			href: routes.directLinkAds,
+			newTab: true,
 		},
 	]
 
@@ -35,6 +37,9 @@ export default function Footer() {
 							<Link
 								href={product.href}
 								className='underline underline-offset-2'
+								{...(product.newTab
+									? { target: '_blank' }
+									: {})}
 							>
 								{product.label}
 							</Link>
