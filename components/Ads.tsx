@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Script from 'next/script'
 
 export default function Ads() {
+
 	return (
 		<>
 			<Head>
@@ -22,7 +23,7 @@ export default function Ads() {
 				src='//ophoacit.com/1?z=5930703'
 			></Script> */}
 
-			<Script src='https://glizauvo.net/401/5930704' />
+			<Script src='https://gloaphoo.net/401/5930704' />
 		</>
 	)
 }
