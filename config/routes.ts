@@ -17,7 +17,7 @@ const routes = {
 	savedBlogs: '/blogs/saved',
 	postsByTag: (tag: string) => '/posts/tag/' + tag,
 	postDetail: (id: string) => '/posts/' + id,
-	directLinkAds: '//vaikijie.net/4/5930674',
+	directLinkAds: 'https://vaikijie.net/4/5930674',
 }
 
 export default routes
