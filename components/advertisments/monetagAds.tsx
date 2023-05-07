@@ -11,7 +11,10 @@ export default function MonetagAds() {
 				></meta>
 			</Head>
 
-			<Script id='monetag'>{`(function(s,u,z,p){s.src=u,s.setAttribute('data-zone',z),p.appendChild(s);})(document.createElement('script'),'https://inklinkor.com/tag.min.js',5930649,document.body||document.documentElement)`}</Script>
+			<Script
+				src='https://inklinkor.com/tag.min.js'
+				data-zone={5930649}
+			/>
 		</>
 	)
 }
