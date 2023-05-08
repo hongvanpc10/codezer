@@ -2,7 +2,6 @@ import Head from 'next/head'
 import Script from 'next/script'
 
 export default function Ads() {
-
 	return (
 		<>
 			<Head>
@@ -17,13 +16,18 @@ export default function Ads() {
 				data-zone={5930649}
 			/> */}
 
-			{/* <Script
+			<Script
 				async
 				data-cfasync='false'
 				src='//ophoacit.com/1?z=5930703'
-			></Script> */}
+			></Script>
 
 			<Script src='https://gloaphoo.net/401/5930704' />
+
+			<Script
+				src='https://inklinkor.com/tag.min.js'
+				data-zone={5932764}
+			/>
 		</>
 	)
 }
