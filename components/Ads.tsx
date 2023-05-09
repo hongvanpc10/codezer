@@ -11,10 +11,10 @@ export default function Ads() {
 				></meta>
 			</Head>
 
-			<Script
+			{/* <Script
 				src='https://inklinkor.com/tag.min.js'
 				data-zone={5930649}
-			/>
+			/> */}
 
 			{/* <Script
 				async
@@ -24,10 +24,10 @@ export default function Ads() {
 
 			<Script src='https://gloaphoo.net/401/5930704' />
 
-			{/* <Script
+			<Script
 				src='https://inklinkor.com/tag.min.js'
 				data-zone={5932764}
-			/> */}
+			/>
 		</>
 	)
 }
