@@ -241,7 +241,7 @@ const Post = ({ data }: Props) => {
 	return (
 		<div
 			ref={ref}
-			className='bg-white/90 max-w-2xl mx-auto rounded-3xl sm:px-3 px-2 pt-5 sm:pt-6 pb-4 shadow-lg shadow-blue-900/5'
+			className='bg-white/90 max-w-2xl mx-auto rounded-3xl sm:px-3 px-1 pt-5 sm:pt-6 pb-4 shadow-lg shadow-blue-900/5'
 		>
 			{isLoading && <Loader />}
 

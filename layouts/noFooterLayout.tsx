@@ -9,7 +9,7 @@ export default function NoFooterLayout({ children }: LayoutProps) {
 			<Header />
 			<div>
 				<Sidebar />
-				<div className='container mx-auto pt-28 px-3 pb-36 min-h-screen'>
+				<div className='container mx-auto pt-28 sm:px-3 px-2 pb-36 min-h-screen'>
 					{children}
 				</div>
 				<ChatGPT />

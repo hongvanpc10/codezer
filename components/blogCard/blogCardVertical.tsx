@@ -38,7 +38,7 @@ function BlogCardVertical({ data, showCategories = true }: Props) {
 				)}
 			</Link>
 
-			<div className='px-2 py-3'>
+			<div className='sm:px-2 px-1 py-3'>
 				<Link href={routes.blog(data.slug)}>
 					<h3 className='font-bold text-[1.0625rem] leading-6 h-12 line-clamp-2'>
 						{capitalizeString(data.title)}
@@ -67,7 +67,7 @@ BlogCardVertical.Skeleton = function CardSkeleton() {
 				rounded='2xl'
 			/>
 
-			<div className='px-2 pt-3'>
+			<div className='sm:px-2 px-1 pt-3'>
 				<Skeleton.Text
 					lines={2}
 					text={1.0625}

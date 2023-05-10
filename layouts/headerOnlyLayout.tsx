@@ -7,7 +7,7 @@ export default function HeaderOnlyLayout({ children }: LayoutProps) {
 		<>
 			<Header />
 			<ChatGPT />
-			<div className='container mx-auto pt-28 px-3 pb-36'>{children}</div>
+			<div className='container mx-auto pt-28 sm:px-3 px-2 pb-36'>{children}</div>
 		</>
 	)
 }
