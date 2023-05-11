@@ -49,7 +49,7 @@ export default function Reactions({
 			</div>
 
 			<div
-				className={`absolute transition-all delay-300 after:content-[""] after:absolute after:w-full after:h-[10%] invisible ${
+				className={`absolute transition-all delay-300 after:content-[""] after:absolute after:top-0 after:left-0 after:w-full after:h-[10%] invisible ${
 					!reaction &&
 					'group-hover:visible group-hover:opacity-100 group-hover:bottom-[calc(110%)]'
 				} opacity-0 bottom-1/2 left-1 z-10`}
