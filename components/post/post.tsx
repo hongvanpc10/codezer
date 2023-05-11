@@ -428,7 +428,7 @@ const Post = ({ data }: Props) => {
 			</div>
 
 			{user && (
-				<div className='flex items-center pt-3'>
+				<div className='flex items-center pt-3 px-1'>
 					<Avatar alt='' src={user.avatar} noRing />
 					<div className='flex relative flex-1 items-center'>
 						<input

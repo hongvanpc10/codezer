@@ -352,7 +352,7 @@ export default function Comments({
 	}, [fetchNextPage, inView, isFetchingNextPage, viewMore])
 
 	return (
-		<div className=''>
+		<div className='px-1'>
 			{onComment && (
 				<Modal
 					render={() => (

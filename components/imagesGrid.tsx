@@ -58,7 +58,7 @@ export default function ImagesGrid({ images }: Props) {
 								? [4, index === 1 ? 6 : 3]
 								: images.length === 2
 								? [16, 7]
-								: [16, 9],
+								: [15, 9],
 					}))
 					.map((image, index) => (
 						<div

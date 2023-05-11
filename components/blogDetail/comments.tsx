@@ -47,7 +47,7 @@ export default function BlogsComments({ blogId ,authorId}: Props) {
 					</p>
 				)}
 
-				<div className='mt-16'>
+				<div className='mt-16 px-1'>
 					<Comments
 						blogId={blogId}
 						onComment={onComment}
