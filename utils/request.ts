@@ -1,3 +1,4 @@
+import { GetNextPageParamFunction, InfiniteData } from '@tanstack/react-query'
 import axios, { AxiosRequestConfig } from 'axios'
 
 export interface ResData<Data = any> {

@@ -1,4 +1,8 @@
-import request, { Params, ResData } from '~/utils/request'
+import request, {
+	Params,
+	ResData,
+	ResDataWithPagination,
+} from '~/utils/request'
 
 export type NotificationsSettingKey =
 	| 'newBlog'
@@ -123,6 +127,34 @@ export const changePassword = async (
 			Authorization: accessToken,
 		},
 	})
+
+	return res?.data
+}
+
+export const getFollowers = async (accessToken: string, params?: Params) => {
+	const res = await request.get<ResDataWithPagination<{ users: User[] }>>(
+		'/users/followers',
+		{
+			headers: {
+				Authorization: accessToken,
+			},
+			params,
+		}
+	)
+
+	return res?.data
+}
+
+export const getFollowings = async (accessToken: string, params?: Params) => {
+	const res = await request.get<ResDataWithPagination<{ users: User[] }>>(
+		'/users/followings',
+		{
+			headers: {
+				Authorization: accessToken,
+			},
+			params,
+		}
+	)
 
 	return res?.data
 }

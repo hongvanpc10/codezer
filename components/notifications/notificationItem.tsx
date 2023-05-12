@@ -33,7 +33,7 @@ export default function NotificationItem({
 	return (
 		<Link
 			href={href}
-			className='flex relative cursor-pointer items-start after:content-[""] after:inline-block after:w-2 after:h-2 after:rounded-full after:absolute after:top-3 after:right-3 after:bg-blue-500 bg-blue-50/40 pl-4 pr-6 py-2.5 rounded-2xl'
+			className='flex relative cursor-pointer items-start after:content-[""] after:inline-block after:w-2 after:h-2 after:rounded-full after:absolute after:top-3 after:right-3 after:bg-blue-500 bg-blue-50/20 pl-4 pr-6 py-2.5 rounded-2xl'
 		>
 			<Avatar alt='' src={images[0] || user.avatar} noRing />
 

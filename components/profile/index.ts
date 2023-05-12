@@ -1,3 +1,5 @@
 export { default as Activities } from './activities'
 export { default as BlogsAndPosts } from './blogsAndPosts'
+export { default as Followers } from './followers'
+export { default as Followings } from './followings'
 export { default as Introduction } from './introduction'
