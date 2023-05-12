@@ -14,7 +14,7 @@ export default function ImagesGrid({ images }: Props) {
 			<div
 				className={`grid ${
 					images.length >= 5
-						? 'grid-cols-7 grid-rows-6'
+						? 'grid-cols-11 grid-rows-6'
 						: images.length === 4
 						? 'grid-cols-11 grid-rows-2'
 						: images.length == 3
@@ -35,11 +35,11 @@ export default function ImagesGrid({ images }: Props) {
 									: ''
 								: images.length > 4
 								? [
-										'col-span-4 row-span-3',
-										'col-span-3 row-span-2',
-										'col-span-3 row-span-2',
-										'col-span-4 row-span-3',
-										'col-span-3 row-span-2',
+										'col-span-6 row-span-3',
+										'col-span-5 row-span-2',
+										'col-span-5 row-span-2',
+										'col-span-6 row-span-3',
+										'col-span-5 row-span-2',
 								  ][index]
 								: images.length === 4
 								? [
