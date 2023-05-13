@@ -23,7 +23,6 @@ import markdownToHTML from '~/utils/markdownToHTML'
 
 export const getStaticPaths: GetStaticPaths = async () => {
 	const data = await blogsService.getBlogs({
-		sort: 'views',
 		limit: 20,
 	})
 
