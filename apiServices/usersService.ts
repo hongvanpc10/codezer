@@ -131,13 +131,10 @@ export const changePassword = async (
 	return res?.data
 }
 
-export const getFollowers = async (accessToken: string, params?: Params) => {
+export const getFollowers = async (id: string, params?: Params) => {
 	const res = await request.get<ResDataWithPagination<{ users: User[] }>>(
-		'/users/followers',
+		'/users/' + id + '/followers',
 		{
-			headers: {
-				Authorization: accessToken,
-			},
 			params,
 		}
 	)
@@ -145,13 +142,10 @@ export const getFollowers = async (accessToken: string, params?: Params) => {
 	return res?.data
 }
 
-export const getFollowings = async (accessToken: string, params?: Params) => {
+export const getFollowings = async (id: string, params?: Params) => {
 	const res = await request.get<ResDataWithPagination<{ users: User[] }>>(
-		'/users/followings',
+		'/users/' + id + '/followings',
 		{
-			headers: {
-				Authorization: accessToken,
-			},
 			params,
 		}
 	)

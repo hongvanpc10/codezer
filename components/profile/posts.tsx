@@ -40,24 +40,28 @@ export default function Posts({ id }: { id: string }) {
 	}, [fetchNextPage, hasNextPage, inView, isFetchingNextPage])
 
 	return (
-		<div className='space-y-8'>
-			{user?._id === id && <CreatePost />}
+		<div>
+			<h2 className='font-semibold max-w-2xl mx-auto block text-xl'>Bài post</h2>
 
-			{data?.pages &&
-				data.pages
-					.map(page => page?.posts as PostType[])
-					.flat()
-					.map((post, index) => <Post key={index} data={post} />)}
+			<div className='space-y-8 mt-6'>
+				{user?._id === id && <CreatePost />}
 
-			{(isFetching || isFetchingNextPage) && <Post.Skeleton />}
+				{data?.pages &&
+					data.pages
+						.map(page => page?.posts as PostType[])
+						.flat()
+						.map((post, index) => <Post key={index} data={post} />)}
 
-			{data && data.pages[0] && data.pages[0].posts.length === 0 && (
-				<h3 className='text-center opacity-50 w-full mt-6 text-xl'>
-					Tác giả chưa có bài viết nào
-				</h3>
-			)}
+				{(isFetching || isFetchingNextPage) && <Post.Skeleton />}
 
-			<div className='mt-28' ref={ref} />
+				{data && data.pages[0] && data.pages[0].posts.length === 0 && (
+					<h3 className='text-center opacity-50 w-full mt-6 text-xl'>
+						Tác giả chưa có bài viết nào
+					</h3>
+				)}
+
+				<div className='mt-28' ref={ref} />
+			</div>
 		</div>
 	)
 }

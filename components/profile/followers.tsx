@@ -1,29 +1,23 @@
 import { useInfiniteQuery } from '@tanstack/react-query'
 import Link from 'next/link'
+import { useEffect } from 'react'
 import { usersService } from '~/apiServices'
 import { User } from '~/apiServices/usersService'
 import queryKeys from '~/config/queryKeys'
 import routes from '~/config/routes'
-import { useAuth, useInView } from '~/hooks'
+import { useInView } from '~/hooks'
 import Avatar from '../avatar'
 import { MoreIcon } from '../icons'
-import { useEffect } from 'react'
 import Skeleton from '../skeleton'
 
-export default function Followers() {
-	const { auth } = useAuth()
-	const user = auth?.data
-
+export default function Followers({ id }: { id: string }) {
 	const { inView, ref } = useInView()
 
 	const { data, isFetching, isFetchingNextPage, hasNextPage, fetchNextPage } =
 		useInfiniteQuery(
-			queryKeys.followers(user?._id as string),
+			queryKeys.followers(id),
 			({ pageParam = { limit: 10 } }) =>
-				usersService.getFollowers(
-					auth?.accessToken as string,
-					pageParam
-				),
+				usersService.getFollowers(id, pageParam),
 			{
 				getNextPageParam(lastPage) {
 					if (
@@ -48,13 +42,18 @@ export default function Followers() {
 
 	return (
 		<div>
-			<div className='row gutter-sm'>
+			<h2 className='font-semibold text-xl'>Follower</h2>
+
+			<div className='row gutter-sm mt-10'>
 				{data &&
 					data.pages
 						.map(page => page?.users as User[])
 						.flat()
 						.map((user, index) => (
-							<div key={index} className='sm:col-6 col-12'>
+							<div
+								key={index}
+								className='sm:col-6 xl:col-4 col-12'
+							>
 								<Link
 									className='bg-white/90 justify-between flex items-center pl-4 pr-6 py-5 shadow-lg shadow-blue-900/[0.02] rounded-2xl'
 									href={routes.profile(user.slug)}
@@ -82,6 +81,12 @@ export default function Followers() {
 								</Link>
 							</div>
 						))}
+
+				{data && data.pages[0]?.users.length === 0 && (
+					<h3 className='text-center opacity-50 w-full mt-10 text-xl'>
+						Không có người theo dõi
+					</h3>
+				)}
 
 				{(isFetching || isFetchingNextPage) &&
 					Array.from(Array(6)).map((_, i) => (

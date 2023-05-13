@@ -10,7 +10,7 @@ import Button from '~/components/button'
 import Dropdown from '~/components/dropdown'
 import { AddIcon, MoreIcon, TickIcon } from '~/components/icons'
 import Image from '~/components/image'
-import { Activities, BlogsAndPosts, Introduction } from '~/components/profile'
+import { Main } from '~/components/profile'
 import ScrollToTopButton from '~/components/scrollToTopButton'
 import queryKeys from '~/config/queryKeys'
 import routes from '~/config/routes'
@@ -184,11 +184,11 @@ const Profile = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 							{match('lg') && (
 								<div className='space-x-2 font-medium flex items-center mt-1 lg:mt-0'>
 									<span>
-										{data.followers.length} theo dõi
+										{data.followers.length} follower
 									</span>
 									<div className='w-1.5 h-1.5 rounded-full bg-blue-500' />
 									<span>
-										{data.followings.length} đang theo dõi
+										{data.followings.length} đang follow
 									</span>
 								</div>
 							)}
@@ -267,22 +267,8 @@ const Profile = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 				</div>
 			</section>
 
-			<div className='row lg:mt-28 mt-48'>
-				<div className='xl:col-4 col-12 space-y-6'>
-					<section className='row'>
-						<div className='xl:col-12 col-12 lg:col-6'>
-							<Introduction data={data} />
-						</div>
-
-						<div className='xl:col-12 col-12 lg:col-6'>
-							<Activities data={data} />
-						</div>
-					</section>
-				</div>
-
-				<div className='xl:col-8 col-12'>
-					<BlogsAndPosts id={data._id} />
-				</div>
+			<div className='lg:mt-32 mt-60'>
+				<Main data={data} />
 			</div>
 		</div>
 	) : null

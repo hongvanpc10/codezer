@@ -35,6 +35,8 @@ export default function Blogs({ id }: { id: string }) {
 
 	return (
 		<>
+			<h2 className='font-semibold text-xl'>Bài viết</h2>
+
 			<div className='row gutter-sm'>
 				{data
 					? data?.pages
@@ -52,7 +54,7 @@ export default function Blogs({ id }: { id: string }) {
 					  ))}
 
 				{data && data.pages[0] && data.pages[0].blogs.length === 0 && (
-					<h3 className='text-center opacity-50 w-full mt-6 text-xl'>
+					<h3 className='text-center opacity-50 w-full mt-10 text-xl'>
 						Tác giả chưa có bài viết nào
 					</h3>
 				)}
