@@ -90,7 +90,7 @@ export default function Followers({ id }: { id: string }) {
 
 				{(isFetching || isFetchingNextPage) &&
 					Array.from(Array(6)).map((_, i) => (
-						<div key={i} className='sm:col-6 col-12'>
+						<div key={i} className='sm:col-6 xl:col-4 col-12'>
 							<div className='bg-white/90 justify-between flex items-center pl-4 pr-6 py-5 shadow-lg shadow-blue-900/[0.02] rounded-2xl'>
 								<div className='flex items-center'>
 									<Skeleton size={16} rounded='full' />
