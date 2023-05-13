@@ -16,7 +16,7 @@ export default function BlogsWithSameAuthor({ data }: Props) {
 		{ enabled: !!data }
 	)
 
-	return blogsWithSameAuthor ? (
+	return blogsWithSameAuthor && blogsWithSameAuthor?.blogs.length > 0 ? (
 		<section className='prose prose-blue prose-a:!font-normal prose-a:!text-blue'>
 			<h3>Bài viết khác của {data.author.fullName}</h3>
 
