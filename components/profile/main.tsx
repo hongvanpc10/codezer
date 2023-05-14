@@ -27,7 +27,7 @@ const items: {
 		type: 'posts',
 	},
 	{
-		title: 'Follower',
+		title: 'Follow',
 		component: Followers,
 		type: 'followers',
 	},

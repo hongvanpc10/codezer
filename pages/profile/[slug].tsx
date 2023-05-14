@@ -184,7 +184,7 @@ const Profile = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 							{match('lg') && (
 								<div className='space-x-2 font-medium flex items-center mt-1 lg:mt-0'>
 									<span>
-										{data.followers.length} follower
+										{data.followers.length} follow
 									</span>
 									<div className='w-1.5 h-1.5 rounded-full bg-blue-500' />
 									<span>
