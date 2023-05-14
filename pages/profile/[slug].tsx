@@ -152,7 +152,7 @@ const Profile = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 			<ImagesViewer
 				isOpen={isImageOpen}
 				setIsOpen={setIsImageOpen}
-				images={[data.avatar]}
+				images={[data.avatar || images.avatarPlaceholder]}
 			/>
 
 			<section className='relative z-10'>
