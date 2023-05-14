@@ -66,7 +66,7 @@ export default function TopUsers() {
 								</div>
 							</li>
 					  ))
-					: Array.from(Array(3)).map((_, index) => (
+					: Array.from(Array(5)).map((_, index) => (
 							<li
 								key={index}
 								className='flex items-center py-3 px-4 transition hover:bg-blue-50 rounded-2xl cursor-pointer'
