@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 import { usersService } from '~/apiServices'
 import { User } from '~/apiServices/usersService'
 import images from '~/assets/images'
@@ -10,6 +11,7 @@ import Button from '~/components/button'
 import Dropdown from '~/components/dropdown'
 import { AddIcon, MoreIcon, TickIcon } from '~/components/icons'
 import Image from '~/components/image'
+import ImagesViewer from '~/components/imagesViewer'
 import { Main } from '~/components/profile'
 import ScrollToTopButton from '~/components/scrollToTopButton'
 import queryKeys from '~/config/queryKeys'
@@ -139,6 +141,8 @@ const Profile = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 		}
 	)
 
+	const [isImageOpen, setIsImageOpen] = useState(-1)
+
 	return data ? (
 		<div className='-mt-20 mx-auto lg:w-11/12'>
 			<NextSeo title={data.fullName} />
@@ -172,6 +176,12 @@ const Profile = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 						isAdmin={data.role === 'admin'}
 					/>
 
+					<ImagesViewer
+						isOpen={isImageOpen}
+						setIsOpen={setIsImageOpen}
+						images={[data.avatar]}
+					/>
+
 					<div className='flex-1 lg:ml-3 flex lg:flex-row flex-col items-stretch lg:items-start lg:justify-between mt-2.5 lg:mt-0'>
 						<div className='lg:block flex items-center flex-col'>
 							<h1 className='text-2xl drop-shadow font-bold flex items-center'>
@@ -183,9 +193,7 @@ const Profile = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
 							{match('lg') && (
 								<div className='space-x-2 font-medium flex items-center mt-1 lg:mt-0'>
-									<span>
-										{data.followers.length} follow
-									</span>
+									<span>{data.followers.length} follow</span>
 									<div className='w-1.5 h-1.5 rounded-full bg-blue-500' />
 									<span>
 										{data.followings.length} đang follow
