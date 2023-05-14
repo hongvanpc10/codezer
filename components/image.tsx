@@ -1,5 +1,5 @@
 import BaseImage from 'next/image'
-import { CSSProperties, useState, useEffect } from 'react'
+import { CSSProperties, useState, useEffect, memo } from 'react'
 import images from '~/assets/images'
 
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
 	sizes?: [number, number, number]
 }
 
-export default function Image({
+export default memo(function Image({
 	alt,
 	src,
 	height,
@@ -60,4 +60,4 @@ export default function Image({
 			/>
 		</div>
 	)
-}
+})

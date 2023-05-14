@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import Image from './image'
 import ImagesViewer from './imagesViewer'
 
@@ -6,7 +6,7 @@ interface Props {
 	images: string[]
 }
 
-export default function ImagesGrid({ images }: Props) {
+export default memo(function ImagesGrid({ images }: Props) {
 	const [isOpen, setIsOpen] = useState(-1)
 
 	return (
@@ -91,4 +91,4 @@ export default function ImagesGrid({ images }: Props) {
 			/>
 		</>
 	)
-}
+})

@@ -1,7 +1,7 @@
 import images from '~/assets/images'
 import { TickIcon } from './icons'
 import Image from './image'
-import { MouseEventHandler } from 'react'
+import { MouseEventHandler, memo } from 'react'
 
 interface Props {
 	src: string
@@ -16,7 +16,7 @@ interface Props {
 	onClick?: MouseEventHandler
 }
 
-export default function Avatar({
+export default memo(function Avatar({
 	alt,
 	src,
 	size = 8,
@@ -53,4 +53,4 @@ export default function Avatar({
 			)}
 		</div>
 	)
-}
+})

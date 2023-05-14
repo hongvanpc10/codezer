@@ -3,8 +3,9 @@ import getWeatherData from '~/apiServices/weatherService'
 import { useGeolocation } from '~/hooks'
 import Image from './image'
 import Skeleton from './skeleton'
+import { memo } from 'react'
 
-export default function Weather() {
+export default memo(function Weather() {
 	const { location, error } = useGeolocation()
 
 	const { data, error: getDataError } = useQuery(
@@ -38,4 +39,4 @@ export default function Weather() {
 			)}
 		</div>
 	) : null
-}
+})

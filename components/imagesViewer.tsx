@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { Transition } from '@headlessui/react'
-import { Dispatch, Fragment, SetStateAction, useEffect } from 'react'
+import { Dispatch, Fragment, SetStateAction, memo, useEffect } from 'react'
 import { ArrowLeftIcon, ArrowRightIcon, CloseIcon } from './icons'
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 	setIsOpen: Dispatch<SetStateAction<number>>
 }
 
-export default function ImagesViewer({
+export default memo(function ImagesViewer({
 	isOpen = -1,
 	images,
 	setIsOpen,
@@ -81,4 +81,4 @@ export default function ImagesViewer({
 			</div>
 		</Transition>
 	)
-}
+})

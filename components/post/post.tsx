@@ -11,14 +11,11 @@ import { useEffect, useState } from 'react'
 import useSound from 'use-sound'
 import { commentsService, postsService } from '~/apiServices'
 import { Post as PostType } from '~/apiServices/postsServices'
-import images from '~/assets/images'
-import pattern from '~/config/pattern'
 import queryKeys from '~/config/queryKeys'
 import routes from '~/config/routes'
 import socket from '~/config/socket'
-import { useAuth, useInView, useRedirectToLogin } from '~/hooks'
+import { useAuth, useRedirectToLogin } from '~/hooks'
 import copyToClipboard from '~/utils/copyToClipboard'
-import markdownToHTML from '~/utils/markdownToHTML'
 import { DataWithPagination } from '~/utils/request'
 import timeFromNow from '~/utils/timeFromNow'
 import Avatar from '../avatar'
@@ -43,19 +40,16 @@ import Loader from '../loader'
 import Modal from '../modal'
 import Reactions, { emoji } from '../reactions'
 import Skeleton from '../skeleton'
+import Content from './content'
 import UpdatePostModal from './updatePostModal'
-import randomInteger from '~/utils/randInt'
 
 interface Props {
 	data: PostType
 }
 
 const Post = ({ data }: Props) => {
-	const [htmlContent, setHtmlContent] = useState(data.content)
-
 	const [onUpdate, setOnUpdate] = useState(false)
 	const [onComment, setOnComment] = useState(false)
-	const [viewMore, setViewMore] = useState(false)
 
 	const { auth } = useAuth()
 	const user = auth?.data
@@ -154,31 +148,6 @@ const Post = ({ data }: Props) => {
 		}
 	}, [data._id, data.author._id, queryClient, user?._id])
 
-	useEffect(() => {
-		async function convert() {
-			const content = data.content
-
-			const _html = await markdownToHTML(
-				content.length > 255
-					? viewMore
-						? content
-						: content.slice(0, 255) + '...'
-					: content
-			)
-			setHtmlContent(
-				_html.replaceAll(
-					pattern.hashtag,
-					tag =>
-						`<a class="!no-underline !font-normal" href="${routes.postsByTag(
-							tag.slice(1)
-						)}">${tag}</a>`
-				)
-			)
-		}
-
-		convert()
-	}, [data.content, viewMore])
-
 	const { isLoading, mutate: deletePost } = useMutation(
 		() => postsService.deletePost(data._id, auth?.accessToken as string),
 		{
@@ -238,9 +207,7 @@ const Post = ({ data }: Props) => {
 	)
 
 	return (
-		<div
-			className='bg-white/90 max-w-2xl mx-auto rounded-3xl sm:px-3 px-1 pt-5 sm:pt-6 pb-4 shadow-lg shadow-blue-900/5'
-		>
+		<div className='bg-white/90 max-w-2xl mx-auto rounded-3xl sm:px-3 px-1 pt-5 sm:pt-6 pb-4 shadow-lg shadow-blue-900/5'>
 			{isLoading && <Loader />}
 
 			<div className='flex items-start justify-between px-2 sm:px-3'>
@@ -333,53 +300,7 @@ const Post = ({ data }: Props) => {
 				/>
 			)}
 
-			<div
-				className={`${
-					data.images.length === 0 && data.content.length < 50
-						? 'aspect-w-14 aspect-h-9 rounded-xl mt-4'
-						: 'mb-4 mt-3'
-				} sm:px-2 px-1`}
-				style={{
-					backgroundImage:
-						data.images.length === 0 && data.content.length < 50
-							? `url(${
-									images.postsBackgrounds[
-										randomInteger(
-											0,
-											images.postsBackgrounds.length - 1
-										)
-									].default.src
-							  })`
-							: '',
-				}}
-			>
-				<div
-					className={`${
-						data.images.length === 0 &&
-						data.content.length < 50 &&
-						'flex items-center justify-center'
-					}`}
-				>
-					<p
-						className={`!prose !prose-blue prose-img:rounded-2xl prose-video:rounded-2xl prose-img:mx-auto prose-a:underline-offset-2 prose-p:break-words prose-headings:break-words prose-a:break-words prose-pre:!rounded-2xl prose-td:!p-3 even:prose-tr:bg-blue-50 prose-th:!p-3 prose-tr:rounded-xl prose-tr:border-none prose-thead:bg-blue-100/75 prose-thead:rounded-xl prose-thead:border-none prose-table:border-separate first:prose-th:rounded-l-xl last:prose-th:rounded-r-xl first:prose-td:rounded-l-xl last:prose-td:rounded-r-xl prose-table:border-spacing-px prose-figcaption:text-center prose-figcaption:italic prose-figcaption:!mt-3 prose-pre:scroll-sm prose-blockquote:!not-italic prose-blockquote:!font-normal prose-blockquote:bg-blue-50/50 [&>*]:prose-blockquote:before:hidden [&>*]:prose-blockquote:after:hidden prose-blockquote:py-1 first:[&>*]:prose-blockquote:!mt-2 last:[&>*]:prose-blockquote:!mb-2 prose-blockquote:pr-4 prose-blockquote:rounded-r-2xl prose-video:mx-auto prose-th:!align-middle prose-p:!my-2 ${
-							data.images.length === 0 &&
-							(data.content.trim().length < 50
-								? '!prose-2xl text-center !text-white'
-								: '!prose-lg')
-						}`}
-						dangerouslySetInnerHTML={{
-							__html:
-								data.content.length > 255 && !viewMore
-									? htmlContent.slice(0, -4) +
-									  '<button class="font-medium ml-1" >Xem thêm</button>'
-									: htmlContent,
-						}}
-						onClick={() => {
-							setViewMore(true)
-						}}
-					></p>
-				</div>
-			</div>
+			<Content content={data.content} imagesLength={data.images.length} />
 
 			<ImagesGrid images={data.images} />
 
