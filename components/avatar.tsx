@@ -1,6 +1,7 @@
 import images from '~/assets/images'
 import { TickIcon } from './icons'
 import Image from './image'
+import { MouseEventHandler } from 'react'
 
 interface Props {
 	src: string
@@ -12,6 +13,7 @@ interface Props {
 	className?: string
 	sizes?: [number, number, number]
 	noRing?: boolean
+	onClick?: MouseEventHandler
 }
 
 export default function Avatar({
@@ -24,9 +26,13 @@ export default function Avatar({
 	sizes = [20, 10, 5],
 	className,
 	noRing = false,
+	onClick,
 }: Props) {
 	return (
-		<div className='relative inline-flex justify-center items-center'>
+		<div
+			onClick={onClick}
+			className='relative inline-flex justify-center items-center'
+		>
 			<Image
 				src={src}
 				alt={alt}

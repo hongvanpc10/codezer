@@ -149,6 +149,12 @@ const Profile = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
 			<ScrollToTopButton />
 
+			<ImagesViewer
+				isOpen={isImageOpen}
+				setIsOpen={setIsImageOpen}
+				images={[data.avatar]}
+			/>
+
 			<section className='relative z-10'>
 				<Image
 					alt=''
@@ -174,12 +180,8 @@ const Profile = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 						ringWidth={4}
 						sizes={[75, 20, 15]}
 						isAdmin={data.role === 'admin'}
-					/>
-
-					<ImagesViewer
-						isOpen={isImageOpen}
-						setIsOpen={setIsImageOpen}
-						images={[data.avatar]}
+						onClick={() => setIsImageOpen(0)}
+						
 					/>
 
 					<div className='flex-1 lg:ml-3 flex lg:flex-row flex-col items-stretch lg:items-start lg:justify-between mt-2.5 lg:mt-0'>
