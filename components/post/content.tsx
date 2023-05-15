@@ -82,7 +82,7 @@ export default memo(function Content({
 								: htmlContent,
 					}}
 					onClick={() => {
-						setViewMore(true)
+						content.length > 255 && !viewMore && setViewMore(true)
 					}}
 				></p>
 			</div>
