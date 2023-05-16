@@ -22,7 +22,7 @@ export default function Categories() {
 				{data ? (
 					<>
 						{data
-							.slice(0, isLimit ? 6 : data.length)
+							.slice(0, isLimit ? 10 : data.length)
 							.map((category, index) => (
 								<Link
 									key={index}
