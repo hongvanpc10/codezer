@@ -26,7 +26,7 @@ function BlogCardVertical({ data, showCategories = true }: Props) {
 
 				{showCategories && (
 					<div className='absolute top-2 right-2 flex'>
-						{data.categories.map((category, index) => (
+						{data.categories.slice(0, 2).map((category, index) => (
 							<span
 								key={index}
 								className='inline-block bg-blue-500/80 text-white rounded-full px-3 py-1 text-sm font-medium mb-1.5 ml-2'

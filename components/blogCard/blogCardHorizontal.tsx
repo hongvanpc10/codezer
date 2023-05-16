@@ -50,17 +50,19 @@ function BlogCardHorizontal({ data }: Props) {
 
 						<div className='flex items-center justify-between mt-2.5'>
 							<div className='flex items-center -mb-1.5'>
-								{data.categories.map((category, index) => (
-									<Link
-										key={index}
-										href={routes.blogsByCategory(
-											category.slug
-										)}
-										className='py-0.5 mr-2 mb-1.5 px-3 bg-blue-50 rounded-xl text-[0.9375rem]'
-									>
-										{category.name}
-									</Link>
-								))}
+								{data.categories
+									.slice(0, 3)
+									.map((category, index) => (
+										<Link
+											key={index}
+											href={routes.blogsByCategory(
+												category.slug
+											)}
+											className='py-0.5 mr-2 mb-1.5 px-3 bg-blue-50 rounded-xl text-[0.9375rem]'
+										>
+											{category.name}
+										</Link>
+									))}
 							</div>
 
 							<span className='text-[0.9375rem]'>
