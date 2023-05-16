@@ -49,7 +49,7 @@ export default function PinnedBlogs() {
 				{data
 					? data.map((blog, index) => (
 							<SwiperSlide key={index}>
-								<div className='flex overflow-hidden group relative rounded-2xl'>
+								<div className='flex overflow-hidden group relative rounded-xl'>
 									<Image
 										alt=''
 										src={blog.thumb}
@@ -89,7 +89,7 @@ export default function PinnedBlogs() {
 							<SwiperSlide key={index}>
 								<Skeleton
 									ratio='aspect-w-16 lg:aspect-h-9 aspect-h-10 sm:aspect-h-9 md:aspect-h-10'
-									rounded='2xl'
+									rounded='xl'
 								/>
 							</SwiperSlide>
 					  ))}

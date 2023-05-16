@@ -14,7 +14,7 @@ interface Props {
 function BlogCardHorizontal({ data }: Props) {
 	return (
 		<>
-			<div className='bg-white show-on-md p-2 sm:p-4 ring-1 ring-blue-50 rounded-3xl shadow-xl shadow-blue-900/[0.03]'>
+			<div className='bg-white show-on-md p-2 sm:p-2.5 ring-1 ring-blue-50 rounded-3xl shadow-xl shadow-blue-900/[0.03]'>
 				<div className='row items-stretch gutter-sm'>
 					<Link
 						href={routes.blog(data.slug)}
@@ -29,7 +29,7 @@ function BlogCardHorizontal({ data }: Props) {
 						/>
 					</Link>
 
-					<div className='xl:col-7 col-6'>
+					<div className='xl:col-7 mt-2 col-6'>
 						<Link
 							href={routes.profile(data.author.slug)}
 							className='flex items-center mb-2'
