@@ -83,7 +83,7 @@ function BlogCardHorizontal({ data }: Props) {
 BlogCardHorizontal.Skeleton = function CardSkeleton() {
 	return (
 		<>
-			<div className='bg-white show-on-md ring-1 ring-blue-50 p-4 rounded-3xl shadow-xl shadow-blue-900/[0.03]'>
+			<div className='bg-white show-on-md ring-1 ring-blue-50 p-2 sm:p-2.5 rounded-3xl shadow-xl shadow-blue-900/[0.03]'>
 				<div className='row items-stretch gutter-sm'>
 					<div className='xl:col-5 col-6 flex items-center'>
 						<div className='flex-1'>
@@ -91,7 +91,7 @@ BlogCardHorizontal.Skeleton = function CardSkeleton() {
 						</div>
 					</div>
 
-					<div className='xl:col-7 col-6'>
+					<div className='xl:col-7 col-6 mt-1'>
 						<div className='flex items-center mb-2'>
 							<Skeleton size={7} rounded='full' />
 							<div className='ml-2'>

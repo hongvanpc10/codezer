@@ -14,7 +14,7 @@ interface Props {
 
 function BlogCardVertical({ data, showCategories = true }: Props) {
 	return (
-		<div className='bg-white ring-1 ring-blue-50 p-1.5 sm:p-3 md:p-2.5 rounded-2xl flex flex-col shadow-xl shadow-blue-900/[0.03]'>
+		<div className='bg-white ring-1 ring-blue-50 p-[0.4375rem] sm:p-3 md:p-2.5 rounded-2xl flex flex-col shadow-xl shadow-blue-900/[0.03]'>
 			<Link href={routes.blog(data.slug)} className='relative flex'>
 				<Image
 					alt=''
@@ -61,7 +61,7 @@ function BlogCardVertical({ data, showCategories = true }: Props) {
 
 BlogCardVertical.Skeleton = function CardSkeleton() {
 	return (
-		<div className='bg-white ring-1 ring-blue-50 lg:p-3 p-2 sm:p-4 rounded-3xl flex flex-col shadow-xl shadow-blue-900/[0.03]'>
+		<div className='bg-white ring-1 ring-blue-50 p-[0.4375rem] sm:p-3 md:p-2.5 rounded-3xl flex flex-col shadow-xl shadow-blue-900/[0.03]'>
 			<Skeleton
 				ratio='aspect-w-16 xl:aspect-h-9 aspect-h-10 sm:aspect-h-9 md:aspect-h-10'
 				rounded='2xl'
