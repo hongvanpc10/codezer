@@ -14,13 +14,13 @@ interface Props {
 
 function BlogCardVertical({ data, showCategories = true }: Props) {
 	return (
-		<div className='bg-white ring-1 ring-blue-50 p-[0.4375rem] sm:p-3 md:p-2.5 rounded-2xl flex flex-col shadow-xl shadow-blue-900/[0.03]'>
+		<div className='bg-white ring-1 ring-blue-50 p-[0.4375rem] sm:p-2.5 md:p-2 rounded-2xl flex flex-col shadow-xl shadow-blue-900/[0.03]'>
 			<Link href={routes.blog(data.slug)} className='relative flex'>
 				<Image
 					alt=''
 					src={data.thumb}
 					containerClassName='aspect-w-16 xl:aspect-h-9 aspect-h-10 sm:aspect-h-9 md:aspect-h-10'
-					rounded='lg'
+					rounded='xl'
 					sizes={[100, 50, 33]}
 				/>
 
@@ -61,10 +61,10 @@ function BlogCardVertical({ data, showCategories = true }: Props) {
 
 BlogCardVertical.Skeleton = function CardSkeleton() {
 	return (
-		<div className='bg-white ring-1 ring-blue-50 p-[0.4375rem] sm:p-3 md:p-2.5 rounded-3xl flex flex-col shadow-xl shadow-blue-900/[0.03]'>
+		<div className='bg-white ring-1 ring-blue-50 p-[0.4375rem] sm:p-2.5 md:p-2 rounded-2xl flex flex-col shadow-xl shadow-blue-900/[0.03]'>
 			<Skeleton
 				ratio='aspect-w-16 xl:aspect-h-9 aspect-h-10 sm:aspect-h-9 md:aspect-h-10'
-				rounded='2xl'
+				rounded='xl'
 			/>
 
 			<div className='sm:px-2 px-1 pt-3'>
