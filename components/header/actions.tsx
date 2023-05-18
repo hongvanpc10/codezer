@@ -13,8 +13,8 @@ import {
 	NotificationIcon,
 	SearchIcon,
 } from '../icons'
-import Popover from '../popover'
 import { NotificationsPopover } from '../notifications'
+import Popover from '../popover'
 
 interface ActionsButtonProps {
 	href?: string
@@ -106,10 +106,18 @@ export default function Actions() {
 			)}
 
 			<div className='show-on-md'>
-				<ActionsButton href={routes.createBlog} icon={EditIcon} />
+				<Dropdown
+					items={[
+						{ label: 'Viết bài', href: routes.createBlog },
+						{ label: 'Series mới', href: routes.createSeries },
+					]}
+					top='1rem'
+				>
+					<ActionsButton icon={EditIcon} />
+				</Dropdown>
 			</div>
 
-			<div className='!ml-4 inline-flex'>
+			<div className='md:!ml-5 !ml-4 inline-flex'>
 				{user ? (
 					<Dropdown top='1.25rem' items={menuItems}>
 						<Avatar alt='' src={user.avatar} />

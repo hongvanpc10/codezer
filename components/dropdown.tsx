@@ -36,7 +36,7 @@ export default function Dropdown({ children, items, top = '0.5rem' }: Props) {
 			>
 				<Menu.Items
 					style={{ top: `calc(100% + ${top})` }}
-					className='absolute bg-white/[.98] rounded-2xl shadow-2xl p-2 min-w-[14rem] right-0 space-y-0.5 shadow-blue-900/25 transition z-20 ring-1 ring-blue-50/50'
+					className='absolute bg-white/[.98] rounded-2xl shadow-2xl p-1.5 min-w-[14rem] right-0 space-y-0.5 shadow-blue-900/25 transition z-20 ring-1 ring-blue-50/50'
 				>
 					{items
 						.filter(item =>
@@ -54,7 +54,7 @@ export default function Dropdown({ children, items, top = '0.5rem' }: Props) {
 												href={item.href || ''}
 												onClick={item.onClick}
 												className={`flex items-center font-medium w-full px-5 py-2.5 transition rounded-xl ${
-													active && 'bg-blue-100'
+													active && 'bg-blue-50'
 												}`}
 											>
 												{Icon && (

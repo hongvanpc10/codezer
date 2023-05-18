@@ -10,7 +10,7 @@ import NotificationItem from './notificationItem'
 
 export default function NotificationsPopover({ user }: { user: User }) {
 	return (
-		<div className='w-96 pb-2 max-h-[calc(100vh-8rem)] flex flex-col'>
+		<div className='w-96 pb-4 max-h-[calc(100vh-8rem)] flex flex-col'>
 			<div className='flex items-center justify-between mb-2 p-2'>
 				<h2 className='text-lg font-semibold'>Thông báo</h2>
 
@@ -27,7 +27,7 @@ export default function NotificationsPopover({ user }: { user: User }) {
 			</div>
 
 			<div className='flex-1 overflow-y-auto scroll-sm'>
-				<ul className='space-y-2'>
+				{/* <ul className='space-y-2'>
 					<li>
 						<NotificationItem
 							href=''
@@ -88,11 +88,15 @@ export default function NotificationsPopover({ user }: { user: User }) {
 					</li>
 				</ul>
 
+				
+
 				<div className='flex justify-center mt-4'>
 					<Link href='' className='font-medium text-blue-600'>
 						Xem tất cả
 					</Link>
-				</div>
+				</div> */}
+
+				<h3 className='text-center mt-4 opacity-50 text-lg'>Không có thông báo mới</h3>
 			</div>
 		</div>
 	)

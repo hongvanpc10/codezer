@@ -18,6 +18,7 @@ const routes = {
 	postsByTag: (tag: string) => '/posts/tag/' + tag,
 	postDetail: (id: string) => '/posts/' + id,
 	directLinkAds: 'https://vaikijie.net/4/5930674',
+	createSeries: 'create-series',
 }
 
 export default routes
