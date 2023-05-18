@@ -106,7 +106,7 @@ export default function Actions() {
 			)}
 
 			<div className='show-on-md'>
-				<ActionsButton icon={EditIcon} />
+				<ActionsButton href={routes.createBlog} icon={EditIcon} />
 			</div>
 
 			<div className='md:!ml-5 !ml-4 inline-flex'>
