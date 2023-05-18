@@ -402,7 +402,7 @@ const Post = ({ data }: Props) => {
 					setOnComment={setOnComment}
 					small
 					viewMore
-					limit={5}
+					limit={3}
 					showLoading={false}
 				/>
 			</div>
