@@ -322,7 +322,7 @@ export default function Comments({
 		}
 	}, [blogId, queryClient])
 
-	const { data, isFetchingNextPage, fetchNextPage, isLoading, hasNextPage } =
+	const { data, isFetchingNextPage, fetchNextPage, isFetching, hasNextPage } =
 		useInfiniteQuery(
 			queryKeys.comments(blogId),
 			({ pageParam = { limit } }) =>
@@ -387,7 +387,7 @@ export default function Comments({
 					<h3></h3>
 				)}
 
-				{(isFetchingNextPage || isLoading) && showLoading && (
+				{(isFetchingNextPage || isFetching) && showLoading && (
 					<Loader.Inline />
 				)}
 
