@@ -106,15 +106,7 @@ export default function Actions() {
 			)}
 
 			<div className='show-on-md'>
-				<Dropdown
-					items={[
-						{ label: 'Viết bài', href: routes.createBlog },
-						{ label: 'Series mới', href: routes.createSeries },
-					]}
-					top='1rem'
-				>
-					<ActionsButton icon={EditIcon} />
-				</Dropdown>
+				<ActionsButton icon={EditIcon} />
 			</div>
 
 			<div className='md:!ml-5 !ml-4 inline-flex'>

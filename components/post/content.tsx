@@ -1,5 +1,4 @@
 import { memo, useEffect, useState } from 'react'
-import { Post } from '~/apiServices/postsServices'
 import images from '~/assets/images'
 import pattern from '~/config/pattern'
 import routes from '~/config/routes'
@@ -43,7 +42,7 @@ export default memo(function Content({
 		<div
 			className={`${
 				imagesLength === 0 && content.length < 50
-					? 'aspect-w-14 px-4 aspect-h-9 rounded-xl mt-4'
+					? 'aspect-w-14 aspect-h-9 rounded-xl mt-4'
 					: 'mb-4 mt-3'
 			} sm:px-2 px-1`}
 			style={{
@@ -64,7 +63,7 @@ export default memo(function Content({
 				className={`${
 					imagesLength === 0 &&
 					content.length < 50 &&
-					'flex items-center justify-center'
+					'flex items-center px-4 justify-center'
 				}`}
 			>
 				<p
