@@ -41,7 +41,7 @@ const items: {
 export default function Main({ data }: { data: User }) {
 	return (
 		<Tab.Group>
-			<Tab.List className='flex space-x-2 items-stretch mb-10 bg-white shadow-2xl shadow-blue-900/5 p-2 rounded-3xl'>
+			<Tab.List className='flex space-x-2 items-stretch mb-10 bg-white shadow-2xl shadow-blue-900/5 p-1.5 rounded-3xl'>
 				{items.map((item, index) => (
 					<Tab key={index} className='flex-1'>
 						{({ selected }) => (
