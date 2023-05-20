@@ -190,7 +190,13 @@ const Profile = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 							<h1 className='text-2xl drop-shadow font-bold flex items-center'>
 								{data.fullName}
 								{(data.role === 'admin' || data.isVerified) && (
-									<TickIcon className='h-6 text-sky-500 ml-2 -mr-8' />
+									<TickIcon
+										className={`h-6 ${
+											user?.role === 'admin'
+												? 'text-amber-500'
+												: 'text-sky-500'
+										} ml-2 -mr-8`}
+									/>
 								)}
 							</h1>
 
