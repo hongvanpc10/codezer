@@ -50,7 +50,7 @@ export default memo(function Avatar({
 				<span className='absolute left-full top-full -translate-x-2/3 -translate-y-2/3'>
 					<TickIcon
 						className={`${
-							isAdmin ? 'amber-sky-500' : 'text-sky-500'
+							isAdmin ? 'text-amber-500' : 'text-sky-500'
 						} h-[1.125rem]`}
 					/>
 				</span>
