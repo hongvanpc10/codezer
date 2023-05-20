@@ -29,7 +29,7 @@ export default memo(function Content({
 					pattern.hashtag,
 					tag =>
 						`<a class="!no-underline !font-normal" href="${routes.postsByTag(
-							tag.slice(1)
+							tag.slice(1).toLowerCase()
 						)}">${tag}</a>`
 				)
 			)
