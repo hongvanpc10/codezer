@@ -37,7 +37,7 @@ export default function Blogs({ id }: { id: string }) {
 		<>
 			<h2 className='font-semibold text-xl'>Bài viết</h2>
 
-			<div className='row gutter-sm'>
+			<div className='row gutter-sm mt-10'>
 				{data
 					? data?.pages
 							.map(page => page?.blogs as Blog[])
