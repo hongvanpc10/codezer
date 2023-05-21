@@ -192,7 +192,7 @@ const Profile = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 								{(data.role === 'admin' || data.isVerified) && (
 									<TickIcon
 										className={`h-6 ${
-											user?.role === 'admin'
+											data.role === 'admin'
 												? 'text-amber-500'
 												: 'text-sky-500'
 										} ml-2 -mr-8`}
