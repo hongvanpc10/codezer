@@ -95,7 +95,7 @@ export default function BlogsByCategory() {
 						</p>
 					)}
 
-					<Categories />
+					<Categories showFull />
 				</section>
 			</div>
 		</div>

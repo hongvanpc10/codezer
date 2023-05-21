@@ -63,7 +63,7 @@ const Blogs = () => {
 				</section>
 
 				<section className='xl:col-4 lg:col-3 col-12'>
-					<Categories />
+					<Categories showFull />
 				</section>
 			</div>
 		</div>

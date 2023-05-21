@@ -86,7 +86,6 @@ export default function Sidebar() {
 			icon: GridIcon,
 			activeIcon: GridSolidIcon,
 			title: 'Danh mục',
-			show: user?.role === 'admin',
 		},
 		{
 			href: routes.search,

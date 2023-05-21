@@ -20,6 +20,18 @@ export default memo(function ImagesViewer({
 		return () => document.body.classList.remove('overflow-hidden')
 	}, [isOpen])
 
+	function onPrevious() {
+		if (isOpen > 0) {
+			setIsOpen(prev => prev - 1)
+		}
+	}
+
+	function onNext() {
+		if (isOpen < images.length - 1 && isOpen >= 0) {
+			setIsOpen(prev => prev + 1)
+		}
+	}
+
 	return (
 		<Transition show={isOpen >= 0}>
 			<div className='fixed flex inset-0 items-center justify-center z-50'>
@@ -56,7 +68,7 @@ export default memo(function ImagesViewer({
 
 				{isOpen > 0 && (
 					<button
-						onClick={() => setIsOpen(prev => prev - 1)}
+						onClick={onPrevious}
 						className='absolute flex transition hover:bg-black/30 items-center justify-center left-6 w-10 h-10 z-50 rounded-full bg-black/25 text-white'
 					>
 						<ArrowLeftIcon className='h-6' />
@@ -65,7 +77,7 @@ export default memo(function ImagesViewer({
 
 				{isOpen < images.length - 1 && isOpen >= 0 && (
 					<button
-						onClick={() => setIsOpen(prev => prev + 1)}
+						onClick={onNext}
 						className='absolute flex transition hover:bg-black/30 items-center justify-center right-6 w-10 h-10 z-50 rounded-full bg-black/25 text-white'
 					>
 						<ArrowRightIcon className='h-6' />

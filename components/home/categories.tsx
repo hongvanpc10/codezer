@@ -7,7 +7,7 @@ import routes from '~/config/routes'
 import Skeleton from '../skeleton'
 import Heading from './heading'
 
-export default function Categories() {
+export default function Categories({ showFull }: { showFull?: boolean }) {
 	const { data } = useQuery(queryKeys.categories, () =>
 		categoriesService.get()
 	)
@@ -16,7 +16,7 @@ export default function Categories() {
 
 	return (
 		<section>
-			<Heading>Danh mục</Heading>
+			<Heading href={routes.categories}>Danh mục</Heading>
 
 			<div className='flex flex-wrap'>
 				{data ? (
@@ -33,12 +33,21 @@ export default function Categories() {
 								</Link>
 							))}
 
-						<button
-							onClick={() => setIsLimit(!isLimit)}
-							className='inline-block py-1.5 px-6 mr-2 mb-2.5 rounded-3xl bg-blue-50 font-medium transition hover:bg-blue-100/75'
-						>
-							{isLimit ? 'Xem tất cả' : 'Thu gọn'}
-						</button>
+						{(() => {
+							const Comp = showFull ? 'button' : Link
+
+							return (
+								<Comp
+									onClick={() =>
+										showFull && setIsLimit(!isLimit)
+									}
+									className='inline-block py-1.5 px-6 mr-2 mb-2.5 rounded-3xl bg-blue-50 font-medium transition hover:bg-blue-100/75'
+									href={routes.categories}
+								>
+									{isLimit ? 'Xem tất cả' : 'Thu gọn'}
+								</Comp>
+							)
+						})()}
 					</>
 				) : (
 					Array.from(Array(6)).map((_, i) => (

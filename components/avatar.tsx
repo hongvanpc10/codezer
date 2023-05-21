@@ -47,13 +47,11 @@ export default memo(function Avatar({
 			/>
 
 			{isVerified && (
-				<span className='absolute left-full top-full -translate-x-2/3 -translate-y-2/3'>
-					<TickIcon
-						className={`${
-							isAdmin ? 'text-amber-500' : 'text-sky-500'
-						} h-[1.125rem]`}
-					/>
-				</span>
+				<TickIcon
+					className={`${
+						isAdmin ? 'text-amber-500' : 'text-sky-500'
+					} h-[45%] absolute left-full top-full -translate-x-[75%] -translate-y-[70%]`}
+				/>
 			)}
 		</div>
 	)
