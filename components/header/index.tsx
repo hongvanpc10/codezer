@@ -56,7 +56,6 @@ export default function Header() {
 			icon: GridIcon,
 			divider: isLogin,
 			href: routes.categories,
-			show: user?.role === 'admin',
 		},
 		{
 			label: 'Đăng xuất',

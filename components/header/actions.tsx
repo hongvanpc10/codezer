@@ -63,6 +63,7 @@ export default function Actions() {
 		{
 			label: 'Danh mục',
 			href: routes.categories,
+			show: user?.role === 'admin',
 		},
 		{
 			label: 'Cài đặt',
