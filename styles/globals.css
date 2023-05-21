@@ -33,6 +33,10 @@
 	.scroll-sm::-webkit-scrollbar {
 		@apply w-1.5 h-1.5;
 	}
+
+	.scroll-xs::-webkit-scrollbar {
+		@apply w-1 h-1;
+	}
 }
 
 .rc-md-editor {
