@@ -125,7 +125,7 @@ const Categories = () => {
 			</div>
 
 			{data && (
-				<ul className='row gutter-md'>
+				<ul className='row'>
 					{data.map((category, index) => (
 						<li
 							key={index}
