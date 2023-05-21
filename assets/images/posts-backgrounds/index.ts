@@ -1,4 +1,4 @@
-const postsBackgrounds = Array.from(Array(12)).map((_, i) =>
+const postsBackgrounds = Array.from(Array(10)).map((_, i) =>
 	require(`./${i + 1}.jpg`)
 )
 
