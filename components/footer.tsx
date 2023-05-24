@@ -18,6 +18,12 @@ export default function Footer() {
 		{
 			label: 'Snake Game',
 			href: 'https://snake.codezer.online',
+			newTab: true,
+		},
+		{
+			label: 'Space',
+			href: 'https://space1.space',
+			newTab: true,
 		},
 		{
 			label: 'Donate',
